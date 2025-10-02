@@ -6,17 +6,24 @@ const targetDate = new Date();
 targetDate.setDate(targetDate.getDate() + 20);
 
 function updateCountdown() {
-  const now = new Date();
-  const diff = targetDate - now;
+  // Set the target date (example: 7 days from now)
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 7);
 
-  if (diff <= 0) {
-    countdownElement.textContent = "Trip Started!";
-    return;
-  }
+  // Update countdown every second
+  setInterval(() => {
+    const currentDate = new Date();
+    const difference = targetDate - currentDate;
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  countdownElement.textContent = days + " days left";
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById('days').textContent = String(days).padStart(2, '0');
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+  }, 1000);
 }
 
-updateCountdown();
-setInterval(updateCountdown, 1000 * 60 * 60); // update hourly
+// Start countdown when page loads
+document.addEventListener('DOMContentLoaded', updateCountdown);

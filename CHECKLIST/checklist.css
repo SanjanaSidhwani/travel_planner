@@ -1,0 +1,210 @@
+/* --- Black and White Variables --- */
+:root {
+    --background: #111111;     /* Dark Gray/Black */
+    --primary-box: #FFFFFF;    /* White */
+    --text-dark: #333333;      /* Dark Text */
+    --text-light: #555555;     /* Medium Text */
+    --accent: #000000;         /* Black (for accents/button) */
+    --border-color: #DDDDDD;   /* Lighter Gray Border */
+    --input-bg: #F9F9F9;       /* Input Background */
+    --button-primary: #333333; /* Dark button (Add Item) */
+    --button-secondary: #555555; /* Gray button (Add Category) */
+    --completed-text: #AAAAAA; /* Gray for completed tasks */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--primary-box);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.checklist-container {
+    background-color: var(--primary-box);
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    max-width: 800px;
+    width: 100%;
+}
+
+h2 {
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 900;
+}
+
+/* --- Controls and Input Area Styling --- */
+.controls-row {
+    margin-bottom: 10px;
+}
+
+#add-category-btn {
+    padding: 10px 15px;
+    background-color: var(--button-secondary);
+    color: white;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 0; /* Align perfectly with form border */
+}
+
+#add-category-btn:hover {
+    background-color: var(--accent);
+}
+
+#add-item-form {
+    display: flex;
+    gap: 0; /* Gap is managed by padding/margin now */
+    margin-bottom: 2.5rem;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 0 8px 8px 8px; /* Square top-left for alignment with button */
+    background-color: var(--input-bg);
+    align-items: center;
+}
+
+#item-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-right: 15px; /* Space before selector */
+}
+
+#category-selector {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    color: var(--text-dark);
+    background-color: white;
+    margin-right: 15px; /* Space before button */
+}
+
+#add-item-btn {
+    padding: 10px 20px;
+    background-color: var(--button-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+
+#add-item-btn:hover {
+    background-color: var(--accent);
+}
+
+/* --- Checklist Grid Layout --- */
+.checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+/* --- Category Styles --- */
+.category-box {
+    background-color: #F8F8F8;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.category-box h3 {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8px;
+    margin-top: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* --- Individual Item Styles --- */
+.checklist-item {
+    display: flex;
+    align-items: flex-start; /* Align checkbox to top */
+    padding: 8px 0;
+    border-bottom: 1px dotted #CCCCCC;
+    cursor: pointer;
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
+}
+
+.checklist-item label {
+    flex-grow: 1;
+    color: var(--text-dark);
+    margin-left: 10px;
+    line-height: 1.4;
+    transition: color 0.3s;
+}
+/* Style the checkbox */
+.checklist-item input[type="checkbox"] {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.checklist-item input[type="checkbox"]:checked + label {
+    text-decoration: line-through;
+    color: var(--completed-text);
+}
+
+.checklist-item .delete-btn {
+    background: none;
+    border: none;
+    color: var(--completed-text);
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 10px;
+    transition: color 0.2s;
+    visibility: hidden;
+    opacity: 0;
+    line-height: 1;
+    padding: 0;
+}
+
+.checklist-item:hover .delete-btn {
+    visibility: visible;
+    opacity: 1;
+}
+
+.checklist-item .delete-btn:hover {
+    color: var(--accent);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .checklist-container {
+        padding: 1.5rem;
+    }
+    .checklist-grid {
+        grid-template-columns: 1fr;
+    }
+    #add-item-form {
+        flex-direction: column;
+    }
+    #category-selector {
+        width: 100%;
+        margin: 10px 0;
+    }
+    #item-input {
+        margin-right: 0;
+    }
+    #add-item-btn {
+        width: 100%;
+    }
+}

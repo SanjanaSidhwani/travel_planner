@@ -5,57 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Website</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
+    <div class="navbar">
+        <div class="logo">LOGO</div>
+        <div class="nav-center">
+            <ul>
+                <li>HOME</li>
+                <li>DESTINATIONS</li>
+                <li>ITINERARY BUILDER</li>
+                <li>TRIP CALCULATOR</li>
+                <li>CHECKLIST</li>
+                <li>ABOUT</li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="profile-icon">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </div>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="nav-left">
-      <div class="logo">LOGO</div>
-      <ul>
-        <li>HOME</li>
-        <li>DESTINATIONS</li>
-        <li>TRIP CALCULATOR</li>
-        <li>ITINERARY BUILDER</li>
-        <li>CHECKLIST?</li>
-        <li>ABOUT</li>
-      </ul>
+    <div class="hero">
+        <p>Hero Image / Banner Section</p>
     </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search...">
-    </div>
-    <div class="user-icon"></div>
-  </div>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <p>Hero Image / Banner Section</p>
-  </div>
-
-  <!-- Featured Destinations -->
-  <section class="destinations">
-    <div class="dest-header">
-      <h2>Featured Destinations</h2>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <img src="" alt="">
-        <h3>PLACE NAME</h3>
-        <p>One line description</p>
-        <button>Learn more</button>
-      </div>
-      <div class="card">
-        <img src="" alt="">
-        <h3>PLACE NAME</h3>
-        <p>One line description</p>
-        <button>Learn more</button>
-      </div>
-      <div class="next-trip-box">
-        <p>Next Trip In:</p>
-        <div class="days" id="countdown">Loading...</div>
-      </div>
-    </div>
-  </section>
+    <section class="destinations">
+        <div class="dest-header">
+            <h2>Featured Destinations</h2>
+        </div>
+        <div class="cards">
+            <div class="card horizontal">
+                <div class="card-img">
+                    <img src="" alt="">
+                </div>
+                <div class="card-content">
+                    <h3>PLACE NAME</h3>
+                    <p>One line description</p>
+                    <button>Learn more</button>
+                </div>
+            </div>
+            <div class="card horizontal">
+                <div class="card-img">
+                    <img src="" alt="">
+                </div>
+                <div class="card-content">
+                    <h3>PLACE NAME</h3>
+                    <p>One line description</p>
+                    <button>Learn more</button>
+                </div>
+            </div>
+            <div class="next-trip-box">
+                <p>Next Trip In:</p>
+                <div class="days" id="countdown">
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="days">00</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="hours">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-unit">
+                        <span class="countdown-value" id="minutes">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
   <!-- JavaScript -->
   <script src="script.js"></script>

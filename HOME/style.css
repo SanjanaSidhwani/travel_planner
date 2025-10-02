@@ -8,11 +8,11 @@ body {
 /* Navbar */
 .navbar {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  background-color: #f44336;
-  padding: 15px 30px;
-  color: white;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .nav-left {
@@ -21,9 +21,31 @@ body {
   gap: 30px;
 }
 
+.nav-center {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.nav-center ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
 .logo {
   font-weight: bold;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  min-width: 100px;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 100px;
 }
 
 .nav-left ul {
@@ -52,6 +74,17 @@ body {
   border-radius: 50%;
 }
 
+/* Profile Icon */
+.profile-icon i {
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.profile-icon i:hover {
+    color: #666;
+}
+
 /* Hero Section */
 .hero {
   height: 450px; /* made taller */
@@ -67,88 +100,105 @@ body {
 
 /* Featured Destinations Section */
 .destinations {
-  background-color: #ddd;
-  padding: 50px 40px;
-}
-
-.dest-header {
-  text-align: left; /* left aligned title */
-  margin-bottom: 20px;
-}
-
-.dest-header h2 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0;
+    background-color: #ddd;
+    padding: 50px 40px;
 }
 
 /* Cards + Next Trip Row */
 .cards {
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 40px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 30px;
+    padding: 20px;
 }
 
 /* Place Card */
 .card {
-  background-color: #f44336;
-  padding: 30px 20px;
-  text-align: center;
-  color: white;
-  width: 300px;
-  height: 350px;
-  border-radius: 20px; /* rounded rectangle */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background-color: #ff4444;
+    padding: 20px;
+    color: white;
+    width: 30%;
+    height: 150px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .card img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: #ccc;
-  margin-bottom: 15px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin: 5px 0;
+    font-size: 1.2rem;
+}
+
+.card p {
+    margin: 5px 0;
+    font-size: 0.9rem;
 }
 
 .card button {
-  background-color: #d4d34f;
-  border: none;
-  padding: 10px 18px;
-  margin-top: 15px;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.card button:hover {
-  background-color: #c1c04a;
+    background-color: #ffeb3b;
+    border: none;
+    padding: 8px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
 
 /* Next Trip Section */
 .next-trip-box {
-  background-color: #d4d34f;
-  padding: 40px 25px;
-  border-radius: 20px;
-  text-align: center;
-  width: 320px;
-  height: 350px;
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background-color: #ffeb3b;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 35%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.next-trip-box p {
+    margin: 0;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
 .next-trip-box .days {
-  background-color: #ccc;
-  margin-top: 20px;
-  padding: 25px;
-  border-radius: 12px;
-  font-size: 1.2rem;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.countdown-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.countdown-label {
+    font-size: 0.8rem;
+    color: #666;
 }
