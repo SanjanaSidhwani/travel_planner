@@ -25,11 +25,12 @@ body {
 
 .checklist-container {
     background-color: var(--primary-box);
-    padding: 2.5rem;
+    padding: 3rem;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    max-width: 800px;
-    width: 100%;
+    max-width: 1400px; /* Increased for desktop */
+    width: 95%; /* Use more screen width */
+    min-height: 80vh; /* Ensure good height usage */
 }
 
 h2 {
@@ -110,8 +111,9 @@ h2 {
 /* --- Checklist Grid Layout --- */
 .checklist-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Wider columns */
+    gap: 40px; /* Increased gap for desktop */
+    margin-top: 2rem;
 }
 
 /* --- Category Styles --- */
@@ -119,8 +121,9 @@ h2 {
     background-color: #F8F8F8;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 20px;
+    padding: 25px; /* Increased padding */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    min-height: 300px; /* Ensure consistent height */
 }
 
 .category-box h3 {
