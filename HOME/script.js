@@ -19,11 +19,62 @@ function updateCountdown() {
     const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
 
-    document.getElementById('days').textContent = String(days).padStart(2, '0');
-    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    if (document.getElementById('days')) {
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+    }
+    if (document.getElementById('hours')) {
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    }
+    if (document.getElementById('minutes')) {
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    }
   }, 1000);
 }
 
-// Start countdown when page loads
-document.addEventListener('DOMContentLoaded', updateCountdown);
+// Authentication check and UI update
+function initializeAuth() {
+  const authData = localStorage.getItem('travelPlannerAuth');
+  const authSection = document.getElementById('auth-section');
+  const userSection = document.getElementById('user-section');
+  const userNameElement = document.getElementById('user-name');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  if (authData) {
+    try {
+      const session = JSON.parse(authData);
+      
+      // Check if session is still valid
+      if (Date.now() < session.expiresAt || session.rememberMe) {
+        // Show user section, hide auth section
+        if (authSection) authSection.classList.add('hidden');
+        if (userSection) userSection.classList.remove('hidden');
+        
+        if (userNameElement && session.user) {
+          userNameElement.textContent = session.user.firstName || 'User';
+        }
+        
+        // Add logout functionality
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', logout);
+        }
+      } else {
+        // Session expired, clear storage
+        localStorage.removeItem('travelPlannerAuth');
+      }
+    } catch (error) {
+      console.error('Error parsing auth data:', error);
+      localStorage.removeItem('travelPlannerAuth');
+    }
+  }
+}
+
+function logout() {
+  localStorage.removeItem('travelPlannerAuth');
+  window.location.href = '../AUTH/index.html';
+}
+
+// Start countdown and check auth when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  updateCountdown();
+  initializeAuth();
+});

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - Travel Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">LOGO</div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="../HOME/index.html">HOME</a></li>
+                <li><a href="index.html" class="active">DESTINATIONS</a></li>
+                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
+                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
+                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
+                <li><a href="../ABOUT/index.html">ABOUT</a></li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="auth-section" id="auth-section">
+                <a href="../AUTH/index.html" class="login-btn">Login</a>
+                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="user-section hidden" id="user-section">
+                <div class="user-info" id="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">User</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Discover Amazing Destinations</h1>
+            <p>Explore the world's most beautiful places and plan your perfect getaway</p>
+            <div class="hero-search">
+                <input type="text" id="hero-search-input" placeholder="Search destinations...">
+                <button id="hero-search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <div class="hero-background"></div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label>Region:</label>
+                    <select id="region-filter">
+                        <option value="">All Regions</option>
+                        <option value="asia">Asia</option>
+                        <option value="europe">Europe</option>
+                        <option value="north-america">North America</option>
+                        <option value="south-america">South America</option>
+                        <option value="africa">Africa</option>
+                        <option value="oceania">Oceania</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Type:</label>
+                    <select id="type-filter">
+                        <option value="">All Types</option>
+                        <option value="beach">Beach</option>
+                        <option value="mountain">Mountain</option>
+                        <option value="city">City</option>
+                        <option value="historical">Historical</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="cultural">Cultural</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Budget:</label>
+                    <select id="budget-filter">
+                        <option value="">All Budgets</option>
+                        <option value="budget">Budget (₹20k-50k)</option>
+                        <option value="mid-range">Mid-range (₹50k-1L)</option>
+                        <option value="luxury">Luxury (₹1L+)</option>
+                    </select>
+                </div>
+                <button id="clear-filters" class="clear-btn">
+                    <i class="fas fa-times"></i> Clear Filters
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Grid -->
+    <section class="destinations-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Popular Destinations</h2>
+                <div class="view-toggle">
+                    <button id="grid-view" class="view-btn active"><i class="fas fa-th"></i></button>
+                </div>
+            </div>
+            
+            <div class="loading-spinner" id="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading destinations...</p>
+            </div>
+
+            <div class="destinations-grid" id="destinations-grid">
+                <!-- Destinations will be populated by JavaScript -->
+            </div>
+
+            <div class="no-results" id="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No destinations found</h3>
+                <p>Try adjusting your search criteria or filters</p>
+            </div>
+
+            <div class="load-more-section">
+                <button id="load-more-btn" class="load-more-btn">
+                    <i class="fas fa-plus"></i> Load More Destinations
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destination Detail Modal -->
+    <div class="modal-overlay" id="destination-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Authentication check and UI update
+        function initializeAuth() {
+            const authData = localStorage.getItem('travelPlannerAuth');
+            const authSection = document.getElementById('auth-section');
+            const userSection = document.getElementById('user-section');
+            const userNameElement = document.getElementById('user-name');
+            const logoutBtn = document.getElementById('logout-btn');
+
+            if (authData) {
+                try {
+                    const session = JSON.parse(authData);
+                    
+                    // Check if session is still valid
+                    if (Date.now() < session.expiresAt || session.rememberMe) {
+                        // Show user section, hide auth section
+                        if (authSection) authSection.classList.add('hidden');
+                        if (userSection) userSection.classList.remove('hidden');
+                        
+                        if (userNameElement && session.user) {
+                            userNameElement.textContent = session.user.firstName || 'User';
+                        }
+                        
+                        // Add logout functionality
+                        if (logoutBtn) {
+                            logoutBtn.addEventListener('click', logoutFromAuth);
+                        }
+                    } else {
+                        // Session expired, clear storage
+                        localStorage.removeItem('travelPlannerAuth');
+                    }
+                } catch (error) {
+                    console.error('Error parsing auth data:', error);
+                    localStorage.removeItem('travelPlannerAuth');
+                }
+            }
+        }
+
+        function logoutFromAuth() {
+            localStorage.removeItem('travelPlannerAuth');
+            window.location.href = '../AUTH/index.html';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuth();
+            // Give a small delay to ensure script.js has loaded
+            setTimeout(function() {
+                if (typeof initializePage === 'function') {
+                    initializePage();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

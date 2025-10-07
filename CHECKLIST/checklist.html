@@ -4,24 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Checklist</title>
-    <!-- Link to external CSS for black and white styling -->
     <link rel="stylesheet" href="checklist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="navbar">
+        <div class="logo">LOGO</div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="../HOME/index.html">HOME</a></li>
+                <li><a href="../DESTINATIONS/index.html">DESTINATIONS</a></li>
+                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
+                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
+                <li><a href="checklist.html" class="active">CHECKLIST</a></li>
+                <li><a href="../ABOUT/index.html">ABOUT</a></li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="auth-section" id="auth-section">
+                <a href="../AUTH/index.html" class="login-btn">Login</a>
+                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="user-section hidden" id="user-section">
+                <div class="user-info" id="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">User</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
 
     <div class="checklist-container">
         <h2>✈️ Travel Pack & Prep Checklist</h2>
 
         <div class="controls-row">
-            <!-- New Button for adding custom categories -->
-            <button id="add-category-btn">Add Custom Category</button>
+            <button id="add-category-btn" class="control-btn primary">
+                <i class="fas fa-plus"></i>
+                Add Custom Category
+            </button>
+            <button id="reset-checklist-btn" class="control-btn danger">
+                <i class="fas fa-redo-alt"></i>
+                Reset Checklist
+            </button>
         </div>
 
         <form id="add-item-form">
             <input type="text" id="item-input" placeholder="Enter new item name..." required>
             <select id="category-selector">
-                <!-- Options populated by JS -->
+                <!-- Categories will be populated by JavaScript -->
             </select>
             <button type="submit" id="add-item-btn">Add Item</button>
         </form>
@@ -31,7 +66,6 @@
         </div>
     </div>
 
-    <!-- Link to external JavaScript for logic and data -->
     <script src="checklist.js"></script>
 </body>
 </html>

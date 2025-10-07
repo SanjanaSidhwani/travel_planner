@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Calculator - Travel Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">LOGO</div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="../HOME/index.html">HOME</a></li>
+                <li><a href="../DESTINATIONS/index.html">DESTINATIONS</a></li>
+                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
+                <li><a href="index.html" class="active">TRIP CALCULATOR</a></li>
+                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
+                <li><a href="../ABOUT/index.html">ABOUT</a></li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="auth-section" id="auth-section">
+                <a href="../AUTH/index.html" class="login-btn">Login</a>
+                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="user-section hidden" id="user-section">
+                <div class="user-info" id="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">User</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Calculator Content -->
+    <div class="main-container">
+        <div class="calculator-wrapper">
+            <div class="calculator-grid">
+                <!-- Transportation Section -->
+                <div class="calculator-section">
+                    <h2><i class="fas fa-car"></i> Transportation</h2>
+                    <div class="input-group">
+                        <label for="distance">Total Distance</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="distance" placeholder="500" min="0">
+                            <select id="distance-unit">
+                                <option value="km">Kilometers</option>
+                                <option value="miles">Miles</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="fuelEfficiency">Fuel Efficiency</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="fuelEfficiency" placeholder="25" min="0" step="0.1">
+                            <select id="fuel-unit">
+                                <option value="kmpl">km/L</option>
+                                <option value="mpg">MPG</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="fuelPrice">Fuel Price</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="fuelPrice" placeholder="100" min="0" step="0.01">
+                            <select id="price-unit">
+                                <option value="liter">per Liter</option>
+                                <option value="gallon">per Gallon</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accommodation Section -->
+                <div class="calculator-section">
+                    <h2><i class="fas fa-bed"></i> Accommodation</h2>
+                    <div class="input-group">
+                        <label for="nights">Number of Nights</label>
+                        <input type="number" id="nights" placeholder="3" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="accommodation-cost">Cost per Night</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="accommodation-cost" placeholder="5000" min="0" step="0.01">
+                            <span class="currency">₹</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Food & Activities Section -->
+                <div class="calculator-section">
+                    <h2><i class="fas fa-utensils"></i> Food & Activities</h2>
+                    <div class="input-group">
+                        <label for="daily-food">Daily Food Budget</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="daily-food" placeholder="2000" min="0" step="0.01">
+                            <span class="currency">₹</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="activities">Total Activities Budget</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="activities" placeholder="10000" min="0" step="0.01">
+                            <span class="currency">₹</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group Details Section -->
+                <div class="calculator-section">
+                    <h2><i class="fas fa-users"></i> Group Details</h2>
+                    <div class="input-group">
+                        <label for="people">Number of People</label>
+                        <input type="number" id="people" placeholder="4" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="days">Trip Duration</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="days" placeholder="3" min="1">
+                            <span class="unit">days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <div class="calculate-section">
+                <button id="calculate-btn" class="calculate-btn">
+                    <i class="fas fa-calculator"></i>
+                    Calculate Trip Cost
+                </button>
+                <button id="reset-btn" class="reset-btn">
+                    <i class="fas fa-redo"></i>
+                    Reset
+                </button>
+            </div>
+
+            <!-- Results Section -->
+            <div id="result" class="result-section" style="display: none;">
+                <h2><i class="fas fa-chart-line"></i> Cost Breakdown</h2>
+                <div class="result-grid">
+                    <div class="result-card">
+                        <h3>Transportation</h3>
+                        <p id="transport-cost" class="cost-amount">₹0.00</p>
+                    </div>
+                    <div class="result-card">
+                        <h3>Accommodation</h3>
+                        <p id="accommodation-total" class="cost-amount">₹0.00</p>
+                    </div>
+                    <div class="result-card">
+                        <h3>Food</h3>
+                        <p id="food-total" class="cost-amount">₹0.00</p>
+                    </div>
+                    <div class="result-card">
+                        <h3>Activities</h3>
+                        <p id="activities-total" class="cost-amount">₹0.00</p>
+                    </div>
+                </div>
+                <div class="total-section">
+                    <div class="total-card">
+                        <h3>Total Trip Cost</h3>
+                        <p id="total-cost" class="total-amount">₹0.00</p>
+                    </div>
+                    <div class="total-card">
+                        <h3>Cost per Person</h3>
+                        <p id="cost-per-person" class="total-amount">₹0.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,50 +1,325 @@
-/* --- Black and White Variables --- */
+/* --- CSS Reset --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Color Scheme Variables */
 :root {
-    --background: #111111;     /* Dark Gray/Black */
-    --primary-box: #FFFFFF;    /* White */
-    --text-dark: #333333;      /* Dark Text */
-    --text-light: #555555;     /* Medium Text */
-    --accent: #000000;         /* Black (for accents/button) */
-    --border-color: #DDDDDD;   /* Lighter Gray Border */
-    --input-bg: #F9F9F9;       /* Input Background */
-    --button-primary: #333333; /* Dark button (Add Item) */
-    --button-secondary: #555555; /* Gray button (Add Category) */
-    --completed-text: #AAAAAA; /* Gray for completed tasks */
+    --battleship-gray: #7D7461;
+    --light-coral: #EF767A;
+    --midnight-green: #0E3B43;
+    --sunset: #F2CC8F;
+    --columbia-blue: #BBDEF0;
+    --white: #ffffff;
+    --text-dark: #333333;
+    --completed-text: #AAAAAA;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--background);
-    color: var(--primary-box);
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--columbia-blue);
+    color: var(--text-dark);
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--midnight-green);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--sunset);
+    min-width: 100px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-center {
     display: flex;
     justify-content: center;
-    min-height: 100vh;
+    flex-grow: 1;
+}
+
+.nav-center ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-center ul li a {
+    text-decoration: none;
+    color: var(--columbia-blue);
+    font-weight: 500;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-center ul li a.active {
+    background: var(--light-coral);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(239, 118, 122, 0.4);
+}
+
+.nav-center ul li a:hover {
+    background: var(--sunset);
+    color: var(--midnight-green);
+    transform: translateY(-2px);
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 200px;
+}
+
+.search-bar input {
+    padding: 10px 16px;
+    border: 2px solid var(--columbia-blue);
+    border-radius: 25px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: var(--sunset);
+    box-shadow: 0 0 0 3px rgba(242, 204, 143, 0.3);
+}
+
+/* Authentication Section */
+.auth-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.login-btn, .signup-btn {
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.login-btn {
+    color: var(--columbia-blue);
+    background: transparent;
+    border-color: var(--columbia-blue);
+}
+
+.login-btn:hover {
+    background: var(--columbia-blue);
+    color: var(--midnight-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(187, 222, 240, 0.4);
+}
+
+.signup-btn {
+    background: var(--light-coral);
+    color: var(--white);
+    border-color: var(--light-coral);
+}
+
+.signup-btn:hover {
+    background: var(--sunset);
+    border-color: var(--sunset);
+    color: var(--midnight-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(242, 204, 143, 0.4);
+}
+
+/* User Section */
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--columbia-blue);
+    font-weight: 600;
+}
+
+.user-info i {
+    font-size: 1.8rem;
+    color: var(--sunset);
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background: var(--light-coral);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: var(--sunset);
+    color: var(--midnight-green);
+    transform: translateY(-2px);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.profile-icon i {
+    font-size: 1.8rem;
+    color: var(--sunset);
+    cursor: pointer;
+}
+
+.profile-icon i:hover {
+    color: var(--columbia-blue);
+    transform: scale(1.1);
 }
 
 .checklist-container {
-    background-color: var(--primary-box);
+    background-color: rgba(255, 255, 255, 0.95);
     padding: 3rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    max-width: 1400px; /* Increased for desktop */
-    width: 95%; /* Use more screen width */
-    min-height: 80vh; /* Ensure good height usage */
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    width: 90%;
+    margin: 2rem auto;
+    min-height: calc(100vh - 140px);
+    border: 1px solid rgba(242, 204, 143, 0.3);
 }
 
 h2 {
-    color: var(--accent);
+    color: var(--midnight-green);
     text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 900;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    font-size: 2.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* --- Controls and Input Area Styling --- */
 .controls-row {
-    margin-bottom: 10px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
+/* --- Enhanced Control Buttons --- */
+.control-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn.primary {
+    background-color: var(--light-coral);
+    color: var(--white);
+}
+
+.control-btn.primary:hover {
+    background-color: var(--sunset);
+    box-shadow: 0 8px 25px rgba(239, 118, 122, 0.4);
+}
+
+.control-btn.danger {
+    background-color: var(--battleship-gray);
+    color: var(--white);
+}
+
+.control-btn.danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #c0392b 100%);
+}
+
+.control-btn i {
+    font-size: 1.1rem;
+}
+
+/* --- Notification Animations --- */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.notification-close:hover {
+    opacity: 1;
+}
+
+/* --- Legacy button styles (keeping for backward compatibility) --- */
 #add-category-btn {
     padding: 10px 15px;
     background-color: var(--button-secondary);
@@ -54,7 +329,7 @@ h2 {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-bottom: 0; /* Align perfectly with form border */
+    margin-bottom: 0;
 }
 
 #add-category-btn:hover {
@@ -111,8 +386,8 @@ h2 {
 /* --- Checklist Grid Layout --- */
 .checklist-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Wider columns */
-    gap: 40px; /* Increased gap for desktop */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
     margin-top: 2rem;
 }
 
@@ -197,17 +472,39 @@ h2 {
     .checklist-grid {
         grid-template-columns: 1fr;
     }
+    
+    /* Enhanced responsive controls */
+    .controls-row {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+    
+    .control-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+    
     #add-item-form {
         flex-direction: column;
+        gap: 1rem;
     }
+    
     #category-selector {
         width: 100%;
-        margin: 10px 0;
+        margin: 0;
     }
+    
     #item-input {
         margin-right: 0;
+        width: 100%;
     }
+    
     #add-item-btn {
         width: 100%;
+        padding: 15px;
+        font-size: 1.1rem;
     }
 }

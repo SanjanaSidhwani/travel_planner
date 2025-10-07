@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinerary Builder - Travel Planner</title>
+    <meta name="description" content="Plan your trip with our easy-to-use itinerary builder">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">LOGO</div>
+        <div class="nav-center">
+            <ul>
+                <li><a href="../HOME/index.html">HOME</a></li>
+                <li><a href="../DESTINATIONS/index.html">DESTINATIONS</a></li>
+                <li><a href="#" class="active">ITINERARY BUILDER</a></li>
+                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
+                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
+                <li><a href="../ABOUT/index.html">ABOUT</a></li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="auth-section" id="auth-section">
+                <a href="../AUTH/index.html" class="login-btn">Login</a>
+                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="user-section hidden" id="user-section">
+                <div class="user-info" id="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">User</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <main class="main-container">
+        <!-- Trip Setup Section -->
+        <section class="trip-setup-section" id="trip-setup">
+            <div class="setup-card">
+                <h2>Setup Your Trip</h2>
+                <div class="setup-form">
+                    <div class="input-group">
+                        <label for="trip-name">Trip Name</label>
+                        <input type="text" id="trip-name" placeholder="e.g., Paris Adventure 2024" />
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="trip-days">Number of Days</label>
+                            <input type="number" id="trip-days" min="1" max="30" value="3" />
+                        </div>
+                        <div class="input-group">
+                            <label for="start-date">Start Date</label>
+                            <input type="date" id="start-date" />
+                        </div>
+                    </div>
+                    <button id="create-trip-btn" class="create-trip-btn">
+                        <i class="fas fa-magic" aria-hidden="true"></i>
+                        Create Trip Structure
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Itinerary Planning Section -->
+        <section class="itinerary-planning-section" id="itinerary-planning" style="display: none;">
+            <div class="planning-header">
+                <div class="trip-info">
+                    <h2 id="current-trip-name">Your Trip</h2>
+                    <span id="trip-duration" class="trip-duration"></span>
+                </div>
+                <div class="planning-actions">
+                    <button id="add-day-btn" class="action-btn secondary">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Add Day
+                    </button>
+                    <button id="reset-trip-btn" class="action-btn tertiary">
+                        <i class="fas fa-refresh" aria-hidden="true"></i>
+                        New Trip
+                    </button>
+                </div>
+            </div>
+
+            <!-- Days Container -->
+            <div class="days-container" id="days-container">
+                <!-- Day cards will be dynamically generated here -->
+            </div>
+
+            <!-- Global Actions -->
+            <div class="global-actions">
+                <button id="export-trip-btn" class="action-btn primary">
+                    <i class="fas fa-download" aria-hidden="true"></i>
+                    Export Itinerary
+                </button>
+                <button id="clear-all-btn" class="action-btn danger">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                    Clear All
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Activity Modal -->
+    <div id="activity-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add Activity</h3>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="activity-form">
+                    <div class="input-group">
+                        <label for="activity-title">Activity Title</label>
+                        <input type="text" id="activity-title" name="activity-title" placeholder="e.g., Visit Eiffel Tower" required />
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="activity-time">Time</label>
+                            <input type="time" id="activity-time" name="activity-time" />
+                        </div>
+                        <div class="input-group">
+                            <label for="activity-duration">Duration (hours)</label>
+                            <input type="number" id="activity-duration" name="activity-duration" min="0.5" max="12" step="0.5" value="2" />
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="activity-description">Description (Optional)</label>
+                        <textarea id="activity-description" name="activity-description" placeholder="Additional details about the activity..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="activity-location">Location (Optional)</label>
+                        <input type="text" id="activity-location" name="activity-location" placeholder="e.g., Champ de Mars, Paris" />
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" id="cancel-activity" class="action-btn secondary">Cancel</button>
+                        <button type="submit" id="save-activity" class="action-btn primary">Save Activity</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loading" class="loading" style="display: none;" aria-hidden="true">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

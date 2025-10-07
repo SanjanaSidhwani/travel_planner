@@ -12,67 +12,98 @@
         <div class="logo">LOGO</div>
         <div class="nav-center">
             <ul>
-                <li>HOME</li>
-                <li>DESTINATIONS</li>
-                <li>ITINERARY BUILDER</li>
-                <li>TRIP CALCULATOR</li>
-                <li>CHECKLIST</li>
-                <li>ABOUT</li>
+                <li><a href="index.html" class="active">HOME</a></li>
+                <li><a href="../DESTINATIONS/index.html">DESTINATIONS</a></li>
+                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
+                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
+                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
+                <li><a href="../ABOUT/index.html">ABOUT</a></li>
             </ul>
         </div>
         <div class="right-section">
             <div class="search-bar">
                 <input type="text" placeholder="Search...">
             </div>
-            <div class="profile-icon">
-                <i class="fas fa-user-circle"></i>
+            <div class="auth-section" id="auth-section">
+                <a href="../AUTH/index.html" class="login-btn">Login</a>
+                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="user-section hidden" id="user-section">
+                <div class="user-info" id="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-name">User</span>
+                </div>
+                <button class="logout-btn" id="logout-btn">Logout</button>
             </div>
         </div>
     </div>
 
     <div class="hero">
-        <p>Hero Image / Banner Section</p>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Discover Your Next Adventure</h1>
+            <p>Plan your perfect trip with our comprehensive travel planning tools</p>
+            <div class="hero-buttons">
+                <a href="../DESTINATIONS/index.html" class="btn-primary">Explore Destinations</a>
+                <a href="../ITINERARY/index.html" class="btn-secondary">Plan Your Trip</a>
+            </div>
+        </div>
     </div>
 
     <section class="destinations">
-        <div class="dest-header">
-            <h2>Featured Destinations</h2>
-        </div>
-        <div class="cards">
-            <div class="card horizontal">
-                <div class="card-img">
-                    <img src="" alt="">
+        <div class="container">
+            <div class="dest-header">
+                <h2>Featured Destinations</h2>
+                <p>Discover amazing places around India</p>
+            </div>
+            <div class="destinations-grid">
+                <div class="card horizontal">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Goa Beach">
+                    </div>
+                    <div class="card-content">
+                        <h3>Goa</h3>
+                        <p>Beautiful beaches and vibrant nightlife await you in this tropical paradise</p>
+                        <button class="card-btn">Learn more</button>
+                    </div>
                 </div>
-                <div class="card-content">
-                    <h3>PLACE NAME</h3>
-                    <p>One line description</p>
-                    <button>Learn more</button>
+                <div class="card horizontal">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Mountain View">
+                    </div>
+                    <div class="card-content">
+                        <h3>Himachal Pradesh</h3>
+                        <p>Snow-capped mountains and serene valleys perfect for adventure seekers</p>
+                        <button class="card-btn">Learn more</button>
+                    </div>
+                </div>
+                <div class="card horizontal">
+                    <div class="card-img">
+                        <img src="https://images.unsplash.com/photo-1477587458883-47145ed94245?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Rajasthan Palace">
+                    </div>
+                    <div class="card-content">
+                        <h3>Rajasthan</h3>
+                        <p>Royal palaces, desert safaris, and rich cultural heritage showcase India's history</p>
+                        <button class="card-btn">Learn more</button>
+                    </div>
                 </div>
             </div>
-            <div class="card horizontal">
-                <div class="card-img">
-                    <img src="" alt="">
-                </div>
-                <div class="card-content">
-                    <h3>PLACE NAME</h3>
-                    <p>One line description</p>
-                    <button>Learn more</button>
-                </div>
-            </div>
-            <div class="next-trip-box">
-                <p>Next Trip In:</p>
-                <div class="days" id="countdown">
-                    <div class="countdown-unit">
-                        <span class="countdown-value" id="days">00</span>
-                        <span class="countdown-label">Days</span>
-                    </div>
-                    <div class="countdown-unit">
-                        <span class="countdown-value" id="hours">00</span>
-                        <span class="countdown-label">Hours</span>
-                    </div>
-                    <div class="countdown-unit">
-                        <span class="countdown-value" id="minutes">00</span>
-                        <span class="countdown-label">Minutes</span>
+            <div class="next-trip-container">
+                <div class="next-trip-box">
+                    <p>Next Trip In:</p>
+                    <div class="days" id="countdown">
+                        <div class="countdown-unit">
+                            <span class="countdown-value" id="days">00</span>
+                            <span class="countdown-label">Days</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-value" id="hours">00</span>
+                            <span class="countdown-label">Hours</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-value" id="minutes">00</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
                     </div>
                 </div>
             </div>

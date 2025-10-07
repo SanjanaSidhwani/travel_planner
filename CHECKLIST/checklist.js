@@ -281,9 +281,148 @@ function handleAddCategory() {
     }
 }
 
+/**
+ * Resets the checklist to initial state with enhanced confirmation
+ */
+function resetChecklist() {
+    // Create a more elegant confirmation dialog
+    const confirmReset = confirm(
+        "🔄 Reset Travel Checklist\n\n" +
+        "This will:\n" +
+        "• Remove all custom items and categories\n" +
+        "• Uncheck all completed items\n" +
+        "• Restore original checklist items\n\n" +
+        "Are you sure you want to continue?"
+    );
+    
+    if (confirmReset) {
+        // Show loading state
+        const resetBtn = document.getElementById('reset-checklist-btn');
+        const originalHTML = resetBtn.innerHTML;
+        resetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resetting...';
+        resetBtn.disabled = true;
+        
+        // Simulate brief loading for better UX
+        setTimeout(() => {
+            localStorage.removeItem(STORAGE_KEY);
+            checklistData = JSON.parse(JSON.stringify(initialChecklist));
+            populateCategorySelector();
+            renderChecklist();
+            
+            // Restore button
+            resetBtn.innerHTML = originalHTML;
+            resetBtn.disabled = false;
+            
+            // Show success message
+            showNotification("✅ Checklist reset successfully!", "success");
+        }, 1000);
+    }
+}
 
-// --- Initialization ---
+/**
+ * Shows a notification message
+ */
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span>${message}</span>
+        <button class="notification-close">&times;</button>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#28a745' : '#17a2b8'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        max-width: 400px;
+        animation: slideInRight 0.3s ease;
+        font-weight: 600;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 4000);
+    
+    // Manual close
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    });
+}
+
+// Authentication check and UI update
+function initializeAuth() {
+    const authData = localStorage.getItem('travelPlannerAuth');
+    const authSection = document.getElementById('auth-section');
+    const userSection = document.getElementById('user-section');
+    const userNameElement = document.getElementById('user-name');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    if (authData) {
+        try {
+            const session = JSON.parse(authData);
+            
+            // Check if session is still valid
+            if (Date.now() < session.expiresAt || session.rememberMe) {
+                // Show user section, hide auth section
+                if (authSection) authSection.classList.add('hidden');
+                if (userSection) userSection.classList.remove('hidden');
+                
+                if (userNameElement && session.user) {
+                    userNameElement.textContent = session.user.firstName || 'User';
+                }
+                
+                // Add logout functionality
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', logout);
+                }
+            } else {
+                // Session expired, clear storage
+                localStorage.removeItem('travelPlannerAuth');
+            }
+        } catch (error) {
+            console.error('Error parsing auth data:', error);
+            localStorage.removeItem('travelPlannerAuth');
+        }
+    }
+}
+
+function logout() {
+    localStorage.removeItem('travelPlannerAuth');
+    window.location.href = '../AUTH/index.html';
+}
+
+// --- Event Listeners ---
 form.addEventListener('submit', handleAddItem);
 addCategoryBtn.addEventListener('click', handleAddCategory);
+document.getElementById('reset-checklist-btn').addEventListener('click', resetChecklist);
+
+// --- Initial Load ---
+document.addEventListener('DOMContentLoaded', () => {
+    initializeAuth();
+    loadChecklistFromStorage();
+});
 loadChecklist();
 renderChecklist();
