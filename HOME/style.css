@@ -5,6 +5,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Color Scheme Variables */
 :root {
   --battleship-gray: #7D7461;
@@ -19,9 +23,10 @@
 body {
   margin: 0;
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--columbia-blue);
+  background: var(--midnight-green) url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover fixed;
   min-height: 100vh;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .container {
@@ -33,58 +38,66 @@ body {
 /* Navbar */
 .navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background-color: var(--midnight-green);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
+  position: static;
   z-index: 1000;
   width: 100%;
-  transition: all 0.3s ease;
+  transition: none;
+  height: 70px;
+  box-sizing: border-box;
+  min-height: 70px;
+  max-height: 70px;
+  line-height: 1.2;
 }
 
 .logo {
   font-weight: 700;
   font-size: 1.8rem;
   color: var(--sunset);
-  min-width: 100px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  flex: 0 0 150px;
 }
 
 .nav-center {
   display: flex;
   justify-content: center;
-  flex-grow: 1;
+  flex: 1;
+  margin: 0 2rem;
 }
 
 .nav-center ul {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1rem;
   margin: 0;
   padding: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-center ul li a {
   text-decoration: none;
-  color: var(--columbia-blue);
+  color: var(--white);
   font-weight: 500;
-  padding: 10px 16px;
+  padding: 8px 10px;
   border-radius: 8px;
   transition: all 0.3s ease;
   position: relative;
+  white-space: nowrap;
+  font-size: 0.85rem;
 }
 
 .nav-center ul li a.active {
-  background: var(--light-coral);
+  background-color: var(--light-coral);
   color: var(--white);
   box-shadow: 0 4px 15px rgba(239, 118, 122, 0.4);
 }
 
 .nav-center ul li a:hover {
-  background: var(--sunset);
+  background-color: var(--sunset);
   color: var(--midnight-green);
   transform: translateY(-2px);
 }
@@ -93,7 +106,8 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
-  min-width: 200px;
+  flex: 0 0 350px;
+  justify-content: flex-end;
 }
 
 .search-bar input {
@@ -200,7 +214,7 @@ body {
 /* Hero Section */
 .hero {
   height: 100vh;
-  background: var(--midnight-green) url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -224,7 +238,9 @@ body {
   z-index: 2;
   max-width: 800px;
   padding: 0 2rem;
-  animation: fadeInUp 1s ease-out;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
 }
 
 .hero-content h1 {
@@ -256,7 +272,7 @@ body {
   border-radius: 50px;
   font-weight: 600;
   font-size: 1.1rem;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-transform: uppercase;
   letter-spacing: 1px;
   position: relative;
@@ -304,11 +320,13 @@ body {
 
 /* Featured Destinations Section */
 .destinations {
-    background-color: var(--columbia-blue);
-    padding: 80px 0;
-    width: 100%;
-    min-height: 60vh;
-    position: relative;
+  background: transparent;
+  padding: 80px 0 80px 0;
+  width: 100%;
+  min-height: 60vh;
+  position: relative;
+  margin-top: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .destinations::before {
@@ -318,7 +336,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(242, 204, 143, 0.1);
+    background-color: rgba(187, 222, 240, 0.85);
     pointer-events: none;
 }
 
@@ -327,6 +345,9 @@ body {
     margin-bottom: 3rem;
     position: relative;
     z-index: 2;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease 0.3s forwards;
 }
 
 .dest-header h2 {
@@ -376,10 +397,25 @@ body {
     align-items: flex-start;
     justify-content: space-between;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(242, 204, 143, 0.3);
     position: relative;
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.6s;
 }
 
 .card::before {
@@ -393,8 +429,8 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
 }
 
 .card-img {
@@ -623,16 +659,43 @@ body {
     }
     
     .navbar {
+        flex-direction: column;
         padding: 1rem;
+        gap: 1rem;
+        height: auto;
+    }
+    
+    .nav-center {
+        order: 2;
+        max-width: 100%;
     }
     
     .nav-center ul {
+        flex-wrap: wrap;
         gap: 1rem;
+        justify-content: center;
     }
     
     .nav-center ul li a {
         padding: 8px 12px;
         font-size: 0.9rem;
+    }
+    
+    .right-section {
+        order: 3;
+        justify-content: center;
+        min-width: auto;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .search-bar {
+        order: 1;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-bar input {
+        width: 200px;
     }
     
     .countdown-value {

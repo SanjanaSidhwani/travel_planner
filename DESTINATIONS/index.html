@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations - Travel Planner</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="navbar">
@@ -28,13 +28,6 @@
             <div class="auth-section" id="auth-section">
                 <a href="../AUTH/index.html" class="login-btn">Login</a>
                 <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
-            </div>
-            <div class="user-section hidden" id="user-section">
-                <div class="user-info" id="user-info">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="user-name">User</span>
-                </div>
-                <button class="logout-btn" id="logout-btn">Logout</button>
             </div>
         </div>
     </div>
@@ -143,51 +136,8 @@
 
     <script src="script.js"></script>
     <script>
-        // Authentication check and UI update
-        function initializeAuth() {
-            const authData = localStorage.getItem('travelPlannerAuth');
-            const authSection = document.getElementById('auth-section');
-            const userSection = document.getElementById('user-section');
-            const userNameElement = document.getElementById('user-name');
-            const logoutBtn = document.getElementById('logout-btn');
-
-            if (authData) {
-                try {
-                    const session = JSON.parse(authData);
-                    
-                    // Check if session is still valid
-                    if (Date.now() < session.expiresAt || session.rememberMe) {
-                        // Show user section, hide auth section
-                        if (authSection) authSection.classList.add('hidden');
-                        if (userSection) userSection.classList.remove('hidden');
-                        
-                        if (userNameElement && session.user) {
-                            userNameElement.textContent = session.user.firstName || 'User';
-                        }
-                        
-                        // Add logout functionality
-                        if (logoutBtn) {
-                            logoutBtn.addEventListener('click', logoutFromAuth);
-                        }
-                    } else {
-                        // Session expired, clear storage
-                        localStorage.removeItem('travelPlannerAuth');
-                    }
-                } catch (error) {
-                    console.error('Error parsing auth data:', error);
-                    localStorage.removeItem('travelPlannerAuth');
-                }
-            }
-        }
-
-        function logoutFromAuth() {
-            localStorage.removeItem('travelPlannerAuth');
-            window.location.href = '../AUTH/index.html';
-        }
-
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            initializeAuth();
             // Give a small delay to ensure script.js has loaded
             setTimeout(function() {
                 if (typeof initializePage === 'function') {

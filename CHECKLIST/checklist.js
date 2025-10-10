@@ -56,38 +56,44 @@ let checklistData;
  * Loads checklist data from localStorage or uses the initial list.
  */
 function loadChecklist() {
-    const storedData = localStorage.getItem(STORAGE_KEY);
-    if (storedData) {
-        const stored = JSON.parse(storedData);
-        
-        // Start with current initial pre-defined categories
-        checklistData = JSON.parse(JSON.stringify(initialChecklist));
+    try {
+        const storedData = localStorage.getItem(STORAGE_KEY);
+        if (storedData) {
+            const stored = JSON.parse(storedData);
+            
+            // Start with current initial pre-defined categories
+            checklistData = JSON.parse(JSON.stringify(initialChecklist));
 
-        // Merge stored check statuses into predefined categories, or add new custom categories
-        for (const category in stored) {
-            if (checklistData[category]) {
-                // If the category is predefined, merge the check status
-                checklistData[category].forEach(item => {
-                   const storedItem = stored[category].find(s => s.text === item.text);
-                   if (storedItem) {
-                       item.checked = storedItem.checked;
-                   }
-                });
-                // Find any custom items added to predefined categories and re-add them
-                stored[category].filter(s => !initialChecklist[category].some(i => i.text === s.text))
-                    .forEach(customItem => {
-                        checklistData[category].push(customItem);
+            // Merge stored check statuses into predefined categories, or add new custom categories
+            for (const category in stored) {
+                if (checklistData[category]) {
+                    // If the category is predefined, merge the check status
+                    checklistData[category].forEach(item => {
+                       const storedItem = stored[category].find(s => s.text === item.text);
+                       if (storedItem) {
+                           item.checked = storedItem.checked;
+                       }
                     });
-                
-            } else {
-                // If category is not predefined, it must be a custom user-created category.
-                // Add the entire custom category to the checklistData.
-                checklistData[category] = stored[category];
+                    // Find any custom items added to predefined categories and re-add them
+                    stored[category].filter(s => !initialChecklist[category].some(i => i.text === s.text))
+                        .forEach(customItem => {
+                            checklistData[category].push(customItem);
+                        });
+                    
+                } else {
+                    // If category is not predefined, it must be a custom user-created category.
+                    // Add the entire custom category to the checklistData.
+                    checklistData[category] = stored[category];
+                }
             }
+        } else {
+            // First time load
+            checklistData = JSON.parse(JSON.stringify(initialChecklist));
         }
-    } else {
-        // First time load
-        checklistData = initialChecklist;
+    } catch (error) {
+        console.error('Error loading checklist from localStorage:', error);
+        console.warn('Using default checklist due to loading error');
+        checklistData = JSON.parse(JSON.stringify(initialChecklist));
     }
     populateCategorySelector();
 }
@@ -96,7 +102,12 @@ function loadChecklist() {
  * Saves the current checklist state to localStorage.
  */
 function saveChecklist() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistData));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(checklistData));
+    } catch (error) {
+        console.error('Error saving checklist to localStorage:', error);
+        alert('Unable to save checklist. Please check if your browser supports localStorage.');
+    }
 }
 
 // --- Utility Functions ---
@@ -247,11 +258,20 @@ function handleAddItem(event) {
             saveChecklist();
             renderChecklist();
             input.value = ''; // Clear input field
+            
+            // Success feedback
+            input.style.border = '2px solid #28a745';
+            setTimeout(() => {
+                input.style.border = '2px solid var(--columbia-blue)';
+            }, 1000);
         } else {
-            console.log("Item already exists in this category.");
-            // Simple flash effect to show it's a duplicate
-            input.style.border = '2px solid black';
-            setTimeout(() => input.style.border = '1px solid var(--border-color)', 500);
+            // Better duplicate feedback
+            alert(`"${itemText}" already exists in the ${selectedCategory} category!`);
+            input.style.border = '2px solid var(--light-coral)';
+            input.focus();
+            setTimeout(() => {
+                input.style.border = '2px solid var(--columbia-blue)';
+            }, 2000);
         }
     }
 }
@@ -263,6 +283,18 @@ function handleAddCategory() {
     const categoryName = prompt("Enter the name for the new custom category:");
     if (categoryName && categoryName.trim()) {
         const cleanName = categoryName.trim();
+        
+        // Additional validation
+        if (cleanName.length < 2) {
+            alert("Category name must be at least 2 characters long.");
+            return;
+        }
+        
+        if (cleanName.length > 50) {
+            alert("Category name must be less than 50 characters long.");
+            return;
+        }
+        
         if (checklistData[cleanName]) {
             alert(`Category "${cleanName}" already exists.`);
             return;
@@ -278,6 +310,11 @@ function handleAddCategory() {
         
         // Optionally select the newly created category
         categorySelector.value = cleanName;
+        
+        // Success feedback
+        alert(`Category "${cleanName}" has been created successfully!`);
+    } else {
+        alert("Please enter a valid category name.");
     }
 }
 
@@ -422,7 +459,6 @@ document.getElementById('reset-checklist-btn').addEventListener('click', resetCh
 // --- Initial Load ---
 document.addEventListener('DOMContentLoaded', () => {
     initializeAuth();
-    loadChecklistFromStorage();
+    loadChecklist();
+    renderChecklist();
 });
-loadChecklist();
-renderChecklist();

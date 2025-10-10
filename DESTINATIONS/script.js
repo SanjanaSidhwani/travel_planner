@@ -11,6 +11,7 @@ const destinationsData = [
         id: 1,
         name: "Goa",
         location: "India",
+        region: "asia",
         image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
         rating: 4.8,
         price: "₹15,000",
@@ -26,12 +27,14 @@ const destinationsData = [
         id: 2,
         name: "Manali",
         location: "Himachal Pradesh, India",
+        region: "asia",
         image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
         rating: 4.6,
         price: "₹12,000",
         priceLabel: "per person",
         category: "mountains",
         budget: "budget",
+        region: "asia",
         duration: "4-6 days",
         description: "Snow-capped mountains, adventure sports, and serene valleys perfect for a mountain retreat.",
         tags: ["Mountains", "Adventure", "Trekking", "Snow"],
@@ -47,6 +50,7 @@ const destinationsData = [
         priceLabel: "per person",
         category: "cultural",
         budget: "luxury",
+        region: "asia",
         duration: "7-10 days",
         description: "Royal palaces, desert safaris, and rich cultural heritage showcase India's majestic history.",
         tags: ["Desert", "Palaces", "Culture", "Heritage"],
@@ -62,6 +66,7 @@ const destinationsData = [
         priceLabel: "per person",
         category: "nature",
         budget: "mid-range",
+        region: "asia",
         duration: "4-7 days",
         description: "Tranquil backwaters, lush greenery, and traditional houseboats offer a peaceful escape.",
         tags: ["Backwaters", "Houseboat", "Nature", "Ayurveda"],
@@ -77,6 +82,7 @@ const destinationsData = [
         priceLabel: "per person",
         category: "adventure",
         budget: "mid-range",
+        region: "asia",
         duration: "6-8 days",
         description: "High altitude desert, Buddhist monasteries, and breathtaking landscapes for adventure seekers.",
         tags: ["High Altitude", "Monasteries", "Adventure", "Landscape"],
@@ -92,6 +98,7 @@ const destinationsData = [
         priceLabel: "per person",
         category: "beach",
         budget: "luxury",
+        region: "asia",
         duration: "5-7 days",
         description: "Pristine beaches, crystal clear waters, and exotic marine life perfect for diving and relaxation.",
         tags: ["Beaches", "Diving", "Islands", "Marine Life"],
@@ -107,6 +114,7 @@ const destinationsData = [
         priceLabel: "per person",
         category: "spiritual",
         budget: "budget",
+        region: "asia",
         duration: "3-5 days",
         description: "Yoga capital of the world with spiritual retreats, river rafting, and peaceful ashrams.",
         tags: ["Yoga", "Spiritual", "River Rafting", "Ashrams"],
@@ -122,6 +130,7 @@ const destinationsData = [
         priceLabel: "per person",
         category: "mountains",
         budget: "budget",
+        region: "asia",
         duration: "3-5 days",
         description: "Colonial charm, toy train rides, and cool mountain weather make it a popular hill station.",
         tags: ["Hill Station", "Colonial", "Toy Train", "Mountains"],
@@ -139,6 +148,7 @@ const destinationsGrid = document.getElementById('destinations-grid');
 const loadingSpinner = document.getElementById('loading-spinner');
 const noResults = document.getElementById('no-results');
 const heroSearchInput = document.getElementById('hero-search-input');
+const regionFilter = document.getElementById('region-filter');
 const categoryFilter = document.getElementById('type-filter');
 const budgetFilter = document.getElementById('budget-filter');
 const clearFiltersBtn = document.getElementById('clear-filters');
@@ -148,59 +158,9 @@ const modalOverlay = document.getElementById('destination-modal');
 const modalContent = document.querySelector('.modal-content');
 const modalClose = document.getElementById('modal-close');
 
-// Authentication check
-function checkUserAuthentication() {
-    // Check both authentication systems
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    const authData = localStorage.getItem('travelPlannerAuth');
-    
-    const authSection = document.getElementById('auth-section');
-    const userSection = document.getElementById('user-section');
-    const userNameElement = document.getElementById('user-name');
-
-    let isAuthenticated = false;
-    let userName = 'User';
-
-    // Check new auth system first
-    if (authData) {
-        try {
-            const session = JSON.parse(authData);
-            if (Date.now() < session.expiresAt || session.rememberMe) {
-                isAuthenticated = true;
-                userName = session.user.firstName || session.user.email || 'User';
-            }
-        } catch (error) {
-            console.error('Error parsing auth data:', error);
-        }
-    }
-    
-    // Fallback to old auth system
-    if (!isAuthenticated && user) {
-        isAuthenticated = true;
-        userName = user.name || user.email || 'User';
-    }
-
-    if (isAuthenticated) {
-        if (authSection) authSection.classList.add('hidden');
-        if (userSection) userSection.classList.remove('hidden');
-        if (userNameElement) userNameElement.textContent = userName;
-    } else {
-        if (authSection) authSection.classList.remove('hidden');
-        if (userSection) userSection.classList.add('hidden');
-    }
-}
-
-// Logout functionality
-function logoutUser() {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('travelPlannerAuth');
-    window.location.href = '../AUTH/index.html';
-}
-
 // Initialize page
 function initializePage() {
     addToastStyles();
-    checkUserAuthentication();
     renderDestinations();
     setupEventListeners();
 }
@@ -211,6 +171,7 @@ function setupEventListeners() {
     heroSearchInput.addEventListener('input', debounce(handleSearch, 300));
     
     // Filter functionality
+    regionFilter.addEventListener('change', applyFilters);
     categoryFilter.addEventListener('change', applyFilters);
     budgetFilter.addEventListener('change', applyFilters);
     
@@ -230,9 +191,6 @@ function setupEventListeners() {
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
-    
-    // Logout button
-    document.getElementById('logout-btn').addEventListener('click', logoutUser);
     
     // Escape key to close modal
     document.addEventListener('keydown', (e) => {
@@ -275,6 +233,12 @@ function handleSearch(e) {
 function applyFilters() {
     let filtered = [...filteredDestinations];
     
+    // Apply region filter
+    const regionValue = regionFilter.value;
+    if (regionValue !== '') {
+        filtered = filtered.filter(dest => dest.region === regionValue);
+    }
+    
     // Apply category filter
     const categoryValue = categoryFilter.value;
     if (categoryValue !== '') {
@@ -294,6 +258,7 @@ function applyFilters() {
 // Clear all filters
 function clearFilters() {
     heroSearchInput.value = '';
+    regionFilter.value = '';
     categoryFilter.value = '';
     budgetFilter.value = '';
     
@@ -642,11 +607,9 @@ document.addEventListener('visibilitychange', () => {
         // Page is hidden, pause any animations or timers
     } else {
         // Page is visible, resume operations
-        checkUserAuthentication();
     }
 });
 
 // Export functions for global access
 window.planTrip = planTrip;
 window.addToWishlist = addToWishlist;
-window.logoutUser = logoutUser;
