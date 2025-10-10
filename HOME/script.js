@@ -77,4 +77,68 @@ function logout() {
 document.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   initializeAuth();
+  initializeParallaxEffect();
 });
+
+// Optimized parallax scrolling effect
+function initializeParallaxEffect() {
+  const shapes = document.querySelectorAll('.floating-shape');
+  const destinations = document.querySelector('.destinations');
+  let ticking = false;
+
+  function updateParallax() {
+    const scrolled = window.pageYOffset;
+    const scrollPercent = Math.min(1, scrolled / window.innerHeight);
+    
+    // Simple parallax for floating shapes (reduce frequency)
+    if (scrolled % 5 === 0) { // Only update every 5px of scroll
+      shapes.forEach((shape, index) => {
+        const speed = 0.05 + (index * 0.02); // Much slower speeds
+        const yPos = scrolled * speed;
+        
+        shape.style.transform = `translateY(${yPos}px) translateZ(0)`;
+      });
+    }
+
+    // Dynamic opacity for destinations overlay
+    if (destinations) {
+      const opacity = Math.max(0.7, 1 - (scrollPercent * 0.2));
+      destinations.style.setProperty('--bg-opacity', opacity);
+    }
+    
+    ticking = false;
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+
+  // Passive scroll event with reduced frequency
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(requestTick, 16); // ~60fps limit
+  }, { passive: true });
+
+  // Simplified mouse movement (only on mousemove, not combined with scroll)
+  let mouseTimeout;
+  document.addEventListener('mousemove', (e) => {
+    clearTimeout(mouseTimeout);
+    mouseTimeout = setTimeout(() => {
+      const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+      shapes.forEach((shape, index) => {
+        const speed = 2 + index; // Very subtle movement
+        const x = mouseX * speed;
+        const y = mouseY * speed;
+        
+        shape.style.setProperty('--mouse-x', `${x}px`);
+        shape.style.setProperty('--mouse-y', `${y}px`);
+      });
+    }, 32); // Limit to ~30fps for mouse
+  }, { passive: true });
+}
