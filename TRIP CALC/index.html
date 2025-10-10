@@ -44,9 +44,38 @@
     <div class="main-container">
         <div class="calculator-wrapper">
             <div class="calculator-grid">
+                <!-- Group Details Section -->
+                <div class="calculator-section">
+                    <h2><i class="fas fa-users"></i> Group Details</h2>
+                    <div class="input-group">
+                        <label for="people">Number of People</label>
+                        <input type="number" id="people" placeholder="4" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="days">Trip Duration</label>
+                        <div class="input-with-unit">
+                            <input type="number" id="days" placeholder="3" min="1">
+                            <span class="unit">days</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Transportation Section -->
                 <div class="calculator-section">
                     <h2><i class="fas fa-car"></i> Transportation</h2>
+                    <div class="input-group">
+                        <label for="transport-type">Transport Type</label>
+                        <select id="transport-type">
+                            <option value="car">Car</option>
+                            <option value="bus">Bus</option>
+                            <option value="train">Train</option>
+                            <option value="flight">Flight</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="num-vehicles">Number of Vehicles/Tickets</label>
+                        <input type="number" id="num-vehicles" placeholder="1" min="1">
+                    </div>
                     <div class="input-group">
                         <label for="distance">Total Distance</label>
                         <div class="input-with-unit">
@@ -77,14 +106,30 @@
                             </select>
                         </div>
                     </div>
+                    <div class="input-group">
+                        <label for="parking-toll">Parking/Toll Costs</label>
+                        <input type="number" id="parking-toll" placeholder="0" min="0" step="0.01">
+                    </div>
                 </div>
 
                 <!-- Accommodation Section -->
                 <div class="calculator-section">
                     <h2><i class="fas fa-bed"></i> Accommodation</h2>
                     <div class="input-group">
+                        <label for="accommodation-type">Accommodation Type</label>
+                        <select id="accommodation-type">
+                            <option value="hotel">Hotel</option>
+                            <option value="hostel">Hostel</option>
+                            <option value="airbnb">Airbnb</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
                         <label for="nights">Number of Nights</label>
                         <input type="number" id="nights" placeholder="3" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="num-rooms">Number of Rooms</label>
+                        <input type="number" id="num-rooms" placeholder="1" min="1">
                     </div>
                     <div class="input-group">
                         <label for="accommodation-cost">Cost per Night</label>
@@ -93,11 +138,20 @@
                             <span class="currency">₹</span>
                         </div>
                     </div>
+                    <div class="input-group">
                 </div>
 
-                <!-- Food & Activities Section -->
+                <!-- Food Section -->
                 <div class="calculator-section">
-                    <h2><i class="fas fa-utensils"></i> Food & Activities</h2>
+                    <h2><i class="fas fa-utensils"></i> Food</h2>
+                    <div class="input-group">
+                        <label for="meals-per-day">Meals per Day</label>
+                        <input type="number" id="meals-per-day" placeholder="3" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="snacks">Snacks/Drinks Budget</label>
+                        <input type="number" id="snacks" placeholder="500" min="0" step="0.01">
+                    </div>
                     <div class="input-group">
                         <label for="daily-food">Daily Food Budget</label>
                         <div class="input-with-unit">
@@ -105,8 +159,29 @@
                             <span class="currency">₹</span>
                         </div>
                     </div>
+                </div>
+
+                <!-- Tourist Places Expenses Section -->
+                <div class="calculator-section">
+                    <h2><i class="fas fa-map-marker-alt"></i> Tourist Places Expenses</h2>
                     <div class="input-group">
-                        <label for="activities">Total Activities Budget</label>
+                        <label for="entry-fees">Entry Fees</label>
+                        <input type="number" id="entry-fees" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="guide-charges">Guide Charges</label>
+                        <input type="number" id="guide-charges" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="souvenirs">Souvenirs</label>
+                        <input type="number" id="souvenirs" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="local-transport">Local Transport</label>
+                        <input type="number" id="local-transport" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="activities">Total Tourist Places Budget</label>
                         <div class="input-with-unit">
                             <input type="number" id="activities" placeholder="10000" min="0" step="0.01">
                             <span class="currency">₹</span>
@@ -114,18 +189,30 @@
                     </div>
                 </div>
 
-                <!-- Group Details Section -->
+                <!-- Miscellaneous Expenses Section -->
                 <div class="calculator-section">
-                    <h2><i class="fas fa-users"></i> Group Details</h2>
+                    <h2><i class="fas fa-coins"></i> Miscellaneous Expenses</h2>
                     <div class="input-group">
-                        <label for="people">Number of People</label>
-                        <input type="number" id="people" placeholder="4" min="1">
+                        <label for="emergency-fund">Emergency Fund</label>
+                        <input type="number" id="emergency-fund" placeholder="0" min="0" step="0.01">
                     </div>
                     <div class="input-group">
-                        <label for="days">Trip Duration</label>
+                        <label for="insurance">Insurance</label>
+                        <input type="number" id="insurance" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="tips">Tips</label>
+                        <input type="number" id="tips" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="shopping">Shopping</label>
+                        <input type="number" id="shopping" placeholder="0" min="0" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="miscellaneous">Miscellaneous Budget</label>
                         <div class="input-with-unit">
-                            <input type="number" id="days" placeholder="3" min="1">
-                            <span class="unit">days</span>
+                            <input type="number" id="miscellaneous" placeholder="0" min="0" step="0.01">
+                            <span class="currency">₹</span>
                         </div>
                     </div>
                 </div>
@@ -148,6 +235,10 @@
                 <h2><i class="fas fa-chart-line"></i> Cost Breakdown</h2>
                 <div class="result-grid">
                     <div class="result-card">
+                        <h3>Group Details</h3>
+                        <p id="group-details" class="cost-amount">-</p>
+                    </div>
+                    <div class="result-card">
                         <h3>Transportation</h3>
                         <p id="transport-cost" class="cost-amount">₹0.00</p>
                     </div>
@@ -160,8 +251,12 @@
                         <p id="food-total" class="cost-amount">₹0.00</p>
                     </div>
                     <div class="result-card">
-                        <h3>Activities</h3>
+                        <h3>Tourist Places Expenses</h3>
                         <p id="activities-total" class="cost-amount">₹0.00</p>
+                    </div>
+                    <div class="result-card">
+                        <h3>Miscellaneous Expenses</h3>
+                        <p id="miscellaneous-total" class="cost-amount">₹0.00</p>
                     </div>
                 </div>
                 <div class="total-section">
