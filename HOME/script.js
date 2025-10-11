@@ -49,96 +49,39 @@ function initializeAuth() {
         if (authSection) authSection.classList.add('hidden');
         if (userSection) userSection.classList.remove('hidden');
         
-        if (userNameElement && session.user) {
-          userNameElement.textContent = session.user.firstName || 'User';
+        // Update user name display
+        if (userNameElement) {
+          userNameElement.textContent = session.userName || 'User';
         }
         
-        // Add logout functionality
-        if (logoutBtn) {
-          logoutBtn.addEventListener('click', logout);
-        }
+        console.log('User session restored:', session.userName);
       } else {
-        // Session expired, clear storage
+        // Session expired, clean up
         localStorage.removeItem('travelPlannerAuth');
+        console.log('Session expired, cleared');
       }
     } catch (error) {
       console.error('Error parsing auth data:', error);
       localStorage.removeItem('travelPlannerAuth');
     }
   }
-}
 
-function logout() {
-  localStorage.removeItem('travelPlannerAuth');
-  window.location.href = '../AUTH/index.html';
+  // Logout functionality
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('travelPlannerAuth');
+      if (authSection) authSection.classList.remove('hidden');
+      if (userSection) userSection.classList.add('hidden');
+      console.log('User logged out');
+      
+      // Redirect to auth page
+      window.location.href = '../AUTH/index.html';
+    });
+  }
 }
 
 // Start countdown and check auth when page loads
 document.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   initializeAuth();
-  initializeParallaxEffect();
 });
-
-// Optimized parallax scrolling effect
-function initializeParallaxEffect() {
-  const shapes = document.querySelectorAll('.floating-shape');
-  const destinations = document.querySelector('.destinations');
-  let ticking = false;
-
-  function updateParallax() {
-    const scrolled = window.pageYOffset;
-    const scrollPercent = Math.min(1, scrolled / window.innerHeight);
-    
-    // Simple parallax for floating shapes (reduce frequency)
-    if (scrolled % 5 === 0) { // Only update every 5px of scroll
-      shapes.forEach((shape, index) => {
-        const speed = 0.05 + (index * 0.02); // Much slower speeds
-        const yPos = scrolled * speed;
-        
-        shape.style.transform = `translateY(${yPos}px) translateZ(0)`;
-      });
-    }
-
-    // Dynamic opacity for destinations overlay
-    if (destinations) {
-      const opacity = Math.max(0.7, 1 - (scrollPercent * 0.2));
-      destinations.style.setProperty('--bg-opacity', opacity);
-    }
-    
-    ticking = false;
-  }
-
-  function requestTick() {
-    if (!ticking) {
-      requestAnimationFrame(updateParallax);
-      ticking = true;
-    }
-  }
-
-  // Passive scroll event with reduced frequency
-  let scrollTimeout;
-  window.addEventListener('scroll', () => {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(requestTick, 16); // ~60fps limit
-  }, { passive: true });
-
-  // Simplified mouse movement (only on mousemove, not combined with scroll)
-  let mouseTimeout;
-  document.addEventListener('mousemove', (e) => {
-    clearTimeout(mouseTimeout);
-    mouseTimeout = setTimeout(() => {
-      const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-
-      shapes.forEach((shape, index) => {
-        const speed = 2 + index; // Very subtle movement
-        const x = mouseX * speed;
-        const y = mouseY * speed;
-        
-        shape.style.setProperty('--mouse-x', `${x}px`);
-        shape.style.setProperty('--mouse-y', `${y}px`);
-      });
-    }, 32); // Limit to ~30fps for mouse
-  }, { passive: true });
-}

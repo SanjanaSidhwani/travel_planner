@@ -19,35 +19,39 @@
         <div class="floating-shape shape-6"></div>
     </div>
 
-    <div class="navbar">
-        <div class="logo">LOGO</div>
-        <div class="nav-center">
-            <ul>
-                <li><a href="index.html" class="active">HOME</a></li>
-                <li><a href="../DESTINATIONS/index.html">DESTINATIONS</a></li>
-                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
-                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
-                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
-                <li><a href="../ABOUT/index.html">ABOUT</a></li>
-            </ul>
-        </div>
-        <div class="right-section">
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo centered at top -->
+            <div class="navbar-logo">
+                <h1>travelpro</h1>
             </div>
-            <div class="auth-section" id="auth-section">
-                <a href="../AUTH/index.html" class="login-btn">Login</a>
-                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
-            </div>
-            <div class="user-section hidden" id="user-section">
-                <div class="user-info" id="user-info">
-                    <i class="fas fa-user-circle"></i>
-                    <span id="user-name">User</span>
+            
+            <!-- Navigation row -->
+            <div class="navbar-content">
+                <!-- Main navigation menu -->
+                <ul class="navbar-menu">
+                    <li><a href="index.html" class="nav-link active">HOME</a></li>
+                    <li><a href="../DESTINATIONS/index.html" class="nav-link">DESTINATIONS</a></li>
+                    <li><a href="../ITINERARY/index.html" class="nav-link">ITINERARY</a></li>
+                    <li><a href="../TRIP CALC/index.html" class="nav-link">CALCULATOR</a></li>
+                    <li><a href="../CHECKLIST/checklist.html" class="nav-link">CHECKLIST</a></li>
+                    <li><a href="../ABOUT/index.html" class="nav-link">ABOUT</a></li>
+                </ul>
+                
+                <!-- Right side utilities -->
+                <div class="navbar-utilities">
+                    <span class="language-toggle">EN</span>
+                    <button class="search-btn" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="user-btn" aria-label="User Account">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
                 </div>
-                <button class="logout-btn" id="logout-btn">Logout</button>
             </div>
         </div>
-    </div>
+    </nav>
 
     <div class="hero">
         <div class="hero-overlay"></div>
@@ -61,6 +65,32 @@
         </div>
     </div>
 
+    <!-- Next Trip Section -->
+    <section class="next-trip-section">
+        <div class="container">
+            <div class="next-trip-container">
+                <div class="next-trip-box">
+                    <p>Next Trip In:</p>
+                    <div class="days" id="countdown">
+                        <div class="countdown-unit">
+                            <span class="countdown-value" id="days">00</span>
+                            <span class="countdown-label">Days</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-value" id="hours">00</span>
+                            <span class="countdown-label">Hours</span>
+                        </div>
+                        <div class="countdown-unit">
+                            <span class="countdown-value" id="minutes">00</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Destinations Section -->
     <section class="destinations">
         <div class="container">
             <div class="dest-header">
@@ -96,25 +126,6 @@
                         <h3>Rajasthan</h3>
                         <p>Royal palaces, desert safaris, and rich cultural heritage showcase India's history</p>
                         <button class="card-btn">Learn more</button>
-                    </div>
-                </div>
-            </div>
-            <div class="next-trip-container">
-                <div class="next-trip-box">
-                    <p>Next Trip In:</p>
-                    <div class="days" id="countdown">
-                        <div class="countdown-unit">
-                            <span class="countdown-value" id="days">00</span>
-                            <span class="countdown-label">Days</span>
-                        </div>
-                        <div class="countdown-unit">
-                            <span class="countdown-value" id="hours">00</span>
-                            <span class="countdown-label">Hours</span>
-                        </div>
-                        <div class="countdown-unit">
-                            <span class="countdown-value" id="minutes">00</span>
-                            <span class="countdown-label">Minutes</span>
-                        </div>
                     </div>
                 </div>
             </div>
