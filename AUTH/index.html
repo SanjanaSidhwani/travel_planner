@@ -9,28 +9,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">LOGO</div>
-        <div class="nav-center">
-            <ul>
-                <li><a href="../HOME/index.html">HOME</a></li>
-                <li><a href="../DESTINATIONS/index.html">DESTINATIONS</a></li>
-                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
-                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
-                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
-                <li><a href="../ABOUT/index.html">ABOUT</a></li>
-            </ul>
-        </div>
-        <div class="right-section">
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo centered at top -->
+            <div class="navbar-logo">
+                <h1>travelpro</h1>
             </div>
-            <div class="profile-icon">
-                <i class="fas fa-user-circle"></i>
+            
+            <!-- Navigation row -->
+            <div class="navbar-content">
+                <!-- Main navigation menu -->
+                <ul class="navbar-menu">
+                    <li><a href="../HOME/index.html" class="nav-link">HOME</a></li>
+                    <li><a href="../DESTINATIONS/index.html" class="nav-link">DESTINATIONS</a></li>
+                    <li><a href="../ITINERARY/index.html" class="nav-link">ITINERARY</a></li>
+                    <li><a href="../TRIP CALC/index.html" class="nav-link">TRIP CALCULATOR</a></li>
+                    <li><a href="../CHECKLIST/checklist.html" class="nav-link">CHECKLIST</a></li>
+                    <li><a href="../ABOUT/index.html" class="nav-link">ABOUT</a></li>
+                </ul>
+                
+                <!-- Right side utilities -->
+                <div class="navbar-utilities">
+                    <span class="language-toggle">EN</span>
+                    <button class="search-btn" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="user-btn" aria-label="User Account">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!-- Main Auth Container -->
     <div class="auth-container">

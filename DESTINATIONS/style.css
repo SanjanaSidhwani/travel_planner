@@ -5,25 +5,143 @@
     padding: 0;
 }
 
-/* Color Scheme Variables */
+/* Black and White Color Scheme Variables */
 :root {
-    --battleship-gray: #7D7461;
-    --light-coral: #EF767A;
-    --midnight-green: #0E3B43;
-    --sunset: #F2CC8F;
-    --columbia-blue: #BBDEF0;
+    --battleship-gray: #666666;
+    --light-coral: #000000;
+    --midnight-green: #000000;
+    --sunset: #666666;
+    --columbia-blue: #f0f0f0;
     --white: #ffffff;
-    --text-dark: #333333;
+    --text-dark: #000000;
 }
 
 body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--columbia-blue);
+    background-color: var(--white);
     color: var(--midnight-green);
     line-height: 1.6;
     min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    background: #000000;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: none;
+    padding: 2rem 3rem 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbar-logo {
+    text-align: center;
+}
+
+.navbar-logo h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    letter-spacing: -1px;
+    text-transform: lowercase;
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1400px;
+    position: relative;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4rem;
+    justify-content: center;
+}
+
+.navbar-utilities {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: absolute;
+    right: 0;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    opacity: 1;
+}
+
+.language-toggle {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    cursor: pointer;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    padding-right: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.language-toggle:hover {
+    opacity: 1;
+}
+
+.search-btn,
+.user-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.search-btn:hover,
+.user-btn:hover {
+    opacity: 1;
+}
+
+.user-btn {
+    font-size: 1.3rem;
 }
 
 .container {
@@ -39,22 +157,7 @@ a {
 }
 
 /* --- Navigation Bar (Navbar) --- */
-.navbar {
-  display: flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--midnight-green);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  position: static;
-  z-index: 1000;
-  width: 100%;
-  transition: none;
-  height: 70px;
-  box-sizing: border-box;
-  min-height: 70px;
-  max-height: 70px;
-  line-height: 1.2;
-}
+/* Removed conflicting navbar styles */
 
 .logo {
   font-weight: 700;
@@ -214,43 +317,58 @@ a {
 }
 
 /* --- Hero Section --- */
+/* Hero Section - Same as HOME page */
 .hero-section {
+    height: 100vh;
     position: relative;
-    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    color: #ffffff;
     text-align: center;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--midnight-green) 0%, var(--battleship-gray) 100%);
+    padding-top: 11rem;
+    margin-top: 0;
 }
 
 .hero-background {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(14, 59, 67, 0.8) 0%, rgba(125, 116, 97, 0.8) 100%);
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    color: var(--white);
+    max-width: 1000px;
+    padding: 0 2rem;
+    color: #ffffff !important;
 }
 
 .hero-content h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    letter-spacing: -2px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    color: #ffffff !important;
 }
 
 .hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    font-weight: 500;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    margin-bottom: 3rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #ffffff !important;
 }
 
 .hero-search {
@@ -287,10 +405,18 @@ a {
 
 /* --- Filters Section --- */
 .filters-section {
-    background-color: var(--sunset);
+    background-color: #000000 !important;
+    background: #000000 !important;
     padding: 20px 0;
     border-bottom: 1px solid var(--battleship-gray);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Make sure filters section stays black */
+section.filters-section,
+.filters-section {
+    background: #000000 !important;
+    background-color: #000000 !important;
 }
 
 .filters-row {
@@ -454,12 +580,6 @@ a {
     object-fit: cover;
     transition: transform 0.3s;
     background-color: #f0f0f0;
-    background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), 
-                      linear-gradient(-45deg, #e0e0e0 25%, transparent 25%), 
-                      linear-gradient(45deg, transparent 75%, #e0e0e0 75%), 
-                      linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 .destination-card:hover .destination-image img {
@@ -558,7 +678,7 @@ a {
 
 .destination-price {
     font-weight: 700;
-    color: #4CAF50;
+    color: #000000;
     font-size: 1.2rem;
     display: flex;
     align-items: center;
@@ -740,7 +860,7 @@ a {
 .modal-price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #4CAF50;
+    color: #000000;
 }
 
 .modal-price span {
@@ -767,7 +887,7 @@ a {
 }
 
 .detail-section h4 i {
-    color: #4CAF50;
+    color: #000000;
 }
 
 .detail-section p {
@@ -776,7 +896,7 @@ a {
 }
 
 .budget-budget {
-    color: #28a745;
+    color: #000000;
     text-transform: capitalize;
     font-weight: 600;
 }
@@ -878,6 +998,45 @@ a {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-top: 160px; /* Adjust for smaller navbar on mobile */
+    }
+    
+    .navbar-container {
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .navbar-logo h1 {
+        font-size: 2.5rem;
+    }
+    
+    .navbar-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .navbar-menu {
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+    }
+    
+    .navbar-utilities {
+        gap: 1.5rem;
+    }
+    
+    .language-toggle {
+        border-right: none;
+        padding-right: 0;
+    }
+        border-right: none;
+        padding-right: 0;
+    }
     
     .hero-content h1 {
         font-size: 2.5rem;
@@ -932,6 +1091,22 @@ a {
 }
 
 @media (max-width: 480px) {
+    body {
+        padding-top: 140px; /* Even smaller navbar on very small screens */
+    }
+    
+    .navbar-logo h1 {
+        font-size: 2rem;
+    }
+    
+    .navbar-menu {
+        gap: 1rem;
+    }
+    
+    .nav-link {
+        font-size: 0.7rem;
+    }
+    
     .container {
         padding: 0 10px;
     }

@@ -9,28 +9,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">LOGO</div>
-        <div class="nav-center">
-            <ul>
-                <li><a href="../HOME/index.html">HOME</a></li>
-                <li><a href="index.html" class="active">DESTINATIONS</a></li>
-                <li><a href="../ITINERARY/index.html">ITINERARY BUILDER</a></li>
-                <li><a href="../TRIP CALC/index.html">TRIP CALCULATOR</a></li>
-                <li><a href="../CHECKLIST/checklist.html">CHECKLIST</a></li>
-                <li><a href="../ABOUT/index.html">ABOUT</a></li>
-            </ul>
-        </div>
-        <div class="right-section">
-            <div class="search-bar">
-                <input type="text" placeholder="Search...">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo centered at top -->
+            <div class="navbar-logo">
+                <h1>travelpro</h1>
             </div>
-            <div class="auth-section" id="auth-section">
-                <a href="../AUTH/index.html" class="login-btn">Login</a>
-                <a href="../AUTH/index.html" class="signup-btn">Sign Up</a>
+            
+            <!-- Navigation row -->
+            <div class="navbar-content">
+                <!-- Main navigation menu -->
+                <ul class="navbar-menu">
+                    <li><a href="../HOME/index.html" class="nav-link">HOME</a></li>
+                    <li><a href="index.html" class="nav-link active">DESTINATIONS</a></li>
+                    <li><a href="../ITINERARY/index.html" class="nav-link">ITINERARY</a></li>
+                    <li><a href="../TRIP CALC/index.html" class="nav-link">TRIP CALCULATOR</a></li>
+                    <li><a href="../CHECKLIST/checklist.html" class="nav-link">CHECKLIST</a></li>
+                    <li><a href="../ABOUT/index.html" class="nav-link">ABOUT</a></li>
+                </ul>
+                
+                <!-- Right side utilities -->
+                <div class="navbar-utilities">
+                    <span class="language-toggle">EN</span>
+                    <button class="search-btn" aria-label="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="user-btn" aria-label="User Account">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero-section">

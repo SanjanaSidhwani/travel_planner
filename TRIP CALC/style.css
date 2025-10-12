@@ -1,7 +1,18 @@
 /* ====================================
    TRAVEL PLANNER - TRIP CALCULATOR
-   Consistent Design with Website
+   Black and White Design
    ==================================== */
+
+/* --- Black and White Color Variables --- */
+:root {
+    --battleship-gray: #666666;
+    --light-coral: #000000;
+    --midnight-green: #000000;
+    --sunset: #666666;
+    --columbia-blue: #f0f0f0;
+    --white: #ffffff;
+    --text-dark: #000000;
+}
 
 /* --- CSS Reset and Base Styles --- */
 * {
@@ -12,27 +23,128 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #fafafa;
-    color: #333;
+    background-color: var(--white);
+    color: var(--text-dark);
     line-height: 1.6;
+    padding-top: 180px; /* Increased for larger navbar */
 }
 
-/* --- Navbar Styles (Consistent with other pages) --- */
+/* ===== NAVBAR ===== */
 .navbar {
-  display: flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: var(--midnight-green);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  position: static;
-  z-index: 1000;
-  width: 100%;
-  transition: none;
-  height: 70px;
-  box-sizing: border-box;
-  min-height: 70px;
-  max-height: 70px;
-  line-height: 1.2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    background: #000000;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-container {
+    width: 100%;
+    max-width: none;
+    padding: 2rem 3rem 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbar-logo {
+    text-align: center;
+}
+
+.navbar-logo h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    letter-spacing: -1px;
+    text-transform: lowercase;
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1400px;
+    position: relative;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4rem;
+    justify-content: center;
+}
+
+.navbar-utilities {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: absolute;
+    right: 0;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    opacity: 1;
+}
+
+.language-toggle {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    cursor: pointer;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    padding-right: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.language-toggle:hover {
+    opacity: 1;
+}
+
+.search-btn,
+.user-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.search-btn:hover,
+.user-btn:hover {
+    opacity: 1;
+}
+
+.user-btn {
+    font-size: 1.3rem;
 }
 
 .logo {
@@ -339,7 +451,7 @@ body {
 }
 
 .calculate-btn {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    background: var(--midnight-green);
     color: white;
     min-width: 200px;
 }
@@ -426,12 +538,12 @@ body {
 }
 
 .total-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--midnight-green);
     color: white;
     padding: 2rem;
     border-radius: 8px;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .total-card h3 {
@@ -473,46 +585,39 @@ body {
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
-    .navbar {
+    .navbar-container {
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .navbar-logo h1 {
+        font-size: 2.5rem;
+    }
+    
+    .navbar-content {
         flex-direction: column;
-        padding: 1rem;
-        gap: 1rem;
-        height: auto;
+        gap: 1.5rem;
     }
     
-    .nav-center {
-        order: 2;
-        max-width: 100%;
-    }
-    
-    .nav-center ul {
+    .navbar-menu {
+        gap: 2rem;
         flex-wrap: wrap;
-        gap: 1rem;
         justify-content: center;
     }
     
-    .nav-center ul li a {
-        padding: 8px 12px;
-        font-size: 0.9rem;
+    .nav-link {
+        font-size: 0.8rem;
     }
     
-    .right-section {
-        order: 3;
-        justify-content: center;
-        min-width: auto;
-        flex-wrap: wrap;
-        gap: 0.5rem;
+    .navbar-utilities {
+        gap: 1.5rem;
     }
     
-    .search-bar {
-        order: 1;
-        margin-bottom: 0.5rem;
+    .language-toggle {
+        border-right: none;
+        padding-right: 0;
     }
-    
-    .search-bar input {
-        width: 200px;
-    }
-    }
+}
     
     .main-container {
         padding: 1rem;

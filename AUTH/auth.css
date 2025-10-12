@@ -11,18 +11,18 @@
 }
 
 :root {
-    --primary-color: #667eea;
-    --primary-dark: #5a67d8;
-    --secondary-color: #764ba2;
-    --success-color: #28a745;
-    --error-color: #dc3545;
-    --warning-color: #ffc107;
-    --text-primary: #333333;
-    --text-secondary: #555555;
-    --text-muted: #888888;
-    --background: #fafafa;
+    --primary-color: #000000;
+    --primary-dark: #333333;
+    --secondary-color: #666666;
+    --success-color: #000000;
+    --error-color: #000000;
+    --warning-color: #666666;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --text-muted: #666666;
+    --background: #ffffff;
     --white: #ffffff;
-    --border-color: #e0e0e0;
+    --border-color: #cccccc;
     --border-radius: 12px;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
@@ -32,66 +32,129 @@
 
 body {
     font-family: 'Inter', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--background);
     color: var(--text-primary);
     min-height: 100vh;
     line-height: 1.6;
+    padding-top: 180px; /* Increased for larger navbar */
 }
 
-/* --- Navbar Styles (Consistent) --- */
+/* ===== NAVBAR ===== */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: var(--white);
-    box-shadow: var(--shadow);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 1000;
-    height: var(--navbar-height);
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    background: #000000;
+    padding: 0;
+    margin: 0;
 }
 
-.logo {
-    font-weight: bold;
-    font-size: 1.5rem;
-    min-width: 100px;
-    color: var(--text-primary);
-}
-
-.nav-center {
+.navbar-container {
+    width: 100%;
+    max-width: none;
+    padding: 2rem 3rem 1rem 3rem;
     display: flex;
-    justify-content: center;
-    flex-grow: 1;
-}
-
-.nav-center ul {
-    display: flex;
-    list-style: none;
+    flex-direction: column;
+    align-items: center;
     gap: 2rem;
+}
+
+.navbar-logo {
+    text-align: center;
+}
+
+.navbar-logo h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: #ffffff;
     margin: 0;
     padding: 0;
+    letter-spacing: -1px;
+    text-transform: lowercase;
+    font-family: 'Inter', sans-serif;
 }
 
-.nav-center ul li a {
-    text-decoration: none;
-    color: var(--text-primary);
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+.navbar-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1400px;
+    position: relative;
 }
 
-.nav-center ul li a:hover {
-    background-color: var(--text-secondary);
-    color: var(--white);
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 4rem;
+    justify-content: center;
 }
 
-.right-section {
+.navbar-utilities {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    min-width: 100px;
+    gap: 2rem;
+    position: absolute;
+    right: 0;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    opacity: 1;
+}
+
+.language-toggle {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    cursor: pointer;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    padding-right: 2rem;
+    transition: opacity 0.3s ease;
+}
+
+.language-toggle:hover {
+    opacity: 1;
+}
+
+.search-btn,
+.user-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    padding: 0;
+    margin: 0;
+}
+
+.search-btn:hover,
+.user-btn:hover {
+    opacity: 1;
+}
+
+.user-btn {
+    font-size: 1.3rem;
 }
 
 .search-bar input {
@@ -432,7 +495,7 @@ body {
 }
 
 .auth-btn.primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--primary-color);
     color: var(--white);
 }
 
@@ -535,7 +598,7 @@ body {
 /* --- Side Panel --- */
 .auth-side-panel {
     flex: 0 0 400px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: var(--primary-color);
     color: var(--white);
     display: flex;
     align-items: center;
