@@ -8,6 +8,7 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../AUTH/auth-shared.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -223,7 +224,7 @@
             </div>
             
             <div class="modal-footer">
-                <p>Not a member? <a href="#" class="signup-link" onclick="showSignupMessage()">Sign up now</a></p>
+                <p>Not a member? <a href="../AUTH/signup.html" class="signup-link">Sign up now</a></p>
             </div>
         </div>
     </div>
@@ -267,14 +268,65 @@
             }
         }
 
-        // Form submission
+        // Form submission - Real login functionality
         document.querySelector('.login-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Login functionality coming soon!');
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
+            
+            // Get stored users
+            const users = JSON.parse(localStorage.getItem('travelPlannerUsers') || '[]');
+            
+            // Find user with matching credentials
+            const user = users.find(u => 
+                u.email.toLowerCase() === email.toLowerCase() && u.password === password
+            );
+            
+            if (user) {
+                // Create session
+                const session = {
+                    user: {
+                        id: user.id,
+                        fullName: user.fullName || (user.firstName + ' ' + (user.lastName || '')),
+                        email: user.email
+                    },
+                    loginTime: Date.now(),
+                    expiresAt: Date.now() + (24 * 60 * 60 * 1000), // 24 hours
+                    rememberMe: rememberMe
+                };
+                
+                localStorage.setItem('travelPlannerAuth', JSON.stringify(session));
+                
+                // Close modal and show success
+                closeLoginModal();
+                
+                // Show success message using auth-shared notification
+                if (typeof showNotification === 'function') {
+                    showNotification('Login successful! Welcome back!', 'success');
+                } else {
+                    alert('Login successful! Welcome back!');
+                }
+                
+                // Reload page to update navbar
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+                
+            } else {
+                // Show error message
+                if (typeof showNotification === 'function') {
+                    showNotification('Invalid email or password. Please try again.', 'error');
+                } else {
+                    alert('Invalid email or password. Please try again.');
+                }
+            }
         });
     </script>
 
     <!-- Scripts -->
+    <script src="../AUTH/auth-shared.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

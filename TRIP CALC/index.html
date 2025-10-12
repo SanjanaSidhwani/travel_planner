@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip Calculator - Travel Planner</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../AUTH/auth-shared.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -57,176 +58,155 @@
     <!-- Main Calculator Content -->
     <div class="main-container">
         <div class="calculator-wrapper">
-            <div class="calculator-grid">
+            <!-- Categories Grid - Arranged like checklist page with rounded rectangles -->
+            <div class="calculator-categories-grid">
                 <!-- Group Details Section -->
-                <div class="calculator-section">
-                    <h2><i class="fas fa-users"></i> Group Details</h2>
-                    <div class="input-group">
-                        <label for="people">Number of People</label>
-                        <input type="number" id="people" placeholder="4" min="1">
+                <div class="calculator-category-box">
+                    <div class="category-header">
+                        <h2><i class="fas fa-users"></i> Group Details</h2>
                     </div>
-                    <div class="input-group">
-                        <label for="days">Trip Duration</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="days" placeholder="3" min="1">
-                            <span class="unit">days</span>
+                    <div class="category-content">
+                        <div class="input-group">
+                            <label for="people">Number of People</label>
+                            <input type="number" id="people" placeholder="4" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="days">Trip Duration</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="days" placeholder="3" min="1">
+                                <span class="unit">days</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Transportation Section -->
-                <div class="calculator-section">
-                    <h2><i class="fas fa-car"></i> Transportation</h2>
-                    <div class="input-group">
-                        <label for="transport-type">Transport Type</label>
-                        <select id="transport-type">
-                            <option value="car">Car</option>
-                            <option value="bus">Bus</option>
-                            <option value="train">Train</option>
-                            <option value="flight">Flight</option>
-                        </select>
+                <div class="calculator-category-box">
+                    <div class="category-header">
+                        <h2><i class="fas fa-car"></i> Transportation</h2>
                     </div>
-                    <div class="input-group">
-                        <label for="num-vehicles">Number of Vehicles/Tickets</label>
-                        <input type="number" id="num-vehicles" placeholder="1" min="1">
-                    </div>
-                    <div class="input-group">
-                        <label for="distance">Total Distance</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="distance" placeholder="500" min="0">
-                            <select id="distance-unit">
-                                <option value="km">Kilometers</option>
-                                <option value="miles">Miles</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="fuelEfficiency">Fuel Efficiency</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="fuelEfficiency" placeholder="25" min="0" step="0.1">
-                            <select id="fuel-unit">
-                                <option value="kmpl">km/L</option>
-                                <option value="mpg">MPG</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="fuelPrice">Fuel Price</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="fuelPrice" placeholder="100" min="0" step="0.01">
-                            <select id="price-unit">
-                                <option value="liter">per Liter</option>
-                                <option value="gallon">per Gallon</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="parking-toll">Parking/Toll Costs</label>
-                        <input type="number" id="parking-toll" placeholder="0" min="0" step="0.01">
+                    <div class="category-content">
+                        <div id="transportation-modes-container"></div>
+                        <button type="button" id="add-transport-mode" class="add-transport-btn"><i class="fas fa-plus"></i> Add Transport Mode</button>
                     </div>
                 </div>
 
                 <!-- Accommodation Section -->
-                <div class="calculator-section">
-                    <h2><i class="fas fa-bed"></i> Accommodation</h2>
-                    <div class="input-group">
-                        <label for="accommodation-type">Accommodation Type</label>
-                        <select id="accommodation-type">
-                            <option value="hotel">Hotel</option>
-                            <option value="hostel">Hostel</option>
-                            <option value="airbnb">Airbnb</option>
-                        </select>
+                <div class="calculator-category-box">
+                    <div class="category-header">
+                        <h2><i class="fas fa-bed"></i> Accommodation</h2>
                     </div>
-                    <div class="input-group">
-                        <label for="nights">Number of Nights</label>
-                        <input type="number" id="nights" placeholder="3" min="0">
-                    </div>
-                    <div class="input-group">
-                        <label for="num-rooms">Number of Rooms</label>
-                        <input type="number" id="num-rooms" placeholder="1" min="1">
-                    </div>
-                    <div class="input-group">
-                        <label for="accommodation-cost">Cost per Night</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="accommodation-cost" placeholder="5000" min="0" step="0.01">
-                            <span class="currency">₹</span>
+                    <div class="category-content">
+                        <div class="input-group">
+                            <label for="accommodation-type">Accommodation Type</label>
+                            <select id="accommodation-type">
+                                <option value="hotel">Hotel</option>
+                                <option value="hostel">Hostel</option>
+                                <option value="airbnb">Airbnb</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="nights">Number of Nights</label>
+                            <input type="number" id="nights" placeholder="3" min="0">
+                        </div>
+                        <div class="input-group">
+                            <label for="num-rooms">Number of Rooms</label>
+                            <input type="number" id="num-rooms" placeholder="1" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="accommodation-cost">Cost per Night</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="accommodation-cost" placeholder="5000" min="0" step="0.01">
+                                <span class="currency">₹</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-group">
                 </div>
 
                 <!-- Food Section -->
-                <div class="calculator-section">
-                    <h2><i class="fas fa-utensils"></i> Food</h2>
-                    <div class="input-group">
-                        <label for="meals-per-day">Meals per Day</label>
-                        <input type="number" id="meals-per-day" placeholder="3" min="1">
+                <div class="calculator-category-box">
+                    <div class="category-header">
+                        <h2><i class="fas fa-utensils"></i> Food</h2>
                     </div>
-                    <div class="input-group">
-                        <label for="snacks">Snacks/Drinks Budget</label>
-                        <input type="number" id="snacks" placeholder="500" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="daily-food">Daily Food Budget</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="daily-food" placeholder="2000" min="0" step="0.01">
-                            <span class="currency">₹</span>
+                    <div class="category-content">
+                        <div class="input-group">
+                            <label for="meals-per-day">Meals per Day</label>
+                            <input type="number" id="meals-per-day" placeholder="3" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label for="snacks">Snacks/Drinks Budget</label>
+                            <input type="number" id="snacks" placeholder="500" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="daily-food">Daily Food Budget</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="daily-food" placeholder="2000" min="0" step="0.01">
+                                <span class="currency">₹</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Tourist Places Expenses Section -->
-                <div class="calculator-section">
-                    <h2><i class="fas fa-map-marker-alt"></i> Tourist Places Expenses</h2>
-                    <div class="input-group">
-                        <label for="entry-fees">Entry Fees</label>
-                        <input type="number" id="entry-fees" placeholder="0" min="0" step="0.01">
+                <div class="calculator-category-box">
+                    <div class="category-header">
+                        <h2><i class="fas fa-map-marker-alt"></i> Tourist Places</h2>
                     </div>
-                    <div class="input-group">
-                        <label for="guide-charges">Guide Charges</label>
-                        <input type="number" id="guide-charges" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="souvenirs">Souvenirs</label>
-                        <input type="number" id="souvenirs" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="local-transport">Local Transport</label>
-                        <input type="number" id="local-transport" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="activities">Total Tourist Places Budget</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="activities" placeholder="10000" min="0" step="0.01">
-                            <span class="currency">₹</span>
+                    <div class="category-content">
+                        <div class="input-group">
+                            <label for="entry-fees">Entry Fees</label>
+                            <input type="number" id="entry-fees" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="guide-charges">Guide Charges</label>
+                            <input type="number" id="guide-charges" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="souvenirs">Souvenirs</label>
+                            <input type="number" id="souvenirs" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="local-transport">Local Transport</label>
+                            <input type="number" id="local-transport" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="activities">Total Tourist Places Budget</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="activities" placeholder="10000" min="0" step="0.01">
+                                <span class="currency">₹</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Miscellaneous Expenses Section -->
-                <div class="calculator-section">
-                    <h2><i class="fas fa-coins"></i> Miscellaneous Expenses</h2>
-                    <div class="input-group">
-                        <label for="emergency-fund">Emergency Fund</label>
-                        <input type="number" id="emergency-fund" placeholder="0" min="0" step="0.01">
+                <div class="calculator-category-box">
+                    <div class="category-header">
+                        <h2><i class="fas fa-coins"></i> Miscellaneous</h2>
                     </div>
-                    <div class="input-group">
-                        <label for="insurance">Insurance</label>
-                        <input type="number" id="insurance" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="tips">Tips</label>
-                        <input type="number" id="tips" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="shopping">Shopping</label>
-                        <input type="number" id="shopping" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="input-group">
-                        <label for="miscellaneous">Miscellaneous Budget</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="miscellaneous" placeholder="0" min="0" step="0.01">
-                            <span class="currency">₹</span>
+                    <div class="category-content">
+                        <div class="input-group">
+                            <label for="emergency-fund">Emergency Fund</label>
+                            <input type="number" id="emergency-fund" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="insurance">Insurance</label>
+                            <input type="number" id="insurance" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="tips">Tips</label>
+                            <input type="number" id="tips" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="shopping">Shopping</label>
+                            <input type="number" id="shopping" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="miscellaneous">Miscellaneous Budget</label>
+                            <div class="input-with-unit">
+                                <input type="number" id="miscellaneous" placeholder="0" min="0" step="0.01">
+                                <span class="currency">₹</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -350,7 +330,7 @@
             </div>
             
             <div class="modal-footer">
-                <p>Not a member? <a href="#" class="signup-link" onclick="showSignupMessage()">Sign up now</a></p>
+                <p>Not a member? <a href="../AUTH/signup.html" class="signup-link">Sign up now</a></p>
             </div>
         </div>
     </div>
@@ -394,13 +374,64 @@
             }
         }
 
-        // Form submission
+        // Form submission - Real login functionality
         document.querySelector('.login-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Login functionality coming soon!');
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember').checked;
+            
+            // Get stored users
+            const users = JSON.parse(localStorage.getItem('travelPlannerUsers') || '[]');
+            
+            // Find user with matching credentials
+            const user = users.find(u => 
+                u.email.toLowerCase() === email.toLowerCase() && u.password === password
+            );
+            
+            if (user) {
+                // Create session
+                const session = {
+                    user: {
+                        id: user.id,
+                        fullName: user.fullName || (user.firstName + ' ' + (user.lastName || '')),
+                        email: user.email
+                    },
+                    loginTime: Date.now(),
+                    expiresAt: Date.now() + (24 * 60 * 60 * 1000), // 24 hours
+                    rememberMe: rememberMe
+                };
+                
+                localStorage.setItem('travelPlannerAuth', JSON.stringify(session));
+                
+                // Close modal and show success
+                closeLoginModal();
+                
+                // Show success message using auth-shared notification
+                if (typeof showNotification === 'function') {
+                    showNotification('Login successful! Welcome back!', 'success');
+                } else {
+                    alert('Login successful! Welcome back!');
+                }
+                
+                // Reload page to update navbar
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+                
+            } else {
+                // Show error message
+                if (typeof showNotification === 'function') {
+                    showNotification('Invalid email or password. Please try again.', 'error');
+                } else {
+                    alert('Invalid email or password. Please try again.');
+                }
+            }
         });
     </script>
 
+    <script src="../AUTH/auth-shared.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
