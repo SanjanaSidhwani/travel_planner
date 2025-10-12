@@ -36,7 +36,7 @@ body {
     color: var(--text-primary);
     min-height: 100vh;
     line-height: 1.6;
-    padding-top: 180px; /* Increased for larger navbar */
+    padding-top: 120px;
 }
 
 /* ===== NAVBAR ===== */
@@ -54,15 +54,16 @@ body {
 .navbar-container {
     width: 100%;
     max-width: none;
-    padding: 2rem 3rem 1rem 3rem;
+    padding: 1.5rem 3rem 0.5rem 3rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .navbar-logo {
-    text-align: center;
+    flex-shrink: 0;
 }
 
 .navbar-logo h1 {
@@ -76,30 +77,25 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+/* Navigation content row */
 .navbar-content {
-    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    max-width: 1400px;
+    flex-grow: 1;
+    max-width: none;
     position: relative;
 }
 
+/* Main navigation menu */
 .navbar-menu {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 4rem;
+    gap: 2.5rem;
     justify-content: center;
-}
-
-.navbar-utilities {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    position: absolute;
-    right: 0;
+    flex: 1;
 }
 
 .nav-link {
@@ -116,6 +112,13 @@ body {
 .nav-link:hover,
 .nav-link.active {
     opacity: 1;
+}
+
+/* Right side utilities */
+.navbar-utilities {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .language-toggle {
@@ -155,6 +158,26 @@ body {
 
 .user-btn {
     font-size: 1.3rem;
+}
+
+.login-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    opacity: 1;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
 .search-bar input {
