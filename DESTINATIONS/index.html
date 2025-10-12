@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Destinations - Travel Planner</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../AUTH/auth-shared.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
@@ -209,7 +210,7 @@
             </div>
             
             <div class="modal-footer">
-                <p>Not a member? <a href="#" class="signup-link" onclick="showSignupMessage()">Sign up now</a></p>
+                <p>Not a member? <a href="../AUTH/signup.html" class="signup-link">Sign up now</a></p>
             </div>
         </div>
     </div>
@@ -242,32 +243,58 @@
         }
 
         function showSignupMessage() {
-            alert('Sign up functionality coming soon!');
+            // FIXED: Ensure signup navigation works reliably
+            // Primary method: direct navigation to signup page
+            window.location.href = '../AUTH/signup.html';
+        }
+        
+        // FIXED: Additional signup navigation helper for backup
+        // This ensures signup button works even if called from different contexts
+        function navigateToSignup() {
+            window.location.href = '../AUTH/signup.html';
         }
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
+        // Close modal when clicking outside - FIXED: More specific targeting to prevent interference with links
+        // Previously this was using a broad window.onclick that could interfere with signup links
+        document.addEventListener('DOMContentLoaded', function() {
             const modal = document.getElementById('loginModal');
-            if (event.target === modal) {
-                closeLoginModal();
+            if (modal) {
+                modal.addEventListener('click', function(event) {
+                    // Only close if clicking on the modal backdrop itself, not its contents
+                    if (event.target === modal) {
+                        closeLoginModal();
+                    }
+                });
             }
-        }
-
-        // Form submission
-        document.querySelector('.login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Login functionality coming soon!');
         });
     </script>
 
     <script src="script.js"></script>
+    <script src="../AUTH/auth-shared.js"></script>
     <script>
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // Give a small delay to ensure script.js has loaded
+            // FIXED: Ensure signup link functionality is protected from interference
+            // Add explicit event handler to guarantee signup link works
+            const signupLink = document.querySelector('.signup-link');
+            if (signupLink) {
+                signupLink.addEventListener('click', function(e) {
+                    // Ensure default link behavior works (navigate to signup page)
+                    // This prevents any other scripts from interfering
+                    e.stopPropagation(); // Prevent modal close handlers from interfering
+                    // Let the default href behavior proceed
+                });
+            }
+            
+            // Give a small delay to ensure all scripts have loaded
             setTimeout(function() {
                 if (typeof initializePage === 'function') {
                     initializePage();
+                }
+                
+                // Initialize authentication
+                if (typeof initializeAuth === 'function') {
+                    initializeAuth();
                 }
             }, 100);
         });
