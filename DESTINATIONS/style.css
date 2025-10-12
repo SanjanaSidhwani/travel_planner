@@ -27,9 +27,10 @@ body {
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0 15px;
 }
 
 a {
@@ -415,9 +416,10 @@ a {
 
 .destinations-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 25px;
-    padding: 0 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 0;
+    width: 100%;
 }
 
 /* Destination Card Styling (will be rendered by JS) */
@@ -549,8 +551,9 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 16px;
+    padding-top: 8px;
     margin-top: auto;
+    transform: translateY(-8px);
 }
 
 .destination-price {
@@ -585,11 +588,12 @@ a {
     font-size: 0.9rem;
     white-space: nowrap;
     line-height: 1;
+    transform: translateY(-2px);
 }
 
 .plan-trip-btn:hover {
     background-color: #555;
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -866,6 +870,11 @@ a {
         margin-top: 10px;
         justify-content: center;
     }
+    .destinations-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        padding: 0 10px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -898,9 +907,9 @@ a {
         width: 100%;
     }
     .destinations-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 0 5px;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        padding: 0 10px;
     }
     .destination-card {
         height: auto;
@@ -939,7 +948,9 @@ a {
         padding: 20px 0;
     }
     .destinations-grid {
-        gap: 20px;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0 5px;
     }
     .modal-content {
         padding: 20px;
