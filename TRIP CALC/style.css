@@ -1,3 +1,65 @@
+/* --- Wider and clearer number input fields for transport modes --- */
+.transport-mode-block input[type="number"] {
+    width: 120px;
+    font-size: 1.1rem;
+    padding: 0.4rem 0.6rem;
+    border: 1.5px solid #bdbdbd;
+    border-radius: 5px;
+    background: #fff;
+    box-sizing: border-box;
+}
+.transport-mode-block .input-with-unit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+/* --- Transport Modes Dynamic UI --- */
+.transport-mode-block {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #fafbfc;
+    position: relative;
+}
+.transport-mode-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+.remove-transport-btn {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.remove-transport-btn:hover {
+    background: #b52a37;
+}
+.add-transport-btn {
+    background: #17a2b8;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.add-transport-btn:hover {
+    background: #138496;
+}
 /* ====================================
    TRAVEL PLANNER - TRIP CALCULATOR
    Black and White Design

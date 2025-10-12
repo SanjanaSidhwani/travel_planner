@@ -78,53 +78,8 @@
                 <!-- Transportation Section -->
                 <div class="calculator-section">
                     <h2><i class="fas fa-car"></i> Transportation</h2>
-                    <div class="input-group">
-                        <label for="transport-type">Transport Type</label>
-                        <select id="transport-type">
-                            <option value="car">Car</option>
-                            <option value="bus">Bus</option>
-                            <option value="train">Train</option>
-                            <option value="flight">Flight</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label for="num-vehicles">Number of Vehicles/Tickets</label>
-                        <input type="number" id="num-vehicles" placeholder="1" min="1">
-                    </div>
-                    <div class="input-group">
-                        <label for="distance">Total Distance</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="distance" placeholder="500" min="0">
-                            <select id="distance-unit">
-                                <option value="km">Kilometers</option>
-                                <option value="miles">Miles</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="fuelEfficiency">Fuel Efficiency</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="fuelEfficiency" placeholder="25" min="0" step="0.1">
-                            <select id="fuel-unit">
-                                <option value="kmpl">km/L</option>
-                                <option value="mpg">MPG</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="fuelPrice">Fuel Price</label>
-                        <div class="input-with-unit">
-                            <input type="number" id="fuelPrice" placeholder="100" min="0" step="0.01">
-                            <select id="price-unit">
-                                <option value="liter">per Liter</option>
-                                <option value="gallon">per Gallon</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="parking-toll">Parking/Toll Costs</label>
-                        <input type="number" id="parking-toll" placeholder="0" min="0" step="0.01">
-                    </div>
+                    <div id="transportation-modes-container"></div>
+                    <button type="button" id="add-transport-mode" class="add-transport-btn"><i class="fas fa-plus"></i> Add Transport Mode</button>
                 </div>
 
                 <!-- Accommodation Section -->
