@@ -46,6 +46,27 @@ const initialChecklist = {
         { text: 'Reusable Water Bottle', checked: false },
         { text: 'Snacks (for the journey)', checked: false },
     ],
+    'Safety & Emergency': [
+        { text: 'Whistle / Pepper Spray', checked: false },
+        { text: 'ID Copies', checked: false },
+        { text: 'Emergency Cash', checked: false },
+        { text: 'Emergency Numbers', checked: false },
+        { text: 'Luggage Locks', checked: false },
+        { text: 'First Aid / Health Kit', checked: false },
+        { text: 'Flashlight / Torch', checked: false },
+        { text: 'Travel Documents Backup', checked: false },
+        { text: 'Safety App / Tracker', checked: false },
+    ],
+    'Food & Snacks': [
+        { text: 'Non-perishable Snacks', checked: false },
+        { text: 'Special Dietary Items', checked: false },
+        { text: 'Reusable Utensils', checked: false },
+        { text: 'Tea / Coffee Sachets', checked: false },
+        { text: 'Protein Bars / Nuts', checked: false },
+        { text: 'Instant Meals / Soups', checked: false },
+        { text: 'Water Bottle / Flask', checked: false },
+        { text: 'Candy / Chocolates', checked: false },
+    ],
 };
 
 let checklistData;
