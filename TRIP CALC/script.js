@@ -12,42 +12,134 @@ class TripCalculator {
     }
 
     init() {
+        this.transportModeIndex = 0;
         this.bindEvents();
         this.setDefaultValues();
+        this.initTransportModes();
     }
 
     bindEvents() {
         const calculateBtn = document.getElementById('calculate-btn');
         const resetBtn = document.getElementById('reset-btn');
-
         if (calculateBtn) {
             calculateBtn.addEventListener('click', () => this.calculateTripCost());
         }
-
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetCalculator());
         }
-
-        // Auto-calculate when inputs change (with debouncing)
-        const inputs = document.querySelectorAll('input[type="number"]');
-        inputs.forEach(input => {
-            input.addEventListener('input', this.debounce(() => {
-                if (this.hasRequiredValues()) {
-                    this.calculateTripCost();
-                }
-            }, 500));
-        });
-
         // Sync days with accommodation nights
         const daysInput = document.getElementById('days');
         const nightsInput = document.getElementById('nights');
-        
         if (daysInput && nightsInput) {
             daysInput.addEventListener('input', () => {
                 const days = parseInt(daysInput.value) || 0;
                 nightsInput.value = Math.max(0, days - 1);
             });
         }
+        // Add transport mode button
+        const addTransportBtn = document.getElementById('add-transport-mode');
+        if (addTransportBtn) {
+            addTransportBtn.addEventListener('click', () => this.addTransportMode());
+        }
+    }
+
+    initTransportModes() {
+        // Add one default mode
+        this.addTransportMode();
+    }
+
+    addTransportMode(defaults = {}) {
+        const container = document.getElementById('transportation-modes-container');
+        if (!container) return;
+        // If no modes exist, reset index to 0
+        if (container.children.length === 0) {
+            this.transportModeIndex = 0;
+        }
+        const idx = this.transportModeIndex++;
+        const modeDiv = document.createElement('div');
+        modeDiv.className = 'transport-mode-block';
+        modeDiv.dataset.idx = idx;
+        modeDiv.innerHTML = `
+            <div class="transport-mode-header">
+                <span>Mode #${idx + 1}</span>
+                <button type="button" class="remove-transport-btn" title="Remove Mode">&times;</button>
+            </div>
+            <div class="input-group">
+                <label>Transport Type</label>
+                <select class="transport-type">
+                    <option value="car">Car</option>
+                    <option value="bus">Bus</option>
+                    <option value="train">Train</option>
+                    <option value="flight">Flight</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Number of Vehicles/Tickets</label>
+                <input type="number" class="num-vehicles" placeholder="1" min="1" value="${defaults.numVehicles || 1}" autocomplete="off">
+            </div>
+            <div class="input-group car-fields">
+                <label>Total Distance</label>
+                <div class="input-with-unit">
+                    <input type="number" class="distance" placeholder="500" min="0" value="${defaults.distance || ''}" autocomplete="off">
+                    <select class="distance-unit">
+                        <option value="km">Kilometers</option>
+                        <option value="miles">Miles</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group car-fields">
+                <label>Fuel Efficiency</label>
+                <div class="input-with-unit">
+                    <input type="number" class="fuelEfficiency" placeholder="25" min="0" step="0.1" value="${defaults.fuelEfficiency || ''}" autocomplete="off">
+                    <select class="fuel-unit">
+                        <option value="kmpl">km/L</option>
+                        <option value="mpg">MPG</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group car-fields">
+                <label>Fuel Price</label>
+                <div class="input-with-unit">
+                    <input type="number" class="fuelPrice" placeholder="100" min="0" step="0.01" value="${defaults.fuelPrice || ''}" autocomplete="off">
+                    <select class="price-unit">
+                        <option value="liter">per Liter</option>
+                        <option value="gallon">per Gallon</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group car-fields">
+                <label>Parking/Toll Costs</label>
+                <input type="number" class="parking-toll" placeholder="0" min="0" step="0.01" value="${defaults.parkingToll || ''}" autocomplete="off">
+            </div>
+            <div class="input-group ticket-fields" style="display:none">
+                <label>Ticket Price</label>
+                <input type="number" class="ticket-price" placeholder="0" min="0" step="0.01" value="${defaults.ticketPrice || ''}" autocomplete="off">
+            </div>
+        `;
+        container.appendChild(modeDiv);
+        // Remove button
+        modeDiv.querySelector('.remove-transport-btn').onclick = () => {
+            modeDiv.remove();
+            // If all modes are removed, reset index so next mode is #1
+            if (container.children.length === 0) {
+                this.transportModeIndex = 0;
+            }
+        };
+        // Show/hide fields based on type
+        const typeSelect = modeDiv.querySelector('.transport-type');
+        const carFields = modeDiv.querySelectorAll('.car-fields');
+        const ticketFields = modeDiv.querySelectorAll('.ticket-fields');
+        function updateFields() {
+            if (typeSelect.value === 'car') {
+                carFields.forEach(f => f.style.display = 'block');
+                ticketFields.forEach(f => f.style.display = 'none');
+            } else {
+                carFields.forEach(f => f.style.display = 'none');
+                ticketFields.forEach(f => f.style.display = 'block');
+            }
+        }
+        typeSelect.addEventListener('change', updateFields);
+        updateFields();
     }
 
     setDefaultValues() {
@@ -113,23 +205,33 @@ class TripCalculator {
     }
 
     getInputValues() {
+        // Gather all transport modes
+        const transportModes = [];
+        document.querySelectorAll('#transportation-modes-container .transport-mode-block').forEach(modeDiv => {
+            const type = modeDiv.querySelector('.transport-type').value;
+            const numVehicles = parseInt(modeDiv.querySelector('.num-vehicles').value) || 1;
+            if (type === 'car') {
+                const distance = parseFloat(modeDiv.querySelector('.distance').value) || 0;
+                const distanceUnit = modeDiv.querySelector('.distance-unit').value;
+                const fuelEfficiency = parseFloat(modeDiv.querySelector('.fuelEfficiency').value) || 0;
+                const fuelUnit = modeDiv.querySelector('.fuel-unit').value;
+                const fuelPrice = parseFloat(modeDiv.querySelector('.fuelPrice').value) || 0;
+                const priceUnit = modeDiv.querySelector('.price-unit').value;
+                const parkingToll = parseFloat(modeDiv.querySelector('.parking-toll').value) || 0;
+                transportModes.push({ type, numVehicles, distance, distanceUnit, fuelEfficiency, fuelUnit, fuelPrice, priceUnit, parkingToll });
+            } else {
+                const ticketPrice = parseFloat(modeDiv.querySelector('.ticket-price').value) || 0;
+                transportModes.push({ type, numVehicles, ticketPrice });
+            }
+        });
         return {
-            // Transportation
-            distance: parseFloat(document.getElementById('distance')?.value) || 0,
-            fuelEfficiency: parseFloat(document.getElementById('fuelEfficiency')?.value) || 0,
-            fuelPrice: parseFloat(document.getElementById('fuelPrice')?.value) || 0,
-            distanceUnit: document.getElementById('distance-unit')?.value || 'km',
-            fuelUnit: document.getElementById('fuel-unit')?.value || 'kmpl',
-            priceUnit: document.getElementById('price-unit')?.value || 'liter',
-
+            transportModes,
             // Accommodation
             nights: parseInt(document.getElementById('nights')?.value) || 0,
             accommodationCost: parseFloat(document.getElementById('accommodation-cost')?.value) || 0,
-
             // Food & Activities
             dailyFood: parseFloat(document.getElementById('daily-food')?.value) || 0,
             activities: parseFloat(document.getElementById('activities')?.value) || 0,
-
             // Group details
             people: parseInt(document.getElementById('people')?.value) || 1,
             days: parseInt(document.getElementById('days')?.value) || 1
@@ -137,9 +239,15 @@ class TripCalculator {
     }
 
     validateInputs(inputs) {
-        // Check required fields
-        if (inputs.distance <= 0 || inputs.fuelEfficiency <= 0 || inputs.fuelPrice <= 0) {
-            return false;
+        // At least one transport mode
+        if (!inputs.transportModes.length) return false;
+        // Validate each mode
+        for (const mode of inputs.transportModes) {
+            if (mode.type === 'car') {
+                if (mode.distance <= 0 || mode.fuelEfficiency <= 0 || mode.fuelPrice <= 0 || mode.numVehicles <= 0) return false;
+            } else {
+                if (mode.ticketPrice <= 0 || mode.numVehicles <= 0) return false;
+            }
         }
         if (inputs.people <= 0 || inputs.days <= 0) {
             return false;
@@ -148,51 +256,45 @@ class TripCalculator {
     }
 
     performCalculations(inputs) {
-        // Transportation cost calculation
-        let fuelNeeded;
-        if (inputs.fuelUnit === 'kmpl') {
-            fuelNeeded = inputs.distance / inputs.fuelEfficiency;
-        } else { // mpg
-            // Convert miles to km if needed
-            const distanceInKm = inputs.distanceUnit === 'miles' ? inputs.distance * 1.60934 : inputs.distance;
-            // Convert mpg to km/L (1 mpg ≈ 0.425 km/L)
-            const efficiencyInKmpl = inputs.fuelEfficiency * 0.425144;
-            fuelNeeded = distanceInKm / efficiencyInKmpl;
+        // Sum all transport modes
+        let transportationCost = 0;
+        for (const mode of inputs.transportModes) {
+            if (mode.type === 'car') {
+                let fuelNeeded;
+                if (mode.fuelUnit === 'kmpl') {
+                    fuelNeeded = (mode.distance / mode.fuelEfficiency) * mode.numVehicles;
+                } else { // mpg
+                    const distanceInKm = mode.distanceUnit === 'miles' ? mode.distance * 1.60934 : mode.distance;
+                    const efficiencyInKmpl = mode.fuelEfficiency * 0.425144;
+                    fuelNeeded = (distanceInKm / efficiencyInKmpl) * mode.numVehicles;
+                }
+                let fuelCostMultiplier = 1;
+                if ((mode.fuelUnit === 'kmpl' && mode.priceUnit === 'gallon') ||
+                    (mode.fuelUnit === 'mpg' && mode.priceUnit === 'liter')) {
+                    fuelCostMultiplier = mode.priceUnit === 'gallon' ? 3.78541 : 0.264172;
+                }
+                const fuelCost = fuelNeeded * mode.fuelPrice * fuelCostMultiplier;
+                transportationCost += fuelCost + (mode.parkingToll || 0);
+            } else {
+                transportationCost += mode.ticketPrice * mode.numVehicles;
+            }
         }
-
-        let fuelCostMultiplier = 1;
-        if ((inputs.fuelUnit === 'kmpl' && inputs.priceUnit === 'gallon') ||
-            (inputs.fuelUnit === 'mpg' && inputs.priceUnit === 'liter')) {
-            fuelCostMultiplier = inputs.priceUnit === 'gallon' ? 3.78541 : 0.264172; // Convert between gallons and liters
-        }
-
-        const transportationCost = fuelNeeded * inputs.fuelPrice * fuelCostMultiplier;
-
         // Accommodation cost
         const accommodationTotal = inputs.nights * inputs.accommodationCost;
-
         // Food cost
         const foodTotal = inputs.days * inputs.dailyFood * inputs.people;
-
         // Activities cost (usually shared, but can be per person)
         const activitiesTotal = inputs.activities;
-
         // Total cost
         const totalCost = transportationCost + accommodationTotal + foodTotal + activitiesTotal;
         const costPerPerson = totalCost / inputs.people;
-
         return {
             transportation: transportationCost,
             accommodation: accommodationTotal,
             food: foodTotal,
             activities: activitiesTotal,
             total: totalCost,
-            perPerson: costPerPerson,
-            breakdown: {
-                fuelNeeded: fuelNeeded,
-                nights: inputs.nights,
-                dailyFoodCost: inputs.dailyFood * inputs.people
-            }
+            perPerson: costPerPerson
         };
     }
 
@@ -222,28 +324,29 @@ class TripCalculator {
     }
 
     resetCalculator() {
-        // Reset all input fields
-        const inputs = document.querySelectorAll('input[type="number"]');
+        // Remove all transport modes
+        const container = document.getElementById('transportation-modes-container');
+        if (container) container.innerHTML = '';
+        this.transportModeIndex = 0;
+        this.initTransportModes();
+        // Reset all input fields except transport modes
+        const inputs = document.querySelectorAll('.calculator-section input[type="number"]:not(.num-vehicles):not(.distance):not(.fuelEfficiency):not(.fuelPrice):not(.parking-toll):not(.flight-price)');
         inputs.forEach(input => {
             input.value = '';
         });
-
-        // Reset selects to default
-        const selects = document.querySelectorAll('select');
+        // Reset selects to default except transport modes
+        const selects = document.querySelectorAll('.calculator-section select:not(.transport-type):not(.distance-unit):not(.fuel-unit):not(.price-unit)');
         selects.forEach(select => {
             select.selectedIndex = 0;
         });
-
         // Hide results
         const resultSection = document.getElementById('result');
         if (resultSection) {
             resultSection.style.display = 'none';
             resultSection.classList.remove('fade-in');
         }
-
         // Set defaults again
         this.setDefaultValues();
-
         this.showNotification('Calculator reset successfully', 'info');
     }
 
