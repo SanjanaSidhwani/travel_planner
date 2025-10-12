@@ -557,6 +557,9 @@ a {
     font-weight: 700;
     color: #4CAF50;
     font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    line-height: 1;
 }
 
 .destination-price .price-label {
@@ -581,6 +584,7 @@ a {
     gap: 6px;
     font-size: 0.9rem;
     white-space: nowrap;
+    line-height: 1;
 }
 
 .plan-trip-btn:hover {
