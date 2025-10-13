@@ -3,19 +3,33 @@
 
 /* CSS Variables - matching site color scheme */
 :root {
+    /* Layout Variables */
     --navbar-height: 80px;
-    --midnight-green: #0E3B43;
-    --dark-cyan: #357C8A;
-    --columbia-blue: #B8D4D1;
-    --sunset: #F4A261;
-    --light-coral: #E76F51;
-    --white: #FFFFFF;
-    --bg-dark: #1a1a1a;
-    --text-light: #666;
-    --border-light: #e1e1e1;
-    --success: #28a745;
-    --error: #dc3545;
-    --warning: #ffc107;
+    --primary-forest: #264653;
+    --accent-amber: #E9C46A;
+    --highlight-orange: #F4A261;
+    --background-off-white: #FAFAFA;
+    --text-charcoal: #1A1A1A;
+    
+    /* Legacy variable mapping */
+    --battleship-gray: #808080;
+    --light-coral: var(--primary-forest);
+    --midnight-green: var(--primary-forest);
+    --sunset: var(--accent-amber);
+    --columbia-blue: var(--background-off-white);
+    --white: #ffffff;
+    --text-dark: var(--text-charcoal);
+    --light-gray: #f8f8f8;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #333333;
+    
+    /* Legacy compatibility */
+    --bg-dark: var(--primary-forest);
+    --text-light: var(--battleship-gray);
+    --border-light: var(--medium-gray);
+    --success: var(--primary-forest);
+    --error: var(--highlight-orange);
+    --warning: var(--accent-amber);
 }
 
 /* Global Styles */
@@ -27,7 +41,7 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, var(--midnight-green) 0%, var(--dark-cyan) 100%);
+    background: linear-gradient(135deg, var(--primary-forest) 0%, var(--accent-amber) 100%);
     min-height: 100vh;
     line-height: 1.6;
     color: var(--midnight-green);
@@ -42,7 +56,7 @@ body {
     width: 100%;
     height: var(--navbar-height);
     z-index: 10000;
-    background: #000000;
+    background: var(--primary-forest);
     padding: 0;
     margin: 0;
     display: flex;
@@ -131,7 +145,7 @@ body {
 .user-btn {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--accent-amber);
     font-size: 1.1rem;
     cursor: pointer;
     opacity: 0.8;

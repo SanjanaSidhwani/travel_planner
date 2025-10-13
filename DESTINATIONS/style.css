@@ -5,16 +5,27 @@
     padding: 0;
 }
 
-/* Black and White Color Scheme Variables */
+/* Forest & Amber Color Scheme Variables */
 :root {
+    /* Layout Variables */
     --navbar-height: 80px;
-    --battleship-gray: #666666;
-    --light-coral: #000000;
-    --midnight-green: #000000;
-    --sunset: #666666;
-    --columbia-blue: #f0f0f0;
+    --primary-forest: #264653;
+    --accent-amber: #E9C46A;
+    --highlight-orange: #F4A261;
+    --background-off-white: #FAFAFA;
+    --text-charcoal: #1A1A1A;
+    
+    /* Legacy variable mapping */
+    --battleship-gray: #808080;
+    --light-coral: var(--primary-forest);
+    --midnight-green: var(--primary-forest);
+    --sunset: var(--accent-amber);
+    --columbia-blue: var(--background-off-white);
     --white: #ffffff;
-    --text-dark: #000000;
+    --text-dark: var(--text-charcoal);
+    --light-gray: #f8f8f8;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #333333;
 }
 
 body {
@@ -22,31 +33,10 @@ body {
     margin: 0;
     padding: 0;
     padding-top: var(--navbar-height);
-    background-color: #000000;
-    color: var(--white);
+    background-color: var(--background-off-white);
+    color: var(--text-charcoal);
     line-height: 1.6;
     min-height: 100vh;
-}
-
-/* Ensure all sections have consistent black background */
-section {
-    background: #000000 !important;
-    margin: 0 !important;
-    border: none !important;
-}
-
-/* Ensure no gaps between sections */
-section:first-of-type,
-.hero-section {
-    margin-top: 0 !important;
-}
-
-/* Remove any white lines between specific sections */
-.hero-section,
-.filters-section,
-.destinations-section {
-    margin: 0 !important;
-    border: none !important;
 }
 
 /* ===== NAVBAR ===== */
@@ -57,7 +47,7 @@ section:first-of-type,
     width: 100%;
     height: var(--navbar-height);
     z-index: 10000;
-    background: #000000;
+    background: var(--primary-forest);
     padding: 0;
     margin: 0;
     display: flex;
@@ -146,7 +136,7 @@ section:first-of-type,
 .user-btn {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--accent-amber);
     font-size: 1.1rem;
     cursor: pointer;
     opacity: 0.8;
@@ -482,7 +472,7 @@ section:first-of-type,
     width: 100%;
     margin: 0;
     padding: 0 20px;
-    background: #000000;
+    background: var(--primary-forest);
 }
 
 a {
@@ -678,8 +668,8 @@ a {
 
 /* --- Filters Section --- */
 .filters-section {
-    background-color: #000000;
-    background: #000000;
+    background-color: var(--primary-forest);
+    background: var(--primary-forest);
     padding: 0;
     border: none;
     border-bottom: none;
@@ -691,8 +681,8 @@ a {
 /* Make sure filters section stays black */
 section.filters-section,
 .filters-section {
-    background: #000000;
-    background-color: #000000;
+    background: var(--primary-forest);
+    background-color: var(--primary-forest);
     margin: 0;
     padding: 0;
     border: none;
@@ -705,7 +695,7 @@ section.filters-section,
     gap: 30px;
     padding: 15px 0;
     margin: 0;
-    background: #000000;
+    background: var(--primary-forest);
 }
 
 .filter-group {
@@ -1455,8 +1445,8 @@ html,
 .filters-section,
 .destinations-section,
 section {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    background: var(--primary-forest) !important;
+    background-color: var(--primary-forest) !important;
 }
 
 /* Remove any potential gaps between sections */

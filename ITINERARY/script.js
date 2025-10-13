@@ -86,7 +86,8 @@ class TripPlannerState {
         };
 
         this.saveTrip();
-        this.updateUI();
+        this.renderTrip(this.currentTrip);
+        this.updateHomeCountdown();
         this.showNotification(`Trip "${tripName}" created successfully!`, 'success');
     }
 
@@ -670,6 +671,11 @@ class TripPlannerState {
     }
 
     // --- UI Management ---
+    renderTrip(tripData) {
+        this.currentTrip = tripData;
+        this.updateUI();
+    }
+
     updateUI() {
         const setupSection = document.getElementById('trip-setup');
         const planningSection = document.getElementById('itinerary-planning');
@@ -819,7 +825,12 @@ class TripPlannerState {
     loadTrip() {
         try {
             const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
-            this.currentTrip = stored ? JSON.parse(stored) : null;
+            if (stored) {
+                this.currentTrip = JSON.parse(stored);
+                this.renderTrip(this.currentTrip);
+            } else {
+                this.currentTrip = null;
+            }
         } catch (error) {
             console.error('Failed to load trip:', error);
             this.currentTrip = null;
@@ -828,9 +839,11 @@ class TripPlannerState {
 
     saveTrip() {
         try {
-            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(this.currentTrip));
-            // Update home page countdown when trip is saved
-            this.updateHomeCountdown();
+            if (this.currentTrip) {
+                localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(this.currentTrip));
+                // Update home page countdown when trip is saved
+                this.updateHomeCountdown();
+            }
         } catch (error) {
             console.error('Failed to save trip:', error);
             this.showNotification('Failed to save trip data', 'error');

@@ -5,24 +5,34 @@
     padding: 0;
 }
 
-/* Black and White Color Scheme Variables */
+/* Forest & Amber Color Scheme Variables */
 :root {
-        /* Layout Variables */
+    /* Layout Variables */
     --navbar-height: 80px;
-    --battleship-gray: #666666;
-    --light-coral: #000000;
-    --midnight-green: #000000;
-    --sunset: #666666;
-    --columbia-blue: #f0f0f0;
+    --primary-forest: #264653;
+    --accent-amber: #E9C46A;
+    --highlight-orange: #F4A261;
+    --background-off-white: #FAFAFA;
+    --text-charcoal: #1A1A1A;
+    
+    /* Legacy variable mapping */
+    --battleship-gray: #808080;
+    --light-coral: var(--primary-forest);
+    --midnight-green: var(--primary-forest);
+    --sunset: var(--accent-amber);
+    --columbia-blue: var(--background-off-white);
     --white: #ffffff;
-    --text-dark: #000000;
-    --completed-text: #666666;
+    --text-dark: var(--text-charcoal);
+    --light-gray: #f8f8f8;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #333333;
+    --completed-text: #808080;
 }
 
 body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--white);
-    color: var(--text-dark);
+    background-color: var(--background-off-white);
+    color: var(--text-charcoal);
     margin: 0;
     padding-top: calc(var(--navbar-height) + 20px);
     min-height: 100vh;
@@ -37,7 +47,7 @@ body {
     width: 100%;
     height: var(--navbar-height);
     z-index: 10000;
-    background: #000000;
+    background: var(--primary-forest);
     padding: 0;
     margin: 0;
     display: flex;
@@ -126,7 +136,7 @@ body {
 .user-btn {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--accent-amber);
     font-size: 1.1rem;
     cursor: pointer;
     opacity: 0.8;

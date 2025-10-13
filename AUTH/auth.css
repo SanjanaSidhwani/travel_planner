@@ -11,24 +11,42 @@
 }
 
 :root {
-    --primary-color: #000000;
-    --primary-dark: #333333;
-    --secondary-color: #666666;
-    --success-color: #000000;
-    --error-color: #000000;
-    --warning-color: #666666;
-    --text-primary: #000000;
-    --text-secondary: #333333;
-    --text-muted: #666666;
-    --background: #ffffff;
+    /* Layout Variables */
+    --navbar-height: 80px;
+    --primary-forest: #264653;
+    --accent-amber: #E9C46A;
+    --highlight-orange: #F4A261;
+    --background-off-white: #FAFAFA;
+    --text-charcoal: #1A1A1A;
+    
+    /* Legacy variable mapping */
+    --battleship-gray: #808080;
+    --light-coral: var(--primary-forest);
+    --midnight-green: var(--primary-forest);
+    --sunset: var(--accent-amber);
+    --columbia-blue: var(--background-off-white);
     --white: #ffffff;
-    --border-color: #cccccc;
+    --text-dark: var(--text-charcoal);
+    --light-gray: #f8f8f8;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #333333;
+    
+    /* Legacy compatibility */
+    --primary-color: var(--primary-forest);
+    --primary-dark: var(--dark-gray);
+    --secondary-color: var(--battleship-gray);
+    --success-color: var(--primary-forest);
+    --error-color: var(--highlight-orange);
+    --warning-color: var(--accent-amber);
+    --text-primary: var(--text-charcoal);
+    --text-secondary: var(--dark-gray);
+    --text-muted: var(--battleship-gray);
+    --background: var(--background-off-white);
+    --border-color: var(--medium-gray);
     --border-radius: 12px;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
-        /* Layout Variables */
-    --navbar-height: 80px;
 }
 
 body {
@@ -48,7 +66,7 @@ body {
     width: 100%;
     height: var(--navbar-height);
     z-index: 10000;
-    background: #000000;
+    background: var(--primary-forest);
     padding: 0;
     margin: 0;
     display: flex;
@@ -137,7 +155,7 @@ body {
 .user-btn {
     background: none;
     border: none;
-    color: #ffffff;
+    color: var(--accent-amber);
     font-size: 1.1rem;
     cursor: pointer;
     opacity: 0.8;
