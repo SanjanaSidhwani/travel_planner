@@ -63,11 +63,44 @@ function logout() {
     // Remove session data
     localStorage.removeItem(AUTH_CONFIG.STORAGE_KEY);
     
+    // Clear trip data when logging out
+    localStorage.removeItem('nextTrip');
+    localStorage.removeItem('advancedTripItinerary');
+    
+    // Clear trip countdown directly if the function exists (for HOME page)
+    if (typeof clearTripOnLogout === 'function') {
+        try {
+            clearTripOnLogout();
+        } catch (error) {
+            console.log('Trip clearing function not available on this page');
+        }
+    }
+    
     // Show logout message
     showNotification('You have been logged out successfully', 'info');
     
     // Update UI immediately
     updateNavbarForLoggedOutUser();
+    
+    // Trigger storage events to notify other components about trip data clearing
+    window.dispatchEvent(new StorageEvent('storage', {
+        key: 'nextTrip',
+        newValue: null,
+        storageArea: localStorage
+    }));
+    
+    window.dispatchEvent(new StorageEvent('storage', {
+        key: 'advancedTripItinerary',
+        newValue: null,
+        storageArea: localStorage
+    }));
+    
+    // Trigger auth storage event to notify components about logout
+    window.dispatchEvent(new StorageEvent('storage', {
+        key: AUTH_CONFIG.STORAGE_KEY,
+        newValue: null,
+        storageArea: localStorage
+    }));
     
     // Optional: Redirect to home page after a short delay
     setTimeout(() => {

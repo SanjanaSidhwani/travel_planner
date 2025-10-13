@@ -132,6 +132,17 @@ function clearCurrentTrip() {
     showNotification('Trip cleared successfully!', 'success');
 }
 
+// Silent trip clearing for logout (no notification)
+function clearTripOnLogout() {
+    if (tripCountdown) {
+        tripCountdown.clearTrip();
+    }
+    const clearBtn = document.querySelector('.clear-trip-btn');
+    if (clearBtn) {
+        clearBtn.style.display = 'none';
+    }
+}
+
 // Handle Plan a Trip button click with authentication check
 function handlePlanTripClick() {
     // Check if user is logged in using auth-shared.js function
@@ -189,6 +200,19 @@ window.addEventListener('storage', function(e) {
         }
         // Update clear button visibility
         setTimeout(checkExistingTrip, 100);
+    }
+    
+    // Listen for authentication changes (logout)
+    if (e.key === 'travelPlannerAuth' && e.newValue === null) {
+        // User logged out, clear trips
+        if (tripCountdown) {
+            tripCountdown.clearTrip();
+        }
+        // Hide clear button
+        const clearBtn = document.querySelector('.clear-trip-btn');
+        if (clearBtn) {
+            clearBtn.style.display = 'none';
+        }
     }
 });
 
@@ -485,3 +509,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Make trip clearing function globally available for logout
+window.clearTripOnLogout = clearTripOnLogout;
