@@ -318,6 +318,163 @@ class TripPlannerState {
             return;
         }
 
+        // Show export options modal
+        this.showExportOptions();
+    }
+
+    showExportOptions() {
+        const modal = document.createElement('div');
+        modal.className = 'export-modal-overlay';
+        modal.innerHTML = `
+            <div class="export-modal-content">
+                <div class="export-modal-header">
+                    <h3>Export Itinerary</h3>
+                    <button class="export-modal-close">&times;</button>
+                </div>
+                <div class="export-modal-body">
+                    <p>Choose your preferred export format:</p>
+                    <div class="export-options">
+                        <button class="export-option-btn" data-format="pdf">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>PDF Document</span>
+                            <small>Formatted for printing</small>
+                        </button>
+                        <button class="export-option-btn" data-format="txt">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Text File</span>
+                            <small>Simple text format</small>
+                        </button>
+                        <button class="export-option-btn" data-format="csv">
+                            <i class="fas fa-file-csv"></i>
+                            <span>CSV Spreadsheet</span>
+                            <small>For Excel/Google Sheets</small>
+                        </button>
+                        <button class="export-option-btn" data-format="json">
+                            <i class="fas fa-code"></i>
+                            <span>JSON Data</span>
+                            <small>For backup/import</small>
+                        </button>
+                        <button class="export-option-btn" data-format="html">
+                            <i class="fas fa-globe"></i>
+                            <span>Web Page</span>
+                            <small>Viewable in browser</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        `;
+
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+
+        // Event listeners
+        modal.querySelector('.export-modal-close').addEventListener('click', () => {
+            document.body.removeChild(modal);
+            document.body.style.overflow = '';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                document.body.removeChild(modal);
+                document.body.style.overflow = '';
+            }
+        });
+
+        modal.querySelectorAll('.export-option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const format = btn.dataset.format;
+                this.downloadItinerary(format);
+                document.body.removeChild(modal);
+                document.body.style.overflow = '';
+            });
+        });
+    }
+
+    downloadItinerary(format) {
+        const fileName = `${this.currentTrip.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_itinerary`;
+        
+        switch (format) {
+            case 'pdf':
+                this.downloadAsPDF(fileName);
+                break;
+            case 'txt':
+                this.downloadAsText(fileName);
+                break;
+            case 'csv':
+                this.downloadAsCSV(fileName);
+                break;
+            case 'json':
+                this.downloadAsJSON(fileName);
+                break;
+            case 'html':
+                this.downloadAsHTML(fileName);
+                break;
+            default:
+                this.showNotification('Export format not supported', 'error');
+        }
+    }
+
+    downloadAsText(fileName) {
+        let content = `${this.currentTrip.name.toUpperCase()}\n`;
+        content += `${'='.repeat(this.currentTrip.name.length)}\n\n`;
+        content += `Start Date: ${new Date(this.currentTrip.startDate).toLocaleDateString()}\n`;
+        content += `Duration: ${this.currentTrip.days.length} days\n\n`;
+
+        this.currentTrip.days.forEach(day => {
+            content += `DAY ${day.dayNumber} - ${new Date(day.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}\n`;
+            content += `${'-'.repeat(50)}\n`;
+            
+            if (day.activities.length === 0) {
+                content += `No activities planned\n\n`;
+            } else {
+                day.activities.forEach(activity => {
+                    content += `${activity.completed ? '✓' : '○'} ${activity.title}\n`;
+                    if (activity.time) content += `   Time: ${activity.time}\n`;
+                    if (activity.duration) content += `   Duration: ${activity.duration} hours\n`;
+                    if (activity.location) content += `   Location: ${activity.location}\n`;
+                    if (activity.description) content += `   Notes: ${activity.description}\n`;
+                    content += `\n`;
+                });
+            }
+            content += `\n`;
+        });
+
+        this.downloadFile(content, `${fileName}.txt`, 'text/plain');
+        this.showNotification('Text file downloaded!', 'success');
+    }
+
+    downloadAsCSV(fileName) {
+        let csv = 'Day,Date,Activity,Time,Duration (hours),Location,Description,Completed\n';
+        
+        this.currentTrip.days.forEach(day => {
+            if (day.activities.length === 0) {
+                csv += `${day.dayNumber},"${new Date(day.date).toLocaleDateString()}","No activities planned","","","","",false\n`;
+            } else {
+                day.activities.forEach(activity => {
+                    csv += `${day.dayNumber},"${new Date(day.date).toLocaleDateString()}","${this.escapeCSV(activity.title)}","${activity.time || ''}","${activity.duration || ''}","${this.escapeCSV(activity.location)}","${this.escapeCSV(activity.description)}",${activity.completed}\n`;
+                });
+            }
+        });
+
+        this.downloadFile(csv, `${fileName}.csv`, 'text/csv');
+        this.showNotification('CSV file downloaded!', 'success');
+    }
+
+    downloadAsJSON(fileName) {
         const exportData = {
             ...this.currentTrip,
             exportedAt: new Date().toISOString(),
@@ -329,19 +486,187 @@ class TripPlannerState {
             }
         };
 
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
+        this.downloadFile(JSON.stringify(exportData, null, 2), `${fileName}.json`, 'application/json');
+        this.showNotification('JSON file downloaded!', 'success');
+    }
+
+    downloadAsHTML(fileName) {
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${this.escapeHtml(this.currentTrip.name)} - Travel Itinerary</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .header { text-align: center; margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .trip-title { color: #0E3B43; margin: 0; font-size: 2.5em; font-weight: 300; }
+        .trip-info { color: #666; margin-top: 10px; }
+        .day-card { background: white; margin: 20px 0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .day-header { background: #0E3B43; color: white; padding: 15px 20px; }
+        .day-title { margin: 0; font-size: 1.3em; }
+        .day-date { opacity: 0.9; margin-top: 5px; }
+        .activities { padding: 20px; }
+        .activity { margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #EF767A; }
+        .activity.completed { opacity: 0.7; text-decoration: line-through; border-left-color: #28a745; }
+        .activity-title { font-weight: 600; color: #333; margin-bottom: 8px; }
+        .activity-meta { font-size: 0.9em; color: #666; margin-bottom: 8px; }
+        .activity-meta span { margin-right: 15px; }
+        .activity-description { color: #555; font-style: italic; }
+        .no-activities { text-align: center; color: #999; padding: 40px; }
+        .summary { background: white; padding: 20px; border-radius: 10px; margin-top: 30px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .print-btn { background: #0E3B43; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+        .print-btn:hover { background: #1a5a63; }
+        @media print { .print-btn { display: none; } body { background: white; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="trip-title">${this.escapeHtml(this.currentTrip.name)}</h1>
+        <div class="trip-info">
+            ${new Date(this.currentTrip.startDate).toLocaleDateString('en-US', { 
+                year: 'numeric', month: 'long', day: 'numeric' 
+            })} - ${new Date(this.currentTrip.days[this.currentTrip.days.length - 1].date).toLocaleDateString('en-US', { 
+                year: 'numeric', month: 'long', day: 'numeric' 
+            })}
+            <br>${this.currentTrip.days.length} days
+        </div>
+        <button class="print-btn" onclick="window.print()">🖨️ Print Itinerary</button>
+    </div>
+
+    ${this.currentTrip.days.map(day => `
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title">Day ${day.dayNumber}</div>
+                <div class="day-date">${new Date(day.date).toLocaleDateString('en-US', { 
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+                })}</div>
+            </div>
+            <div class="activities">
+                ${day.activities.length === 0 ? 
+                    '<div class="no-activities">No activities planned for this day</div>' :
+                    day.activities.map(activity => `
+                        <div class="activity ${activity.completed ? 'completed' : ''}">
+                            <div class="activity-title">${this.escapeHtml(activity.title)}</div>
+                            ${(activity.time || activity.duration || activity.location) ? `
+                                <div class="activity-meta">
+                                    ${activity.time ? `<span>⏰ ${activity.time}</span>` : ''}
+                                    ${activity.duration ? `<span>⏱️ ${activity.duration} hours</span>` : ''}
+                                    ${activity.location ? `<span>📍 ${this.escapeHtml(activity.location)}</span>` : ''}
+                                </div>
+                            ` : ''}
+                            ${activity.description ? `<div class="activity-description">${this.escapeHtml(activity.description)}</div>` : ''}
+                        </div>
+                    `).join('')
+                }
+            </div>
+        </div>
+    `).join('')}
+
+    <div class="summary">
+        <h3>Trip Summary</h3>
+        <p>
+            <strong>${this.currentTrip.days.length}</strong> days • 
+            <strong>${this.currentTrip.days.reduce((sum, day) => sum + day.activities.length, 0)}</strong> activities • 
+            <strong>${this.currentTrip.days.reduce((sum, day) => sum + day.activities.filter(a => a.completed).length, 0)}</strong> completed
+        </p>
+        <small>Generated on ${new Date().toLocaleDateString()}</small>
+    </div>
+</body>
+</html>`;
+
+        this.downloadFile(html, `${fileName}.html`, 'text/html');
+        this.showNotification('HTML file downloaded!', 'success');
+    }
+
+    downloadAsPDF(fileName) {
+        // For PDF, we'll create an HTML version and instruct user to print as PDF
+        const printWindow = window.open('', '_blank');
+        const html = this.generatePrintableHTML();
         
+        printWindow.document.write(html);
+        printWindow.document.close();
+        
+        setTimeout(() => {
+            printWindow.print();
+        }, 500);
+
+        this.showNotification('Print dialog opened - select "Save as PDF" in your browser!', 'info');
+    }
+
+    generatePrintableHTML() {
+        return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${this.escapeHtml(this.currentTrip.name)} - Travel Itinerary</title>
+    <style>
+        @page { margin: 1in; }
+        body { font-family: Arial, sans-serif; font-size: 12pt; line-height: 1.4; }
+        h1 { color: #0E3B43; text-align: center; margin-bottom: 10px; }
+        .trip-info { text-align: center; margin-bottom: 30px; color: #666; }
+        .day { page-break-inside: avoid; margin-bottom: 25px; }
+        .day-header { background: #0E3B43; color: white; padding: 10px; margin-bottom: 10px; }
+        .activity { margin: 8px 0; padding: 8px; border-left: 3px solid #EF767A; background: #f9f9f9; }
+        .activity.completed { opacity: 0.7; text-decoration: line-through; }
+        .activity-title { font-weight: bold; margin-bottom: 5px; }
+        .activity-meta { font-size: 10pt; color: #666; margin-bottom: 5px; }
+        .activity-description { font-style: italic; color: #555; }
+        .no-activities { text-align: center; color: #999; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>${this.escapeHtml(this.currentTrip.name)}</h1>
+    <div class="trip-info">
+        ${new Date(this.currentTrip.startDate).toLocaleDateString()} - 
+        ${new Date(this.currentTrip.days[this.currentTrip.days.length - 1].date).toLocaleDateString()}
+        (${this.currentTrip.days.length} days)
+    </div>
+
+    ${this.currentTrip.days.map(day => `
+        <div class="day">
+            <div class="day-header">
+                <strong>Day ${day.dayNumber} - ${new Date(day.date).toLocaleDateString('en-US', { 
+                    weekday: 'long', month: 'long', day: 'numeric' 
+                })}</strong>
+            </div>
+            ${day.activities.length === 0 ? 
+                '<div class="no-activities">No activities planned</div>' :
+                day.activities.map(activity => `
+                    <div class="activity ${activity.completed ? 'completed' : ''}">
+                        <div class="activity-title">${this.escapeHtml(activity.title)}</div>
+                        ${(activity.time || activity.duration || activity.location) ? `
+                            <div class="activity-meta">
+                                ${activity.time ? `Time: ${activity.time} ` : ''}
+                                ${activity.duration ? `Duration: ${activity.duration}h ` : ''}
+                                ${activity.location ? `Location: ${this.escapeHtml(activity.location)}` : ''}
+                            </div>
+                        ` : ''}
+                        ${activity.description ? `<div class="activity-description">${this.escapeHtml(activity.description)}</div>` : ''}
+                    </div>
+                `).join('')
+            }
+        </div>
+    `).join('')}
+</body>
+</html>`;
+    }
+
+    downloadFile(content, fileName, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${this.currentTrip.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_itinerary.json`;
+        link.download = fileName;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+    }
 
-        this.showNotification('Itinerary exported successfully!', 'success');
+    escapeCSV(str) {
+        if (!str) return '';
+        return `"${str.replace(/"/g, '""')}"`;
     }
 
     // --- UI Management ---

@@ -90,7 +90,7 @@ body {
     background-color: var(--white);
     color: var(--text-dark);
     line-height: 1.6;
-    padding-top: calc(var(--navbar-height) + 20px);
+    padding-top: var(--navbar-height);
 }
 
 /* ===== NAVBAR ===== */
