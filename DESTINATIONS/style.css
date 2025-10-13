@@ -22,8 +22,7 @@ body {
     margin: 0;
     padding: 0;
     padding-top: var(--navbar-height);
-    background-color: #000000;
-    color: var(--white);
+    /* Removed hard-coded black background */
     line-height: 1.6;
     min-height: 100vh;
 }
@@ -57,7 +56,7 @@ section:first-of-type,
     width: 100%;
     height: var(--navbar-height);
     z-index: 10000;
-    background: #000000;
+    background: var(--color-primary);
     padding: 0;
     margin: 0;
     display: flex;
@@ -192,7 +191,7 @@ section:first-of-type,
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(38, 70, 83, 0.8); /* Using color-primary with opacity */
     backdrop-filter: blur(10px);
     z-index: 10000;
     animation: fadeIn 0.3s ease;
@@ -633,7 +632,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000000;
+    background-color: var(--color-primary);
     text-align: center;
 }
 
@@ -678,8 +677,8 @@ a {
 
 /* --- Filters Section --- */
 .filters-section {
-    background-color: #000000;
-    background: #000000;
+    background-color: var(--color-secondary-bg);
+    background: var(--color-secondary-bg);
     padding: 0;
     border: none;
     border-bottom: none;
@@ -691,8 +690,8 @@ a {
 /* Make sure filters section stays black */
 section.filters-section,
 .filters-section {
-    background: #000000;
-    background-color: #000000;
+    background: var(--color-secondary-bg);
+    background-color: var(--color-secondary-bg);
     margin: 0;
     padding: 0;
     border: none;
@@ -780,7 +779,7 @@ section.filters-section,
 /* --- Destinations Grid --- */
 .destinations-section {
     padding: 20px 0 0 0;
-    background-color: #000000;
+    background-color: var(--color-background);
     margin: 0;
     border: none;
 }
@@ -1036,7 +1035,7 @@ section.filters-section,
 }
 
 .load-more-btn {
-    background-color: #000000;
+    background-color: var(--color-highlight);
     color: #FFFFFF;
     border: none;
     padding: 12px 25px;
@@ -1058,7 +1057,7 @@ section.filters-section,
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(38, 70, 83, 0.7); /* Using color-primary with opacity */
     z-index: 1000;
     justify-content: center;
     align-items: center;
