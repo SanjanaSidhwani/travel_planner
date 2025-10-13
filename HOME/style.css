@@ -13,6 +13,7 @@ html {
 
 /* Root Variables - Sophisticated Monochromatic Palette */
 :root {
+    --navbar-height: 70px;
     --text-dark: #1a1a1a;
     --text-medium: #4a4a4a;
     --text-light: #ffffff;
@@ -36,7 +37,7 @@ body {
     overflow-x: hidden;
     position: relative;
     margin: 0;
-    padding-top: 120px;
+    padding-top: calc(var(--navbar-height) + 50px);
 }
 
 .container {
@@ -616,6 +617,12 @@ body {
 .btn-secondary {
     background-color: transparent;
     color: var(--white);
+    cursor: pointer;
+}
+
+button.btn-secondary {
+    border: 2px solid var(--white);
+    font-family: inherit;
 }
 
 .btn-secondary:hover {
@@ -802,6 +809,60 @@ body {
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.trip-status {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    color: var(--white);
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.trip-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.plan-trip-btn, .clear-trip-btn {
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+}
+
+.plan-trip-btn {
+    background-color: var(--white);
+    color: var(--bg-dark);
+}
+
+.plan-trip-btn:hover {
+    background-color: var(--accent);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.clear-trip-btn {
+    background-color: transparent;
+    color: var(--white);
+    border: 1px solid var(--white);
+}
+
+.clear-trip-btn:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    transform: translateY(-2px);
+}
     opacity: 0.7;
 }
 

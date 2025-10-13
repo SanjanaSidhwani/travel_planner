@@ -67,6 +67,7 @@
 
 /* --- Black and White Color Variables --- */
 :root {
+    --navbar-height: 70px;
     --battleship-gray: #666666;
     --light-coral: #000000;
     --midnight-green: #000000;
@@ -88,7 +89,7 @@ body {
     background-color: var(--white);
     color: var(--text-dark);
     line-height: 1.6;
-    padding-top: 120px;
+    padding-top: calc(var(--navbar-height) + 50px);
 }
 
 /* ===== NAVBAR ===== */
