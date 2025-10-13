@@ -33,8 +33,12 @@ body {
     margin: 0;
     padding: 0;
     padding-top: var(--navbar-height);
+<<<<<<< HEAD
     background-color: var(--background-off-white);
     color: var(--text-charcoal);
+=======
+    /* Removed hard-coded black background */
+>>>>>>> 9fff5925ab72df87002094ddfa5e1a7462312e37
     line-height: 1.6;
     min-height: 100vh;
 }
@@ -47,7 +51,11 @@ body {
     width: 100%;
     height: var(--navbar-height);
     z-index: 10000;
+<<<<<<< HEAD
     background: var(--primary-forest);
+=======
+    background: var(--color-primary);
+>>>>>>> 9fff5925ab72df87002094ddfa5e1a7462312e37
     padding: 0;
     margin: 0;
     display: flex;
@@ -182,7 +190,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(38, 70, 83, 0.8); /* Using color-primary with opacity */
     backdrop-filter: blur(10px);
     z-index: 10000;
     animation: fadeIn 0.3s ease;
@@ -623,7 +631,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000000;
+    background-color: var(--color-primary);
     text-align: center;
 }
 
@@ -668,8 +676,13 @@ a {
 
 /* --- Filters Section --- */
 .filters-section {
+<<<<<<< HEAD
     background-color: var(--primary-forest);
     background: var(--primary-forest);
+=======
+    background-color: var(--color-secondary-bg);
+    background: var(--color-secondary-bg);
+>>>>>>> 9fff5925ab72df87002094ddfa5e1a7462312e37
     padding: 0;
     border: none;
     border-bottom: none;
@@ -681,8 +694,13 @@ a {
 /* Make sure filters section stays black */
 section.filters-section,
 .filters-section {
+<<<<<<< HEAD
     background: var(--primary-forest);
     background-color: var(--primary-forest);
+=======
+    background: var(--color-secondary-bg);
+    background-color: var(--color-secondary-bg);
+>>>>>>> 9fff5925ab72df87002094ddfa5e1a7462312e37
     margin: 0;
     padding: 0;
     border: none;
@@ -770,7 +788,7 @@ section.filters-section,
 /* --- Destinations Grid --- */
 .destinations-section {
     padding: 20px 0 0 0;
-    background-color: #000000;
+    background-color: var(--color-background);
     margin: 0;
     border: none;
 }
@@ -1026,7 +1044,7 @@ section.filters-section,
 }
 
 .load-more-btn {
-    background-color: #000000;
+    background-color: var(--color-highlight);
     color: #FFFFFF;
     border: none;
     padding: 12px 25px;
@@ -1048,7 +1066,7 @@ section.filters-section,
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(38, 70, 83, 0.7); /* Using color-primary with opacity */
     z-index: 1000;
     justify-content: center;
     align-items: center;
