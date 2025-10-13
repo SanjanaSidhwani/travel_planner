@@ -173,17 +173,13 @@ function createItemElement(item, category) {
     itemDiv.appendChild(checkbox);
     itemDiv.appendChild(label);
 
-    // Add delete button for all user-added items (items not in the initial checklist)
-    const isInitialItem = initialChecklist[category] && initialChecklist[category].some(i => i.text === item.text);
-    
-    if (!isInitialItem) {
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = '✕'; // Times symbol for deletion
-        deleteBtn.title = 'Remove custom item';
-        deleteBtn.addEventListener('click', () => deleteItem(category, item.text));
-        itemDiv.appendChild(deleteBtn);
-    }
+    // Add delete button for ALL items (both predefined and custom)
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    deleteBtn.title = 'Delete item';
+    deleteBtn.addEventListener('click', () => deleteItem(category, item.text));
+    itemDiv.appendChild(deleteBtn);
 
     return itemDiv;
 }
