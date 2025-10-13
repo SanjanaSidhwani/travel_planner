@@ -67,7 +67,7 @@
 
 /* --- Black and White Color Variables --- */
 :root {
-    --navbar-height: 70px;
+    --navbar-height: 55px;
     --battleship-gray: #666666;
     --light-coral: #000000;
     --midnight-green: #000000;
@@ -107,7 +107,7 @@ body {
 .navbar-container {
     width: 100%;
     max-width: none;
-    padding: 1.5rem 3rem 0.5rem 3rem;
+    padding: 1rem 3rem 0.3rem 3rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -120,7 +120,7 @@ body {
 }
 
 .navbar-logo h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 300;
     color: #ffffff;
     margin: 0;
@@ -128,16 +128,6 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
-}
-
-/* Navigation content row */
-.navbar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
-    max-width: none;
-    position: relative;
 }
 
 /* Main navigation menu */
@@ -1107,13 +1097,13 @@ body {
         font-size: 2.5rem;
     }
     
-    .navbar-content {
+    .navbar-container {
         flex-direction: column;
         gap: 1.5rem;
     }
     
     .navbar-menu {
-        gap: 2rem;
+        gap: 1.5rem;
         flex-wrap: wrap;
         justify-content: center;
     }

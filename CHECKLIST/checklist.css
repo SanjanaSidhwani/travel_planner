@@ -7,7 +7,7 @@
 
 /* Black and White Color Scheme Variables */
 :root {
-    --navbar-height: 70px;
+    --navbar-height: 55px;
     --battleship-gray: #666666;
     --light-coral: #000000;
     --midnight-green: #000000;
@@ -43,7 +43,7 @@ body {
 .navbar-container {
     width: 100%;
     max-width: none;
-    padding: 1.5rem 3rem 0.5rem 3rem;
+    padding: 1rem 3rem 0.3rem 3rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -56,7 +56,7 @@ body {
 }
 
 .navbar-logo h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 300;
     color: #ffffff;
     margin: 0;
@@ -64,16 +64,6 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
-}
-
-/* Navigation content row */
-.navbar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
-    max-width: none;
-    position: relative;
 }
 
 /* Main navigation menu */
@@ -1032,13 +1022,8 @@ h2 {
         font-size: 2.5rem;
     }
     
-    .navbar-content {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
     .navbar-menu {
-        gap: 2rem;
+        gap: 1.5rem;
         flex-wrap: wrap;
         justify-content: center;
     }
@@ -1048,21 +1033,7 @@ h2 {
     }
     
     .navbar-utilities {
-        gap: 1.5rem;
-    }
-    
-    .language-toggle {
-        border-right: none;
-        padding-right: 0;
-    }
-}
-    
-    .nav-link {
-        font-size: 0.8rem;
-    }
-    
-    .navbar-utilities {
-        gap: 1.5rem;
+        gap: 1.2rem;
     }
     
     .language-toggle {
@@ -1076,15 +1047,34 @@ h2 {
         padding-top: 140px; /* Even smaller navbar on very small screens */
     }
     
+    .navbar-container {
+        padding: 1rem 1rem;
+        gap: 1rem;
+    }
+    
     .navbar-logo h1 {
         font-size: 2rem;
     }
     
+    .navbar-content {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
     .navbar-menu {
         gap: 1rem;
+        font-size: 0.8rem;
     }
     
     .nav-link {
         font-size: 0.7rem;
+    }
+    
+    .navbar-utilities {
+        gap: 0.8rem;
+    }
+    
+    .language-toggle {
+        padding-right: 1rem;
     }
 }

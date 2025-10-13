@@ -13,7 +13,7 @@ html {
 
 /* Root Variables - Sophisticated Monochromatic Palette */
 :root {
-    --navbar-height: 70px;
+    --navbar-height: 55px;
     --text-dark: #1a1a1a;
     --text-medium: #4a4a4a;
     --text-light: #ffffff;
@@ -66,7 +66,7 @@ body {
 .navbar-container {
     width: 100%;
     max-width: none;
-    padding: 1.5rem 3rem 0.5rem 3rem;
+    padding: 1rem 3rem 0.3rem 3rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -79,7 +79,7 @@ body {
 }
 
 .navbar-logo h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-weight: 300;
     color: #ffffff;
     margin: 0;
@@ -87,16 +87,6 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
-}
-
-/* Navigation content row */
-.navbar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-grow: 1;
-    max-width: none;
-    position: relative;
 }
 
 /* Main navigation menu */
@@ -863,8 +853,6 @@ button.btn-secondary {
     border-color: #dc3545;
     transform: translateY(-2px);
 }
-    opacity: 0.7;
-}
 
 /* User Section */
 .user-section {
@@ -932,16 +920,16 @@ button.btn-secondary {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 160px;
+        padding-top: 140px; /* Adjust for smaller navbar on mobile */
     }
     
     .navbar-container {
-        padding: 1.5rem 1rem;
+        padding: 1rem 1rem 0.3rem 1rem;
         gap: 1.5rem;
     }
     
     .navbar-logo h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
     }
     
     .navbar-menu {
@@ -976,21 +964,17 @@ button.btn-secondary {
 
 @media (max-width: 480px) {
     body {
-        padding-top: 140px;
+        padding-top: 120px; /* Even smaller navbar on very small screens */
     }
     
     .navbar-container {
-        padding: 1rem 1rem;
+        padding: 0.8rem 1rem 0.2rem 1rem;
         gap: 1rem;
+        flex-direction: column;
     }
     
     .navbar-logo h1 {
-        font-size: 2rem;
-    }
-    
-    .navbar-content {
-        flex-direction: column;
-        gap: 1.5rem;
+        font-size: 1.8rem;
     }
     
     .navbar-menu {
