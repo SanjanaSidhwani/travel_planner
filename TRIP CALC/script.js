@@ -8,14 +8,19 @@
 // --- Calculator Class ---
 class TripCalculator {
     constructor() {
+        this.isInitializing = true;
         this.init();
+        // Set initialization complete after a short delay
+        setTimeout(() => {
+            this.isInitializing = false;
+        }, 500);
     }
 
     init() {
         this.transportModeIndex = 0;
+        this.initTransportModes();
         this.bindEvents();
         this.setDefaultValues();
-        this.initTransportModes();
     }
 
     bindEvents() {
@@ -174,21 +179,24 @@ class TripCalculator {
 
     calculateTripCost() {
         try {
+            console.log('Starting trip cost calculation...');
+            
             // Show loading state
             this.setLoadingState(true);
 
             // Get all input values
             const inputs = this.getInputValues();
+            console.log('Input values:', inputs);
             
             // Validate inputs
             if (!this.validateInputs(inputs)) {
-                this.showNotification('Please fill in all required fields with valid values', 'error');
                 this.setLoadingState(false);
                 return;
             }
 
             // Calculate costs
             const costs = this.performCalculations(inputs);
+            console.log('Calculated costs:', costs);
 
             // Display results with animation
             setTimeout(() => {
@@ -199,7 +207,8 @@ class TripCalculator {
 
         } catch (error) {
             console.error('Calculation error:', error);
-            this.showNotification('An error occurred during calculation', 'error');
+            console.error('Error stack:', error.stack);
+            this.showNotification(`Calculation error: ${error.message}`, 'error');
             this.setLoadingState(false);
         }
     }
@@ -209,49 +218,100 @@ class TripCalculator {
         const transportModes = [];
         document.querySelectorAll('#transportation-modes-container .transport-mode-block').forEach(modeDiv => {
             const type = modeDiv.querySelector('.transport-type').value;
-            const numVehicles = parseInt(modeDiv.querySelector('.num-vehicles').value) || 1;
+            const numVehicles = this.safeParseInt(modeDiv.querySelector('.num-vehicles').value, 1);
             if (type === 'car') {
-                const distance = parseFloat(modeDiv.querySelector('.distance').value) || 0;
+                const distance = this.safeParseFloat(modeDiv.querySelector('.distance').value);
                 const distanceUnit = modeDiv.querySelector('.distance-unit').value;
-                const fuelEfficiency = parseFloat(modeDiv.querySelector('.fuelEfficiency').value) || 0;
+                const fuelEfficiency = this.safeParseFloat(modeDiv.querySelector('.fuelEfficiency').value);
                 const fuelUnit = modeDiv.querySelector('.fuel-unit').value;
-                const fuelPrice = parseFloat(modeDiv.querySelector('.fuelPrice').value) || 0;
+                const fuelPrice = this.safeParseFloat(modeDiv.querySelector('.fuelPrice').value);
                 const priceUnit = modeDiv.querySelector('.price-unit').value;
-                const parkingToll = parseFloat(modeDiv.querySelector('.parking-toll').value) || 0;
+                const parkingToll = this.safeParseFloat(modeDiv.querySelector('.parking-toll').value);
                 transportModes.push({ type, numVehicles, distance, distanceUnit, fuelEfficiency, fuelUnit, fuelPrice, priceUnit, parkingToll });
             } else {
-                const ticketPrice = parseFloat(modeDiv.querySelector('.ticket-price').value) || 0;
+                const ticketPrice = this.safeParseFloat(modeDiv.querySelector('.ticket-price').value);
                 transportModes.push({ type, numVehicles, ticketPrice });
             }
         });
         return {
             transportModes,
             // Accommodation
-            nights: parseInt(document.getElementById('nights')?.value) || 0,
-            accommodationCost: parseFloat(document.getElementById('accommodation-cost')?.value) || 0,
+            nights: this.safeParseInt(document.getElementById('nights')?.value),
+            accommodationCost: this.safeParseFloat(document.getElementById('accommodation-cost')?.value),
             // Food & Activities
-            dailyFood: parseFloat(document.getElementById('daily-food')?.value) || 0,
-            activities: parseFloat(document.getElementById('activities')?.value) || 0,
+            dailyFood: this.safeParseFloat(document.getElementById('daily-food')?.value),
+            activities: this.safeParseFloat(document.getElementById('activities')?.value),
+            // Miscellaneous expenses
+            emergencyFund: this.safeParseFloat(document.getElementById('emergency-fund')?.value),
+            insurance: this.safeParseFloat(document.getElementById('insurance')?.value),
+            tips: this.safeParseFloat(document.getElementById('tips')?.value),
+            shopping: this.safeParseFloat(document.getElementById('shopping')?.value),
+            miscellaneous: this.safeParseFloat(document.getElementById('miscellaneous')?.value),
             // Group details
-            people: parseInt(document.getElementById('people')?.value) || 1,
-            days: parseInt(document.getElementById('days')?.value) || 1
+            people: this.safeParseInt(document.getElementById('people')?.value, 1),
+            days: this.safeParseInt(document.getElementById('days')?.value, 1)
         };
     }
 
-    validateInputs(inputs) {
+    validateInputs(inputs, showErrors = true) {
         // At least one transport mode
-        if (!inputs.transportModes.length) return false;
+        if (!inputs.transportModes.length) {
+            if (showErrors) this.showNotification('Please add at least one transportation mode', 'error');
+            return false;
+        }
+        
         // Validate each mode
         for (const mode of inputs.transportModes) {
             if (mode.type === 'car') {
-                if (mode.distance <= 0 || mode.fuelEfficiency <= 0 || mode.fuelPrice <= 0 || mode.numVehicles <= 0) return false;
+                if (mode.distance <= 0) {
+                    if (showErrors) this.showNotification('Please enter a valid distance for car transportation', 'error');
+                    return false;
+                }
+                if (mode.fuelEfficiency <= 0) {
+                    if (showErrors) this.showNotification('Please enter a valid fuel efficiency for car transportation', 'error');
+                    return false;
+                }
+                if (mode.fuelPrice <= 0) {
+                    if (showErrors) this.showNotification('Please enter a valid fuel price for car transportation', 'error');
+                    return false;
+                }
+                if (mode.numVehicles <= 0) {
+                    if (showErrors) this.showNotification('Please enter a valid number of vehicles', 'error');
+                    return false;
+                }
             } else {
-                if (mode.ticketPrice <= 0 || mode.numVehicles <= 0) return false;
+                if (mode.ticketPrice <= 0) {
+                    if (showErrors) this.showNotification(`Please enter a valid ticket price for ${mode.type} transportation`, 'error');
+                    return false;
+                }
+                if (mode.numVehicles <= 0) {
+                    if (showErrors) this.showNotification('Please enter a valid number of tickets', 'error');
+                    return false;
+                }
             }
         }
-        if (inputs.people <= 0 || inputs.days <= 0) {
+        
+        if (inputs.people <= 0) {
+            if (showErrors) this.showNotification('Please enter a valid number of people', 'error');
             return false;
         }
+        
+        if (inputs.days <= 0) {
+            if (showErrors) this.showNotification('Please enter a valid trip duration', 'error');
+            return false;
+        }
+        
+        // Check for NaN values
+        const numericInputs = [
+            inputs.accommodationCost, inputs.dailyFood, inputs.activities,
+            inputs.emergencyFund, inputs.insurance, inputs.tips, inputs.shopping, inputs.miscellaneous
+        ];
+        
+        if (numericInputs.some(value => isNaN(value))) {
+            if (showErrors) this.showNotification('Please enter valid numeric values for all fields', 'error');
+            return false;
+        }
+        
         return true;
     }
 
@@ -260,23 +320,39 @@ class TripCalculator {
         let transportationCost = 0;
         for (const mode of inputs.transportModes) {
             if (mode.type === 'car') {
-                let fuelNeeded;
-                if (mode.fuelUnit === 'kmpl') {
-                    fuelNeeded = (mode.distance / mode.fuelEfficiency) * mode.numVehicles;
-                } else { // mpg
-                    const distanceInKm = mode.distanceUnit === 'miles' ? mode.distance * 1.60934 : mode.distance;
-                    const efficiencyInKmpl = mode.fuelEfficiency * 0.425144;
-                    fuelNeeded = (distanceInKm / efficiencyInKmpl) * mode.numVehicles;
+                let fuelNeeded = 0;
+                try {
+                    if (mode.fuelUnit === 'kmpl') {
+                        if (mode.fuelEfficiency > 0) {
+                            fuelNeeded = (mode.distance / mode.fuelEfficiency) * mode.numVehicles;
+                        }
+                    } else { // mpg
+                        const distanceInKm = mode.distanceUnit === 'miles' ? mode.distance * 1.60934 : mode.distance;
+                        const efficiencyInKmpl = mode.fuelEfficiency * 0.425144;
+                        if (efficiencyInKmpl > 0) {
+                            fuelNeeded = (distanceInKm / efficiencyInKmpl) * mode.numVehicles;
+                        }
+                    }
+                    
+                    let fuelCostMultiplier = 1;
+                    if ((mode.fuelUnit === 'kmpl' && mode.priceUnit === 'gallon') ||
+                        (mode.fuelUnit === 'mpg' && mode.priceUnit === 'liter')) {
+                        fuelCostMultiplier = mode.priceUnit === 'gallon' ? 3.78541 : 0.264172;
+                    }
+                    
+                    const fuelCost = fuelNeeded * mode.fuelPrice * fuelCostMultiplier;
+                    
+                    if (!isNaN(fuelCost) && isFinite(fuelCost)) {
+                        transportationCost += fuelCost + (mode.parkingToll || 0);
+                    }
+                } catch (error) {
+                    console.error('Error calculating car transportation cost:', error);
                 }
-                let fuelCostMultiplier = 1;
-                if ((mode.fuelUnit === 'kmpl' && mode.priceUnit === 'gallon') ||
-                    (mode.fuelUnit === 'mpg' && mode.priceUnit === 'liter')) {
-                    fuelCostMultiplier = mode.priceUnit === 'gallon' ? 3.78541 : 0.264172;
-                }
-                const fuelCost = fuelNeeded * mode.fuelPrice * fuelCostMultiplier;
-                transportationCost += fuelCost + (mode.parkingToll || 0);
             } else {
-                transportationCost += mode.ticketPrice * mode.numVehicles;
+                const ticketCost = mode.ticketPrice * mode.numVehicles;
+                if (!isNaN(ticketCost) && isFinite(ticketCost)) {
+                    transportationCost += ticketCost;
+                }
             }
         }
         // Accommodation cost
@@ -285,14 +361,17 @@ class TripCalculator {
         const foodTotal = inputs.days * inputs.dailyFood * inputs.people;
         // Activities cost (usually shared, but can be per person)
         const activitiesTotal = inputs.activities;
+        // Miscellaneous costs
+        const miscellaneousTotal = inputs.emergencyFund + inputs.insurance + inputs.tips + inputs.shopping + inputs.miscellaneous;
         // Total cost
-        const totalCost = transportationCost + accommodationTotal + foodTotal + activitiesTotal;
-        const costPerPerson = totalCost / inputs.people;
+        const totalCost = transportationCost + accommodationTotal + foodTotal + activitiesTotal + miscellaneousTotal;
+        const costPerPerson = inputs.people > 0 ? totalCost / inputs.people : 0;
         return {
             transportation: transportationCost,
             accommodation: accommodationTotal,
             food: foodTotal,
             activities: activitiesTotal,
+            miscellaneous: miscellaneousTotal,
             total: totalCost,
             perPerson: costPerPerson
         };
@@ -300,14 +379,33 @@ class TripCalculator {
 
     displayResults(costs) {
         // Update individual cost displays
-        document.getElementById('transport-cost').textContent = this.formatCurrency(costs.transportation);
-        document.getElementById('accommodation-total').textContent = this.formatCurrency(costs.accommodation);
-        document.getElementById('food-total').textContent = this.formatCurrency(costs.food);
-        document.getElementById('activities-total').textContent = this.formatCurrency(costs.activities);
+        const elements = {
+            'transport-cost': costs.transportation,
+            'accommodation-total': costs.accommodation,
+            'food-total': costs.food,
+            'activities-total': costs.activities,
+            'miscellaneous-total': costs.miscellaneous,
+            'total-cost': costs.total,
+            'cost-per-person': costs.perPerson
+        };
 
-        // Update totals
-        document.getElementById('total-cost').textContent = this.formatCurrency(costs.total);
-        document.getElementById('cost-per-person').textContent = this.formatCurrency(costs.perPerson);
+        // Safely update each element
+        Object.entries(elements).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = this.formatCurrency(value);
+            } else {
+                console.warn(`Element with ID '${id}' not found`);
+            }
+        });
+
+        // Update group details if element exists
+        const groupDetailsElement = document.getElementById('group-details');
+        if (groupDetailsElement) {
+            const people = document.getElementById('people')?.value || 0;
+            const days = document.getElementById('days')?.value || 0;
+            groupDetailsElement.textContent = `${people} people for ${days} days`;
+        }
 
         // Show results section with animation
         const resultSection = document.getElementById('result');
@@ -373,6 +471,9 @@ class TripCalculator {
     }
 
     showNotification(message, type = 'info') {
+        // Don't show notifications during initialization
+        if (this.isInitializing) return;
+        
         // Create notification element
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
@@ -444,6 +545,19 @@ class TripCalculator {
             info: '#17a2b8'
         };
         return colors[type] || '#17a2b8';
+    }
+
+    // Utility function for safely parsing numbers
+    safeParseFloat(value, defaultValue = 0) {
+        if (value === null || value === undefined || value === '') return defaultValue;
+        const parsed = parseFloat(value);
+        return isNaN(parsed) ? defaultValue : parsed;
+    }
+
+    safeParseInt(value, defaultValue = 0) {
+        if (value === null || value === undefined || value === '') return defaultValue;
+        const parsed = parseInt(value);
+        return isNaN(parsed) ? defaultValue : parsed;
     }
 
     // Utility function for debouncing
@@ -540,9 +654,12 @@ function logout() {
 
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        tripCalculator = new TripCalculator();
-        initializeAuth();
-        console.log('✅ Trip Calculator initialized successfully');
+        // Add a small delay to ensure all elements are properly loaded
+        setTimeout(() => {
+            tripCalculator = new TripCalculator();
+            initializeAuth();
+            console.log('✅ Trip Calculator initialized successfully');
+        }, 100);
     } catch (error) {
         console.error('❌ Failed to initialize Trip Calculator:', error);
     }
@@ -551,6 +668,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- Global Error Handling ---
 window.addEventListener('error', (e) => {
     console.error('Global error:', e.error);
+    // Don't show notifications for minor script errors
+    if (e.error && !e.error.message.includes('Script error')) {
+        console.warn('Script error detected but not showing notification to user');
+    }
 });
 
 // --- Keyboard Shortcuts ---
