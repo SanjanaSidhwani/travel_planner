@@ -7,7 +7,7 @@
 
 /* Black and White Color Scheme Variables */
 :root {
-    --navbar-height: 55px;
+    --navbar-height: 80px;
     --battleship-gray: #666666;
     --light-coral: #000000;
     --midnight-green: #000000;
@@ -33,10 +33,13 @@ body {
     top: 0;
     left: 0;
     width: 100%;
+    height: var(--navbar-height);
     z-index: 10000;
     background: #000000;
     padding: 0;
     margin: 0;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-container {
