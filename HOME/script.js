@@ -1,89 +1,268 @@
-// Simple countdown for Next Trip
-const countdownElement = document.getElementById("countdown");
-
-// Set next trip date (example: 20 days from now)
-const targetDate = new Date();
-targetDate.setDate(targetDate.getDate() + 20);
-
-function updateCountdown() {
-  // Set the target date (example: 7 days from now)
-  const targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 7);
-
-  // Update countdown every second
-  setInterval(() => {
-    const currentDate = new Date();
-    const difference = targetDate - currentDate;
-
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-
-    if (document.getElementById('days')) {
-      document.getElementById('days').textContent = String(days).padStart(2, '0');
+// Enhanced Trip Countdown System
+class TripCountdown {
+    constructor() {
+        this.countdownInterval = null;
+        this.init();
     }
-    if (document.getElementById('hours')) {
-      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-    }
-    if (document.getElementById('minutes')) {
-      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-    }
-  }, 1000);
-}
 
-// Authentication check and UI update
-function initializeAuth() {
-  const authData = localStorage.getItem('travelPlannerAuth');
-  const authSection = document.getElementById('auth-section');
-  const userSection = document.getElementById('user-section');
-  const userNameElement = document.getElementById('user-name');
-  const logoutBtn = document.getElementById('logout-btn');
+    init() {
+        this.startCountdown();
+        // Update countdown every second
+        this.countdownInterval = setInterval(() => this.updateCountdown(), 1000);
+    }
 
-  if (authData) {
-    try {
-      const session = JSON.parse(authData);
-      
-      // Check if session is still valid
-      if (Date.now() < session.expiresAt || session.rememberMe) {
-        // Show user section, hide auth section
-        if (authSection) authSection.classList.add('hidden');
-        if (userSection) userSection.classList.remove('hidden');
-        
-        // Update user name display
-        if (userNameElement) {
-          userNameElement.textContent = session.userName || 'User';
+    // Get the next trip from localStorage
+    getNextTrip() {
+        try {
+            // Check for trip data from itinerary page
+            const itineraryData = localStorage.getItem('advancedTripItinerary');
+            if (itineraryData) {
+                const trip = JSON.parse(itineraryData);
+                if (trip && trip.startDate) {
+                    return {
+                        date: new Date(trip.startDate),
+                        name: trip.name || 'Your Trip'
+                    };
+                }
+            }
+
+            // Check for other trip storage formats
+            const tripData = localStorage.getItem('nextTrip');
+            if (tripData) {
+                const trip = JSON.parse(tripData);
+                return {
+                    date: new Date(trip.date),
+                    name: trip.name || 'Your Trip'
+                };
+            }
+
+            return null;
+        } catch (error) {
+            console.error('Error getting trip data:', error);
+            return null;
         }
-        
-        console.log('User session restored:', session.userName);
-      } else {
-        // Session expired, clean up
-        localStorage.removeItem('travelPlannerAuth');
-        console.log('Session expired, cleared');
-      }
-    } catch (error) {
-      console.error('Error parsing auth data:', error);
-      localStorage.removeItem('travelPlannerAuth');
     }
-  }
 
-  // Logout functionality
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('travelPlannerAuth');
-      if (authSection) authSection.classList.remove('hidden');
-      if (userSection) userSection.classList.add('hidden');
-      console.log('User logged out');
-      
-      // Redirect to auth page
-      window.location.href = '../AUTH/index.html';
-    });
-  }
+    // Set a new trip countdown
+    setTrip(tripDate, tripName = 'Your Trip') {
+        const tripData = {
+            date: tripDate.toISOString(),
+            name: tripName,
+            setAt: new Date().toISOString()
+        };
+        localStorage.setItem('nextTrip', JSON.stringify(tripData));
+        this.updateCountdown();
+    }
+
+    // Clear the current trip
+    clearTrip() {
+        localStorage.removeItem('nextTrip');
+        localStorage.removeItem('advancedTripItinerary');
+        this.updateCountdown();
+    }
+
+    updateCountdown() {
+        const nextTrip = this.getNextTrip();
+        
+        if (!nextTrip) {
+            // No trip set - show zeros
+            this.displayCountdown(0, 0, 0);
+            this.updateTripStatus('No trip planned');
+            return;
+        }
+
+        const now = new Date();
+        const tripDate = nextTrip.date;
+        const difference = tripDate - now;
+
+        if (difference <= 0) {
+            // Trip date has passed
+            this.displayCountdown(0, 0, 0);
+            this.updateTripStatus('Trip time has arrived! 🎉');
+            return;
+        }
+
+        // Calculate time remaining
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+        this.displayCountdown(days, hours, minutes);
+        this.updateTripStatus(`Next trip: ${nextTrip.name}`);
+    }
+
+    displayCountdown(days, hours, minutes) {
+        // Update countdown display
+        const daysElement = document.getElementById('days');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+
+        if (daysElement) daysElement.textContent = String(days).padStart(2, '0');
+        if (hoursElement) hoursElement.textContent = String(hours).padStart(2, '0');
+        if (minutesElement) minutesElement.textContent = String(minutes).padStart(2, '0');
+    }
+
+    updateTripStatus(status) {
+        const statusElement = document.getElementById('trip-status');
+        if (statusElement) {
+            statusElement.textContent = status;
+        }
+    }
+
+    startCountdown() {
+        this.updateCountdown();
+    }
+
+    destroy() {
+        if (this.countdownInterval) {
+            clearInterval(this.countdownInterval);
+        }
+    }
 }
 
-// Start countdown and check auth when page loads
+// Global countdown instance
+let tripCountdown;
+
+// Helper functions for trip management
+function clearCurrentTrip() {
+    if (tripCountdown) {
+        tripCountdown.clearTrip();
+    }
+    document.querySelector('.clear-trip-btn').style.display = 'none';
+    showNotification('Trip cleared successfully!', 'success');
+}
+
+// Handle Plan a Trip button click with authentication check
+function handlePlanTripClick() {
+    // Check if user is logged in using auth-shared.js function
+    if (typeof isUserLoggedIn === 'function' && isUserLoggedIn()) {
+        // User is authenticated, redirect to itinerary
+        window.location.href = '../ITINERARY/index.html';
+        return;
+    }
+    
+    // Fallback: Check localStorage directly if auth-shared.js functions aren't available yet
+    try {
+        const authData = localStorage.getItem('travelPlannerAuth');
+        if (authData) {
+            const session = JSON.parse(authData);
+            // Check if session is still valid
+            if (Date.now() < session.expiresAt || session.rememberMe) {
+                // User is authenticated, redirect to itinerary
+                window.location.href = '../ITINERARY/index.html';
+                return;
+            }
+        }
+    } catch (error) {
+        console.error('Error checking auth status:', error);
+    }
+    
+    // User is not authenticated, show login modal
+    showNotification('Please log in to plan your trip', 'info');
+    
+    // Check if openLoginModal function exists, otherwise redirect to auth page
+    if (typeof openLoginModal === 'function') {
+        openLoginModal();
+    } else {
+        window.location.href = '../AUTH/index.html';
+    }
+}
+
+function setTestTrip() {
+    // For testing - set a trip 5 days from now
+    const testDate = new Date();
+    testDate.setDate(testDate.getDate() + 5);
+    testDate.setHours(14, 30, 0, 0); // 2:30 PM
+    
+    if (tripCountdown) {
+        tripCountdown.setTrip(testDate, 'Test Trip to Paris');
+    }
+    document.querySelector('.clear-trip-btn').style.display = 'inline-block';
+    showNotification('Test trip set for 5 days from now!', 'success');
+}
+
+// Listen for trip updates from other pages
+window.addEventListener('storage', function(e) {
+    if (e.key === 'advancedTripItinerary' || e.key === 'nextTrip') {
+        if (tripCountdown) {
+            tripCountdown.updateCountdown();
+        }
+        // Update clear button visibility
+        setTimeout(checkExistingTrip, 100);
+    }
+});
+
+// Check if there's already a trip and show clear button
+function checkExistingTrip() {
+    const trip = tripCountdown?.getNextTrip();
+    const clearBtn = document.querySelector('.clear-trip-btn');
+    if (clearBtn) {
+        if (trip) {
+            clearBtn.style.display = 'inline-block';
+        } else {
+            clearBtn.style.display = 'none';
+        }
+    }
+}
+
+// Helper notification function
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        color: white;
+        font-weight: 500;
+        z-index: 10001;
+        animation: slideInRight 0.3s ease;
+        max-width: 300px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    `;
+    
+    // Set color based on type
+    const colors = {
+        success: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+        error: 'linear-gradient(135deg, #f44336 0%, #d32f2f 100%)',
+        info: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)'
+    };
+    
+    notification.style.background = colors[type] || colors.info;
+    
+    const icons = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-circle',
+        info: 'fas fa-info-circle'
+    };
+    
+    notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <i class="${icons[type] || icons.info}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.3s ease';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Start countdown when page loads
 document.addEventListener('DOMContentLoaded', () => {
-  updateCountdown();
-  initializeAuth();
+  tripCountdown = new TripCountdown();
+  
+  // Check for existing trip after a short delay
+  setTimeout(checkExistingTrip, 1000);
 });
 
 // Modal functionality

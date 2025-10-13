@@ -130,7 +130,7 @@
             <p>Plan your perfect trip with our comprehensive travel planning tools</p>
             <div class="hero-buttons">
                 <a href="../DESTINATIONS/index.html" class="btn-primary">Explore Destinations</a>
-                <a href="../ITINERARY/index.html" class="btn-secondary">Plan Your Trip</a>
+                <button onclick="handlePlanTripClick()" class="btn-secondary">Plan Your Trip</button>
             </div>
         </div>
     </div>
@@ -154,6 +154,11 @@
                             <span class="countdown-value" id="minutes">00</span>
                             <span class="countdown-label">Minutes</span>
                         </div>
+                    </div>
+                    <div class="trip-status" id="trip-status">No trip planned</div>
+                    <div class="trip-actions">
+                        <button onclick="handlePlanTripClick()" class="plan-trip-btn">Plan a Trip</button>
+                        <button class="clear-trip-btn" onclick="clearCurrentTrip()" style="display: none;">Clear Trip</button>
                     </div>
                 </div>
             </div>

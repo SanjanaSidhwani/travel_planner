@@ -402,3 +402,6 @@ window.toggleUserDropdown = toggleUserDropdown;
 window.viewProfile = viewProfile;
 window.viewTrips = viewTrips;
 window.closeNotification = closeNotification;
+window.isUserLoggedIn = isUserLoggedIn;
+window.getCurrentUser = getCurrentUser;
+window.getCurrentSession = getCurrentSession;

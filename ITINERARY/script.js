@@ -267,6 +267,7 @@ class TripPlannerState {
 
         this.currentTrip = null;
         this.saveTrip();
+        this.clearHomeCountdown();
         this.updateUI();
         this.showNotification('Ready to create a new trip!', 'info');
     }
@@ -280,18 +281,35 @@ class TripPlannerState {
             return;
         }
 
-        if (!confirm(`Are you sure you want to clear all ${totalActivities} activities? This cannot be undone.`)) {
+        if (!confirm(`This will remove all ${totalActivities} activities from your trip. Continue?`)) {
             return;
         }
 
-        this.currentTrip.days.forEach(day => {
-            day.activities = [];
-        });
-
+        this.currentTrip.days.forEach(day => day.activities = []);
         this.currentTrip.updatedAt = new Date().toISOString();
         this.saveTrip();
-        this.renderDays();
+        this.updateUI();
         this.showNotification('All activities cleared!', 'success');
+    }
+
+    clearHomeCountdown() {
+        // Clear the home page countdown
+        localStorage.removeItem('nextTrip');
+        localStorage.removeItem('advancedTripItinerary');
+        
+        // Trigger storage event for any listening pages
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'nextTrip',
+            newValue: null,
+            storageArea: localStorage
+        }));
+        
+        // Also trigger event for advancedTripItinerary
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: 'advancedTripItinerary',
+            newValue: null,
+            storageArea: localStorage
+        }));
     }
 
     exportTrip() {
@@ -486,9 +504,30 @@ class TripPlannerState {
     saveTrip() {
         try {
             localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(this.currentTrip));
+            // Update home page countdown when trip is saved
+            this.updateHomeCountdown();
         } catch (error) {
             console.error('Failed to save trip:', error);
             this.showNotification('Failed to save trip data', 'error');
+        }
+    }
+
+    updateHomeCountdown() {
+        // Update the home page countdown data when trip changes
+        if (this.currentTrip && this.currentTrip.startDate) {
+            const tripData = {
+                date: this.currentTrip.startDate,
+                name: this.currentTrip.name || 'Your Trip',
+                setAt: new Date().toISOString()
+            };
+            localStorage.setItem('nextTrip', JSON.stringify(tripData));
+            
+            // Trigger storage event for any listening pages
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'nextTrip',
+                newValue: JSON.stringify(tripData),
+                storageArea: localStorage
+            }));
         }
     }
 

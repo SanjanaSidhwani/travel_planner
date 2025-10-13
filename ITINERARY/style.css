@@ -93,7 +93,7 @@ body {
     color: var(--midnight-green);
     line-height: 1.6;
     overflow-x: hidden;
-    padding-top: 120px;
+    padding-top: calc(var(--navbar-height) + 50px);
 }
 
 /* ===== NAVBAR ===== */
