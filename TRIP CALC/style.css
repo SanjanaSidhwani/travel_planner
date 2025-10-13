@@ -90,7 +90,7 @@ body {
     background-color: var(--white);
     color: var(--text-dark);
     line-height: 1.6;
-    padding-top: calc(var(--navbar-height) + 50px);
+    padding-top: calc(var(--navbar-height) + 20px);
 }
 
 /* ===== NAVBAR ===== */
@@ -132,6 +132,7 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
+    transform: translateY(-2px);
 }
 
 /* Main navigation menu */

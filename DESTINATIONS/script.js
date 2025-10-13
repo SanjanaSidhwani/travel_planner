@@ -327,6 +327,22 @@ const destinationsData = [
         description: "Sacred city with holy lake, annual camel fair, and vibrant markets in desert setting.",
         tags: ["Holy Lake", "Camel Fair", "Markets", "Desert"],
         bestTime: "October to March"
+    },
+    {
+        id: 21,
+        name: "Kasol",
+        location: "Himachal Pradesh, India",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+        rating: 4.5,
+        price: "₹11,000",
+        priceLabel: "per person",
+        category: "adventure",
+        budget: "budget",
+        region: "asia",
+        duration: "4-5 days",
+        description: "Mini Israel of India with scenic valleys, trekking trails, and vibrant hippie culture in the Parvati Valley.",
+        tags: ["Trekking", "Hippie Culture", "Valley", "Backpacking"],
+        bestTime: "March to June, September to November"
     }
 ];
 

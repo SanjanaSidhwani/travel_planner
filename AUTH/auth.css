@@ -37,7 +37,7 @@ body {
     color: var(--text-primary);
     min-height: 100vh;
     line-height: 1.6;
-    padding-top: calc(var(--navbar-height) + 50px);
+    padding-top: calc(var(--navbar-height) + 20px);
 }
 
 /* ===== NAVBAR ===== */
@@ -79,6 +79,7 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
+    transform: translateY(-2px);
 }
 
 /* Main navigation menu */

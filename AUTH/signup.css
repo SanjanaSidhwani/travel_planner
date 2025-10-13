@@ -31,7 +31,7 @@ body {
     min-height: 100vh;
     line-height: 1.6;
     color: var(--midnight-green);
-    padding-top: calc(var(--navbar-height) + 50px);
+    padding-top: calc(var(--navbar-height) + 20px);
 }
 
 /* ===== NAVBAR - BUILT FROM SCRATCH ===== */
@@ -73,6 +73,7 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
+    transform: translateY(-2px);
 }
 
 /* Main navigation menu */
