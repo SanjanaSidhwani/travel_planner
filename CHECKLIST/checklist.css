@@ -631,7 +631,6 @@ body {
     padding-top: 2rem;
     min-height: calc(100vh - 80px);
     border: none;
-    border-bottom: 2px solid var(--sunset);
 }
 
 h2 {
@@ -743,18 +742,18 @@ h2 {
     display: flex;
     gap: 1rem;
     margin-bottom: 2.5rem;
-    padding: 20px;
-    border: 2px solid var(--sunset);
-    border-radius: 15px;
-    background-color: var(--white);
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
     align-items: center;
-    box-shadow: 0 8px 20px rgba(14, 59, 67, 0.1);
+    box-shadow: none;
 }
 
 #item-input {
     flex-grow: 1;
     padding: 12px 16px;
-    border: 2px solid var(--columbia-blue);
+    border: 2px solid #000000;
     border-radius: 25px;
     font-size: 1rem;
     color: var(--text-dark);
@@ -771,7 +770,7 @@ h2 {
 
 #category-selector {
     padding: 12px 16px;
-    border: 2px solid var(--columbia-blue);
+    border: 2px solid #000000;
     border-radius: 25px;
     font-size: 1rem;
     color: var(--text-dark);
@@ -792,7 +791,7 @@ h2 {
     padding: 12px 24px;
     background: var(--light-coral);
     color: var(--white);
-    border: none;
+    border: 2px solid #000000;
     border-radius: 25px;
     font-weight: 600;
     cursor: pointer;
@@ -854,30 +853,62 @@ h2 {
     border-color: var(--sunset);
 }
 
+.category-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
 .category-box h3 {
     color: var(--midnight-green);
     border-bottom: 3px solid var(--sunset);
     padding-bottom: 10px;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     font-weight: 700;
     font-size: 1.3rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    flex: 1;
+}
+
+.edit-category-btn {
+    background: none;
+    border: none;
+    color: var(--battleship-gray);
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.edit-category-btn:hover {
+    color: var(--white);
+    background: var(--sunset);
+    transform: scale(1.1);
+    opacity: 1;
 }
 
 /* --- Individual Item Styles --- */
 .checklist-item {
     display: flex;
     align-items: flex-start;
-    padding: 12px 0;
+    padding: 12px 80px 12px 10px;
     border-bottom: 1px solid rgba(187, 222, 240, 0.5);
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 8px;
     margin-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    position: relative;
 }
 
 .checklist-item:hover {
@@ -921,7 +952,6 @@ h2 {
     color: var(--battleship-gray);
     cursor: pointer;
     font-size: 1rem;
-    margin-left: 10px;
     transition: all 0.3s ease;
     visibility: hidden;
     opacity: 0;
@@ -933,6 +963,10 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .checklist-item:hover .delete-btn {
@@ -943,7 +977,40 @@ h2 {
 .checklist-item .delete-btn:hover {
     color: var(--white);
     background: var(--light-coral);
-    transform: scale(1.1);
+}
+
+/* Edit button styling */
+.checklist-item .edit-btn {
+    background: none;
+    border: none;
+    color: var(--battleship-gray);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    visibility: hidden;
+    opacity: 0;
+    line-height: 1;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.checklist-item:hover .edit-btn {
+    visibility: visible;
+    opacity: 1;
+}
+
+.checklist-item .edit-btn:hover {
+    color: var(--white);
+    background: var(--sunset);
 }
 
 /* Responsive Adjustments */
