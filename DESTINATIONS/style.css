@@ -20,6 +20,7 @@
 body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    padding: 0;
     padding-top: var(--navbar-height);
     background-color: #000000;
     color: var(--white);
@@ -27,10 +28,25 @@ body {
     min-height: 100vh;
 }
 
-/* Ensure no gaps between navbar and content */
+/* Ensure all sections have consistent black background */
+section {
+    background: #000000 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+/* Ensure no gaps between sections */
 section:first-of-type,
 .hero-section {
     margin-top: 0 !important;
+}
+
+/* Remove any white lines between specific sections */
+.hero-section,
+.filters-section,
+.destinations-section {
+    margin: 0 !important;
+    border: none !important;
 }
 
 /* ===== NAVBAR ===== */
@@ -465,7 +481,8 @@ section:first-of-type,
     max-width: none;
     width: 100%;
     margin: 0;
-    padding: 0 15px;
+    padding: 0 20px;
+    background: #000000;
 }
 
 a {
@@ -611,8 +628,8 @@ a {
 
 /* --- Hero Section --- */
 .hero-section {
-    padding: 0 0 1rem 0;
-    margin-top: 0;
+    padding: 0;
+    margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -622,8 +639,8 @@ a {
 
 .hero-content {
     max-width: 600px;
-    padding: 1rem 2rem 0 2rem;
-    margin-top: 0;
+    padding: 10px 2rem 10px 2rem;
+    margin: 0;
 }
 
 .hero-search {
@@ -663,9 +680,12 @@ a {
 .filters-section {
     background-color: #000000;
     background: #000000;
-    padding: 10px 0 0 0;
+    padding: 0;
+    border: none;
     border-bottom: none;
+    border-top: none;
     box-shadow: none;
+    margin: 0;
 }
 
 /* Make sure filters section stays black */
@@ -673,6 +693,9 @@ section.filters-section,
 .filters-section {
     background: #000000;
     background-color: #000000;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .filters-row {
@@ -680,6 +703,9 @@ section.filters-section,
     justify-content: center;
     align-items: center;
     gap: 30px;
+    padding: 15px 0;
+    margin: 0;
+    background: #000000;
 }
 
 .filter-group {
@@ -693,10 +719,10 @@ section.filters-section,
     border: 2px solid var(--midnight-green);
     border-radius: 8px;
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 300;
     cursor: pointer;
     background-color: var(--white);
-    color: var(--midnight-green);
+    color: #888888;
     transition: all 0.3s ease;
     min-width: 150px;
     max-width: 200px;
@@ -753,9 +779,10 @@ section.filters-section,
 
 /* --- Destinations Grid --- */
 .destinations-section {
-    padding: 0;
+    padding: 20px 0 0 0;
     background-color: #000000;
-    margin-top: 0;
+    margin: 0;
+    border: none;
 }
 
 .section-header {
@@ -763,14 +790,14 @@ section.filters-section,
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
-    border-bottom: 2px solid var(--columbia-blue);
+    border: none;
     padding-bottom: 5px;
 }
 
 .section-header h2 {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--midnight-green);
+    color: var(--white);
     margin: 0;
 }
 
@@ -810,9 +837,10 @@ section.filters-section,
 .destinations-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    padding: 0;
+    gap: 25px;
+    padding: 0 20px;
     width: 100%;
+    margin-top: 10px;
 }
 
 /* Destination Card Styling (will be rendered by JS) */
@@ -1417,4 +1445,26 @@ section.filters-section,
         padding: 20px;
         margin: 10px;
     }
+}
+
+/* FINAL OVERRIDE - Ensure no white lines anywhere */
+body,
+html,
+.hero-section,
+.filters-section,
+.destinations-section,
+section {
+    background: #000000 !important;
+    background-color: #000000 !important;
+}
+
+/* Remove any potential gaps between sections */
+.hero-section + .filters-section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.filters-section + .destinations-section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
 }
