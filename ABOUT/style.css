@@ -49,7 +49,7 @@
 
 /* Black and White Color Scheme Variables */
 :root {
-    --navbar-height: 70px;
+    --navbar-height: 55px;
     --battleship-gray: #808080;
     --light-coral: #000000;
     --midnight-green: #000000;
@@ -622,9 +622,9 @@ body {
     margin: 0;
     margin-top: 0;
     padding: 3rem 2rem;
-    padding-top: 8rem;
+    padding-top: 2rem;
     display: block;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 55px);
     width: 100%;
 }
 
