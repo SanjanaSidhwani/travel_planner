@@ -596,10 +596,6 @@ function showDestinationDetails(destination) {
                     <i class="fas fa-route"></i>
                     Start Planning Your Trip
                 </button>
-                <button class="btn-secondary large" onclick="addToWishlist(${destination.id})">
-                    <i class="fas fa-heart"></i>
-                    Add to Wishlist
-                </button>
             </div>
         </div>
     `;
