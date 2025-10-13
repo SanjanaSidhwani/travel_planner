@@ -713,11 +713,25 @@ body {
 
 /* --- Calculator Categories Grid (Similar to Checklist Page) --- */
 .calculator-categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 25px;
     padding: 2rem;
     margin-top: 1rem;
+}
+
+/* Row containers for side-by-side boxes */
+.calculator-boxes-row,
+.calculator-boxes-row-2 {
+    display: flex;
+    gap: 25px;
+    width: 100%;
+}
+
+.calculator-boxes-row > .calculator-category-box,
+.calculator-boxes-row-2 > .calculator-category-box {
+    flex: 1;
+    min-width: 0; /* Prevent overflow on small screens */
 }
 
 /* --- Calculator Category Box (Rounded rectangles like checklist) --- */
@@ -764,6 +778,12 @@ body {
     border-bottom: 2px solid rgba(14, 59, 67, 0.1);
 }
 
+/* Smaller header for Tourist Places section */
+.calculator-boxes-row-2 .calculator-category-box:first-child .category-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+}
+
 .category-header h2 {
     color: #0e3b43;
     margin: 0;
@@ -790,6 +810,11 @@ body {
     gap: 1rem;
 }
 
+/* More compact spacing for Tourist Places content */
+.calculator-boxes-row-2 .calculator-category-box:first-child .category-content {
+    gap: 0.5rem;
+}
+
 /* Update existing calculator-grid for backward compatibility */
 .calculator-grid {
     display: grid;
@@ -798,9 +823,124 @@ body {
     padding: 2rem;
 }
 
+/* --- Group Details (First Box - Horizontal) --- */
+.calculator-category-box:nth-child(1) {
+    width: 100%;
+}
+
+.calculator-category-box:nth-child(1) .category-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.calculator-category-box:nth-child(1) .input-group {
+    width: 48%;
+    margin-bottom: 0;
+}
+
+/* --- Accommodation and Food (Second and Third Boxes - Side by Side) --- */
+.calculator-boxes-row {
+    display: flex;
+    gap: 25px;
+    width: 100%;
+}
+
+.calculator-boxes-row .calculator-category-box {
+    flex: 1;
+}
+
+/* --- Transportation (Fourth Box - Horizontal) --- */
+.calculator-category-box:nth-child(3) {
+    width: 100%;
+}
+
+.calculator-category-box:nth-child(3) #transportation-modes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.calculator-category-box:nth-child(3) .transport-mode-container {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* --- Tourist Places and Miscellaneous (Fifth and Sixth Boxes - Side by Side) --- */
+.calculator-boxes-row-2 {
+    display: flex;
+    gap: 25px;
+    width: 100%;
+}
+
+/* Ensure Entry Fees and Guide Charges are stacked vertically */
+.calculator-boxes-row-2 .calculator-category-box:first-child .input-group {
+    display: block;
+    width: 100%;
+    float: none;
+    clear: both;
+    margin-bottom: 0.8rem; /* Reduced spacing for Tourist Places box */
+}
+
+/* Ensure Tourist Places and Miscellaneous sections have consistent styling */
+.calculator-boxes-row-2 .calculator-category-box .input-group {
+    margin-bottom: 0.8rem; /* Reduced spacing for both boxes */
+}
+
+/* Specifically target Tourist Places inputs for more compact appearance */
+#entry-fees, #guide-charges, #souvenirs, #local-transport, #activities {
+    width: 100%;
+    display: block;
+    padding-top: 0.5rem; /* Reduced top padding */
+    padding-bottom: 0.5rem; /* Reduced bottom padding */
+}
+
+/* Compact styling for the total budget row */
+.tourist-total-budget {
+    margin-top: 0.2rem;
+    margin-bottom: 0;
+}
+
+.tourist-total-budget label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+/* Input groups for Tourist Places and Miscellaneous - consistent styling */
+.tourist-place-input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.2rem; /* Match the standard input-group margin */
+}
+
+.calculator-boxes-row-2 .calculator-category-box {
+    flex: 1;
+}
+
+/* Ensure the Tourist Places box can accommodate all its content */
+.calculator-boxes-row-2 .calculator-category-box:first-child {
+    min-height: auto; /* Let content determine height naturally */
+    display: flex;
+    flex-direction: column;
+}
+
+.calculator-boxes-row-2 .calculator-category-box:first-child .category-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Take remaining space */
+    justify-content: space-between; /* Distribute space evenly */
+}
+
 /* --- Input Groups in Category Boxes --- */
 .calculator-category-box .input-group {
     margin-bottom: 1.2rem;
+}
+
+/* Special compact styling for Tourist Places box */
+.calculator-boxes-row-2 .calculator-category-box:first-child .input-group label {
+    margin-bottom: 0.3rem; /* Reduced label margin */
 }
 
 .calculator-category-box .input-group label {
@@ -913,6 +1053,11 @@ body {
     gap: 0.5rem;
 }
 
+/* More compact input-with-unit for Tourist Places section */
+.tourist-total-budget .input-with-unit {
+    gap: 0.3rem;
+}
+
 .input-with-unit input {
     flex: 1;
 }
@@ -1008,6 +1153,8 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .result-card {
@@ -1043,27 +1190,41 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
     margin-top: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .total-card {
-    background: var(--midnight-green);
-    color: white;
+    background: white;
+    color: black;
     padding: 2rem;
-    border-radius: 8px;
+    border-radius: 0;
     text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 3px solid black;
+    position: relative;
+}
+
+.total-card:before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid black;
+    pointer-events: none;
 }
 
 .total-card h3 {
     margin-bottom: 1rem;
     font-size: 1.2rem;
-    opacity: 0.9;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .total-amount {
     font-size: 2rem;
-    font-weight: bold;
-    margin: 0;
 }
 
 /* --- Loading Animation --- */
@@ -1093,18 +1254,15 @@ body {
 
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
+    /* Navbar responsive styles */
     .navbar-container {
         padding: 1.5rem 1rem;
         gap: 1.5rem;
+        flex-direction: column;
     }
     
     .navbar-logo h1 {
         font-size: 2.5rem;
-    }
-    
-    .navbar-container {
-        flex-direction: column;
-        gap: 1.5rem;
     }
     
     .navbar-menu {
@@ -1125,8 +1283,8 @@ body {
         border-right: none;
         padding-right: 0;
     }
-}
     
+    /* Calculator responsive styles */
     .main-container {
         padding: 1rem;
     }
@@ -1193,6 +1351,26 @@ body {
         font-size: 1rem;
     }
     
+    .calculator-categories-grid {
+        padding: 0.8rem;
+        gap: 15px;
+    }
+    
+    .calculator-category-box .input-group {
+        margin-bottom: 1rem;
+    }
+    
+    .calculator-boxes-row,
+    .calculator-boxes-row-2 {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .calculator-category-box {
+        padding: 15px;
+        min-height: auto;
+    }
+    
     .input-with-unit {
         flex-direction: column;
         gap: 0.5rem;
@@ -1234,14 +1412,19 @@ body {
 /* --- Responsive Design for Category Boxes --- */
 @media (max-width: 768px) {
     .calculator-categories-grid {
-        grid-template-columns: 1fr;
         gap: 20px;
         padding: 1rem;
     }
     
+    .calculator-boxes-row,
+    .calculator-boxes-row-2 {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
     .calculator-category-box {
         padding: 20px;
-        min-height: 250px;
+        min-height: 200px;
     }
     
     .category-header h2 {
