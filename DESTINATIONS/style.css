@@ -180,7 +180,7 @@ body {
     backdrop-filter: blur(10px);
     z-index: 10000;
     animation: fadeIn 0.3s ease;
-    padding: 20px;
+    padding: 120px 20px 20px;
     box-sizing: border-box;
     overflow-y: auto;
 }
@@ -1044,10 +1044,11 @@ section.filters-section,
     width: 90%;
     position: relative;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-height: 90vh;
+    max-height: 80vh;
     overflow-y: auto;
     transform: scale(0.9);
     transition: transform 0.3s ease;
+    margin-top: 60px;
 }
 
 .modal-overlay.active .modal-content {
