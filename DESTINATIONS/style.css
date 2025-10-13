@@ -20,11 +20,17 @@
 body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding-top: calc(var(--navbar-height) + 50px);
+    padding-top: var(--navbar-height);
     background-color: #000000;
     color: var(--white);
     line-height: 1.6;
     min-height: 100vh;
+}
+
+/* Ensure no gaps between navbar and content */
+section:first-of-type,
+.hero-section {
+    margin-top: 0 !important;
 }
 
 /* ===== NAVBAR ===== */
@@ -66,6 +72,7 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
+    transform: translateY(-2px);
 }
 
 /* Main navigation menu */
@@ -604,7 +611,8 @@ a {
 
 /* --- Hero Section --- */
 .hero-section {
-    padding: 3rem 0;
+    padding: 0 0 1rem 0;
+    margin-top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -614,7 +622,8 @@ a {
 
 .hero-content {
     max-width: 600px;
-    padding: 0 2rem;
+    padding: 1rem 2rem 0 2rem;
+    margin-top: 0;
 }
 
 .hero-search {
@@ -654,9 +663,9 @@ a {
 .filters-section {
     background-color: #000000;
     background: #000000;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--battleship-gray);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 10px 0 0 0;
+    border-bottom: none;
+    box-shadow: none;
 }
 
 /* Make sure filters section stays black */
@@ -744,17 +753,18 @@ section.filters-section,
 
 /* --- Destinations Grid --- */
 .destinations-section {
-    padding: 40px 0;
+    padding: 0;
     background-color: #000000;
+    margin-top: 0;
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-bottom: 2px solid var(--columbia-blue);
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .section-header h2 {
@@ -762,6 +772,11 @@ section.filters-section,
     font-weight: 700;
     color: var(--midnight-green);
     margin: 0;
+}
+
+/* Hide grid view toggle button */
+.view-toggle {
+    display: none !important;
 }
 
 .view-toggle .view-btn {
@@ -1252,7 +1267,7 @@ section.filters-section,
 
 @media (max-width: 768px) {
     body {
-        padding-top: 140px; /* Adjust for smaller navbar on mobile */
+        padding-top: 120px; /* Adjust for smaller navbar on mobile */
     }
     
     .navbar-container {
@@ -1345,7 +1360,7 @@ section.filters-section,
 
 @media (max-width: 480px) {
     body {
-        padding-top: 120px; /* Even smaller navbar on very small screens */
+        padding-top: 100px; /* Even smaller navbar on very small screens */
     }
     
     .navbar-container {

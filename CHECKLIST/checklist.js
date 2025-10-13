@@ -173,6 +173,14 @@ function createItemElement(item, category) {
     itemDiv.appendChild(checkbox);
     itemDiv.appendChild(label);
 
+    // Add edit button for ALL items
+    const editBtn = document.createElement('button');
+    editBtn.className = 'edit-btn';
+    editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+    editBtn.title = 'Edit item';
+    editBtn.addEventListener('click', () => editItem(category, item.text));
+    itemDiv.appendChild(editBtn);
+
     // Add delete button for ALL items (both predefined and custom)
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-btn';
@@ -195,9 +203,25 @@ function renderChecklist() {
         const categoryBox = document.createElement('div');
         categoryBox.className = 'category-box';
 
+        const titleContainer = document.createElement('div');
+        titleContainer.className = 'category-title-container';
+        
         const title = document.createElement('h3');
         title.textContent = category;
-        categoryBox.appendChild(title);
+        titleContainer.appendChild(title);
+        
+        // Add edit button for category name (only for custom categories)
+        const isPredefined = Object.keys(initialChecklist).includes(category);
+        if (!isPredefined) {
+            const editCategoryBtn = document.createElement('button');
+            editCategoryBtn.className = 'edit-category-btn';
+            editCategoryBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editCategoryBtn.title = 'Edit category name';
+            editCategoryBtn.addEventListener('click', () => editCategoryName(category));
+            titleContainer.appendChild(editCategoryBtn);
+        }
+        
+        categoryBox.appendChild(titleContainer);
 
         const listDiv = document.createElement('div');
 
@@ -249,6 +273,148 @@ function deleteItem(category, itemText) {
         saveChecklist();
         renderChecklist();
     }
+}
+
+/**
+ * Edits an existing item's text in-place.
+ */
+function editItem(category, currentText) {
+    const itemId = `${category.replace(/\s/g, '_')}-${currentText.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`;
+    const label = document.querySelector(`label[for="${itemId}"]`);
+    
+    if (!label) return;
+    
+    // Create input element
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentText;
+    input.className = 'edit-input';
+    input.style.cssText = `
+        border: 2px solid var(--sunset);
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        background: var(--white);
+        color: var(--text-dark);
+        width: 100%;
+        font-family: 'Inter', sans-serif;
+    `;
+    
+    // Replace label with input
+    label.style.display = 'none';
+    label.parentNode.insertBefore(input, label.nextSibling);
+    input.focus();
+    input.select();
+    
+    function saveEdit() {
+        const newText = input.value.trim();
+        if (newText && newText !== currentText) {
+            const categoryList = checklistData[category];
+            const itemIndex = categoryList.findIndex(item => item.text === currentText);
+            
+            if (itemIndex !== -1) {
+                categoryList[itemIndex].text = newText;
+                saveChecklist();
+                renderChecklist();
+                showNotification('Item updated successfully!', 'success');
+            }
+        } else {
+            // Restore original label
+            label.style.display = '';
+            input.remove();
+        }
+    }
+    
+    function cancelEdit() {
+        label.style.display = '';
+        input.remove();
+    }
+    
+    // Event listeners
+    input.addEventListener('blur', saveEdit);
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            saveEdit();
+        } else if (e.key === 'Escape') {
+            cancelEdit();
+        }
+    });
+}
+
+/**
+ * Edits a category name in-place (only for custom categories).
+ */
+function editCategoryName(currentCategoryName) {
+    const titleElement = Array.from(document.querySelectorAll('h3')).find(h3 => h3.textContent === currentCategoryName);
+    
+    if (!titleElement) return;
+    
+    // Create input element
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentCategoryName;
+    input.className = 'edit-category-input';
+    input.style.cssText = `
+        border: 2px solid var(--sunset);
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        background: var(--white);
+        color: var(--midnight-green);
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: 'Inter', sans-serif;
+    `;
+    
+    // Replace title with input
+    titleElement.style.display = 'none';
+    titleElement.parentNode.insertBefore(input, titleElement.nextSibling);
+    input.focus();
+    input.select();
+    
+    function saveEdit() {
+        const newCategoryName = input.value.trim();
+        if (newCategoryName && newCategoryName !== currentCategoryName) {
+            // Check if the new name already exists
+            if (checklistData[newCategoryName]) {
+                showNotification('Category name already exists!', 'error');
+                titleElement.style.display = '';
+                input.remove();
+                return;
+            }
+            
+            // Move the items from old category to new category
+            checklistData[newCategoryName] = checklistData[currentCategoryName];
+            delete checklistData[currentCategoryName];
+            
+            populateCategorySelector();
+            saveChecklist();
+            renderChecklist();
+            showNotification('Category renamed successfully!', 'success');
+        } else {
+            // Restore original title
+            titleElement.style.display = '';
+            input.remove();
+        }
+    }
+    
+    function cancelEdit() {
+        titleElement.style.display = '';
+        input.remove();
+    }
+    
+    // Event listeners
+    input.addEventListener('blur', saveEdit);
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            saveEdit();
+        } else if (e.key === 'Escape') {
+            cancelEdit();
+        }
+    });
 }
 
 /**

@@ -37,7 +37,12 @@ body {
     overflow-x: hidden;
     position: relative;
     margin: 0;
-    padding-top: calc(var(--navbar-height) + 50px);
+    padding-top: var(--navbar-height);
+}
+
+/* Eliminate any gap between navbar and first content */
+.hero {
+    margin-top: 0 !important;
 }
 
 .container {
@@ -90,6 +95,7 @@ body {
     letter-spacing: -1px;
     text-transform: lowercase;
     font-family: 'Inter', sans-serif;
+    transform: translateY(-2px);
 }
 
 /* Main navigation menu */
@@ -528,7 +534,7 @@ body {
 
 /* Hero Section */
 .hero {
-    height: calc(100vh - 120px);
+    height: calc(100vh - var(--navbar-height));
     position: relative;
     display: flex;
     align-items: center;
@@ -537,7 +543,8 @@ body {
                 url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
     color: var(--white);
     text-align: center;
-    margin-top: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0;
 }
 
 .hero-overlay {
