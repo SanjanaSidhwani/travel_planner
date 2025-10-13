@@ -444,8 +444,8 @@ body {
 
 /* Submit Button */
 .signup-submit-btn {
-    background: linear-gradient(135deg, var(--dark-cyan) 0%, var(--midnight-green) 100%);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--primary-forest) 0%, var(--highlight-orange) 100%);
+    color: #000000;
     border: none;
     padding: 1rem 2rem;
     border-radius: 10px;
