@@ -1,8 +1,114 @@
 /**
  * SHARED AUTHENTICATION STYLES
  * =============================
- * Styles for user menu, dropdown, and notifications
+ * Global theme variables + shared components overrides so colors apply across pages
  */
+
+/* === Global Theme Variables (applies across all pages) === */
+:root {
+    /* New brand palette (Forest Green/Golden Amber/Burnt Orange) */
+    --color-primary: #264653;         /* Forest Green */
+    --color-accent: #E9C46A;          /* Golden Amber */
+    --color-background: #FAFAFA;      /* Off-White */
+    --color-text: #1A1A1A;            /* Deep Charcoal */
+    --color-surface: #F0F0F0;         /* Light Gray surface */
+    --color-highlight: #F4A261;       /* Burnt Orange - Buttons */
+    --color-link: #264653;            /* Forest Green for links */
+    --color-hover: #E9C46A;           /* Golden Amber for hover */
+    --color-on-primary: #ffffff;      /* Text on primary (forest green) */
+
+    /* Common neutrals/utilities */
+    --white: var(--color-background);
+    --black: #000000;
+    --gray-100: #f5f5f5;
+    --gray-200: #e0e0e0;
+    --gray-300: #cfcfcf;
+    --gray-700: #4a4a4a;
+    --gray-900: #1a1a1a;
+
+    /* Existing project variables remapped for compatibility */
+    --navbar-height: 80px;
+    --battleship-gray: #666666;                   /* subtle text */
+    --light-coral: var(--color-highlight);        /* mapped to button color */
+    --midnight-green: var(--color-primary);       /* heading/brand color */
+    --sunset: var(--color-accent);                /* accent/golden amber */
+    --columbia-blue: var(--color-surface);        /* light surfaces */
+    --text-dark: var(--color-text);
+    --light-gray: var(--color-surface);
+    --medium-gray: var(--gray-200);
+    --dark-gray: #333333;
+}
+
+/* === Cross-page color normalization & component overrides === */
+/* Base */
+html, body {
+    background-color: var(--color-background) !important;
+    color: var(--color-text) !important;
+}
+
+/* Some pages forced dark sections; normalize them */
+section,
+.hero-section,
+.filters-section,
+.destinations-section {
+    background-color: var(--color-background) !important;
+    color: var(--color-text);
+}
+
+/* Containers set to black in some pages */
+.container {
+    background: var(--color-background) !important;
+}
+
+/* Navbar */
+.navbar {
+    background: var(--color-primary) !important;
+}
+.navbar-logo h1,
+.nav-link,
+.language-toggle,
+.search-btn,
+.user-btn {
+    color: var(--color-on-primary) !important;
+}
+.navbar-logo h1 {
+    font-family: sans-serif !important;
+}
+.language-toggle {
+    border-right: 1px solid rgba(255, 255, 255, 0.35) !important;
+}
+.nav-link:hover,
+.nav-link.active {
+    opacity: 1;
+}
+
+/* Primary CTAs (unify previous gradients) */
+.login-btn,
+.user-menu-btn,
+.login-submit-btn {
+    background: var(--color-highlight) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(244, 162, 97, 0.25) !important; /* burnt orange shadow */
+}
+.login-btn:hover,
+.user-menu-btn:hover,
+.login-submit-btn:hover {
+    background: var(--color-hover) !important;
+    box-shadow: 0 6px 20px rgba(233, 196, 106, 0.30) !important; /* golden amber shadow */
+}
+
+/* Links */
+.signup-link,
+.forgot-link {
+    color: var(--color-link) !important;
+}
+.signup-link:hover,
+.forgot-link:hover {
+    color: var(--color-primary) !important;
+}
+
+/* Generic buttons that rely on legacy vars will inherit via remapping above */
 
 /* User Menu Styles */
 .user-menu {
