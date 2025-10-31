@@ -1,16 +1,17 @@
 # Itinero — Travel Planner
 
-A simple, responsive travel planning website built with plain HTML, CSS and JavaScript.
-
-This repository contains a multi-page site with sections for home, destinations, itinerary builder, trip cost calculator, checklist, and authentication UI.
+Itinero is a simple and responsive travel planning website built using HTML, CSS, and JavaScript.  
+It’s a static multi-page site that allows users to explore destinations, plan trips, calculate costs, manage travel checklists, and handle basic authentication (login/signup) — all without any backend setup.
 
 ## Key features
 
-- Multi-page static site (no backend required)
-- Responsive layout that adapts to mobile, tablet and desktop (see `responsive.css`)
-- Destination browsing with cards and modal details
-- Itinerary builder and trip cost calculator pages
-- Authentication UI (login / signup) with accessible forms
+- Multi-page static website with no backend required  
+- Fully responsive design for mobile, tablet, and desktop (via `responsive.css`)  
+- Destination browsing with interactive cards and modal details  
+- Itinerary builder to plan and organize trips  
+- Trip cost calculator for budgeting  
+- Travel checklist to keep track of essentials  
+- Authentication UI for login and signup
 
 ## Folder structure (important files)
 
@@ -28,14 +29,6 @@ This repository contains a multi-page site with sections for home, destinations,
 ## How to run locally
 
 This is a static site — you can simply open the pages in a browser, but to avoid issues with CORS or when testing relative paths it’s best to serve it with a simple static server.
-
-PowerShell (Python 3):
-
-```powershell
-# From the repo root (c:\Users\samru\OneDrive\Desktop\travel_planner)
-python -m http.server 8000
-# Then open http://localhost:8000 in your browser
-```
 
 Node (http-server):
 
