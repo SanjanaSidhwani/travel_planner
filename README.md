@@ -75,10 +75,4 @@ No automated tests are included. Manual checks:
 - Resize the browser to mobile/tablet widths and verify layout stacks correctly.
 - Open each page and check for overflow or horizontal scrolling.
 
-## License
 
-This project is provided under the MIT License. Replace with your preferred license if needed.
-
----
-
-If you want, I can also commit and push this `README.md` for you. Would you like me to do that now? (Yes/No)
